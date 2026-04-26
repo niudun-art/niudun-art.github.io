@@ -202,9 +202,28 @@
     .action-hook .subtitle { font-size: 0.85rem; color: #6c757d; margin-bottom: 20px; }
     .btn-pay { background: linear-gradient(135deg, #ef4444, #f97316); color: white; border: none; padding: 12px 24px; border-radius: 60px; font-weight: 800; font-size: 1rem; cursor: pointer; margin: 6px; }
     .btn-share { background: white; border: 2px solid #f97316; color: #f97316; padding: 10px 20px; border-radius: 60px; font-weight: 700; font-size: 0.95rem; cursor: pointer; margin: 6px; }
-    .benefits-list { margin: 16px 0 0 24px; list-style: none; text-align: left; }
-    .benefits-list li { font-size: 0.85rem; margin-bottom: 8px; padding-left: 24px; position: relative; }
-    .benefits-list li::before { content: "✅"; position: absolute; left: 0; }
+    
+    /* 付费权益列表优化：✅ 字体更大，列表项字体更大 */
+    .benefits-list {
+      margin: 20px 0 0 20px;
+      list-style: none;
+      text-align: left;
+    }
+    .benefits-list li {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+      padding-left: 32px;
+      position: relative;
+      line-height: 1.4;
+    }
+    .benefits-list li::before {
+      content: "✅";
+      position: absolute;
+      left: 0;
+      font-size: 1.4rem;
+      top: -1px;
+    }
 
     .share-module { margin: 36px 0 28px; background: #fef9e3; border-radius: 36px; padding: 24px 20px; text-align: center; }
     .btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
@@ -222,12 +241,14 @@
       .ip-card-large img { width: 80px; height: 80px; }
       .personality-tag-new { font-size: 1.5rem; }
       .rare-badge { font-size: 0.85rem; padding: 6px 14px; }
+      .benefits-list li { font-size: 0.9rem; padding-left: 28px; }
+      .benefits-list li::before { font-size: 1.2rem; }
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <!-- 首页（与最终版相同） -->
+  <!-- 首页 -->
   <div class="page active" id="home">
     <div class="hero-section">
       <div class="fire-badge"><i class="fas fa-fire"></i> ✨ 全网爆火 · 100w+年轻人已测 ✨ <i class="fas fa-fire"></i></div>
@@ -288,8 +309,10 @@
         <button class="btn-share" id="shareUnlockBtn">🎉 分享好友免费领福利</button>
       </div>
       <ul class="benefits-list">
-        <li>全部12大心理效应完整解析</li><li>24小时反内耗行动清单全文</li>
-        <li>情绪调节落地方法 & 人格身份卡</li><li>高清无水印个人结果海报</li>
+        <li>全部12大心理效应完整解析</li>
+        <li>24小时反内耗行动清单全文</li>
+        <li>情绪调节落地方法 & 人格身份卡</li>
+        <li>高清无水印个人结果海报</li>
         <li>永久解锁后续题库更新 + 职场/恋爱参考</li>
       </ul>
     </div>
@@ -350,7 +373,7 @@ const EFFECT_LIB = {
 const HIDDEN_BONUS = { name: "情绪钝感力", content: "【成因】天生敏感度低或后天习得技巧。\n【改善】①继续保持觉察 ②帮助身边敏感的人 ③做情绪稳定榜样。" };
 const ANTI_LIST = "🧾 反内耗行动清单：\n1. 微小完成事项（整理桌面）\n2. 焦虑笔记本（写下来就关闭）\n3. 5分钟身体扫描冥想\n4. 给情绪命名“我现在是______”\n5. 社交断舍离";
 
-// 平衡后的10道题
+// 平衡后的10道题（每题各效应权重合理，总分差异小）
 const QUESTIONS = [
   { q: "别人对你的评价，你会反复琢磨很久吗？", opt: ["完全会","偶尔会","基本不会","完全不在意"], sbti: [4,3,2,1], effect: [{key:"spotlight",w:2},{key:"sensitive",w:1}] },
   { q: "越想忘记一件小事，脑子里越挥之不去？", opt: ["经常这样","偶尔","很少","不会"], sbti: [4,3,2,1], effect: [{key:"whitebear",w:2},{key:"ruminate",w:1}] },
@@ -391,27 +414,30 @@ function startTest() { currentIdx = 0; sbtiScore = 0; Object.keys(effectScores).
 function renderQuestion() { const q = QUESTIONS[currentIdx]; document.getElementById("questionText").innerText = q.q; const container = document.getElementById("optionsContainer"); container.innerHTML = ""; q.opt.forEach((opt, idx) => { const div = document.createElement("div"); div.className = "option"; div.innerText = opt; div.onclick = () => { selectOption(idx); }; container.appendChild(div); }); document.getElementById("progressFill").style.width = ((currentIdx+1)/QUESTIONS.length)*100 + "%"; }
 function selectOption(optIndex) { const q = QUESTIONS[currentIdx]; sbtiScore += q.sbti[optIndex]; q.effect.forEach(e => { if (EFFECT_LIB[e.key]?.type === "main") effectScores[e.key] += e.w; }); currentIdx++; if (currentIdx < QUESTIONS.length) renderQuestion(); else generateResult(); }
 function generateResult() {
-  // 1. 基础人格类型（sbtiScore）
-  let baseType = "";
-  let baseDesc = "";
+  // 基础人格类型
+  let baseType = "", baseDesc = "";
   if (sbtiScore <= 12) { baseType = "吗喽"; baseDesc = "表面平静，内心早已上演了八百集连续剧。"; }
   else if (sbtiScore <= 20) { baseType = "摆烂人"; baseDesc = "一边想躺平，一边忍不住内卷。"; }
   else if (sbtiScore <= 30) { baseType = "松弛自愈者"; baseDesc = "情绪稳定，自我调节能力强。"; }
   else { baseType = "人间清醒者"; baseDesc = "活得通透，不被世俗束缚。"; }
   
-  // 2. 心理效应排序，取 TOP1（只从常驻效应中选，确保复合标签有对应图片）
-  const mainSorted = Object.entries(effectScores).filter(([k])=>EFFECT_LIB[k]?.type==="main").sort((a,b)=>b[1]-a[1]);
-  const topKey = mainSorted[0][0];
+  // 效应排序（常驻效应，得分相同时随机打破平局）
+  const mainEntries = Object.entries(effectScores).filter(([k])=>EFFECT_LIB[k]?.type==="main");
+  mainEntries.sort((a,b)=>b[1]-a[1]);
+  // 处理并列第一：找出所有最高分的效应，随机选一个
+  const topScore = mainEntries[0][1];
+  const topCandidates = mainEntries.filter(entry => entry[1] === topScore);
+  const randomIndex = Math.floor(Math.random() * topCandidates.length);
+  const topKey = topCandidates[randomIndex][0];
   const topData = EFFECT_LIB[topKey];
   const prefix = topData.prefix || "心理";
   
-  // 3. 复合人格标签
   const fullLabel = `${prefix}型${baseType}`;
   document.getElementById("personalityTag").innerText = fullLabel;
   document.getElementById("rareBadge").innerHTML = getRarityText(sbtiScore);
   document.getElementById("rankBadge").innerHTML = `🏆 ${getRankText(sbtiScore)}`;
   
-  // 4. 维度展示
+  // 维度展示
   const dims = [
     { name: "内耗指数", score: Math.min(100, (effectScores.internal||0)*10 + (effectScores.ruminate||0)*5) },
     { name: "社交回避", score: Math.min(100, (effectScores.avoid||0)*15 + (effectScores.spotlight||0)*5) },
@@ -422,15 +448,15 @@ function generateResult() {
   dims.forEach(d => { dimHtml += `<div class="dimension-item"><div class="dimension-label"><span>${d.name}</span><span>${d.score}%</span></div><div class="dimension-bar-bg"><div class="dimension-bar-fill" style="width:${d.score}%"></div></div></div>`; });
   document.getElementById("dimensionSection").innerHTML = dimHtml;
   
-  // 5. 心理效应卡片（免费 TOP1 完全展示，其余锁定）
+  // 心理效应卡片
   const decoded = safeDecode(topData.full);
   const improvement = decoded.split('【改善】')[1]?.split('\n')[0] || "接纳自己，慢慢调整";
   document.getElementById("effectFree").innerHTML = `<div class="effect-free"><div class="effect-name">${topData.name}</div><div class="effect-desc">${topData.short}<br>✨ 今日改善：${improvement}</div></div>`;
   let lockedHtml = "";
-  for(let i=1; i<Math.min(5, mainSorted.length); i++) { const data = EFFECT_LIB[mainSorted[i][0]]; lockedHtml += `<div class="effect-locked"><div class="blur"><div class="effect-name">${data.name}</div><div class="effect-desc">${data.short} —— 解锁查看完整成因+改善步骤</div></div><div class="lock-overlay">🔒</div></div>`; }
+  for(let i=1; i<Math.min(5, mainEntries.length); i++) { const data = EFFECT_LIB[mainEntries[i][0]]; lockedHtml += `<div class="effect-locked"><div class="blur"><div class="effect-name">${data.name}</div><div class="effect-desc">${data.short} —— 解锁查看完整成因+改善步骤</div></div><div class="lock-overlay">🔒</div></div>`; }
   document.getElementById("effectLocked").innerHTML = lockedHtml;
   
-  // 6. 结果页 IP 图片动态切换
+  // IP 图片切换
   const ipImg = IP_IMG_MAP[topKey] || IP_IMG_MAP.default;
   document.getElementById("resultIpImg").src = ipImg;
   document.getElementById("sloganText").innerHTML = `✨ ${topData.short}`;
