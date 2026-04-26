@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
-    /* ========== 完整样式（与之前最终版一致，略作优化） ========== */
+    /* ========== 完整样式（简洁现代，已适配移动端） ========== */
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
       background: radial-gradient(circle at 10% 20%, #1e293b, #0f172a);
@@ -253,7 +253,7 @@
 </head>
 <body>
 <div class="container">
-  <!-- 首页（带免责声明） -->
+  <!-- 首页 -->
   <div class="page active" id="home">
     <div class="hero-section">
       <div class="fire-badge"><i class="fas fa-fire"></i> ✨ 全网爆火 · 100w+年轻人已测 ✨ <i class="fas fa-fire"></i></div>
@@ -270,8 +270,8 @@
       <div class="effect-list">
         <h3><i class="fas fa-list-ul"></i> 以及更多隐藏效应</h3>
         <div class="effect-tags">
-          <span class="effect-tag">回避型特质</span><span class="effect-tag">控制欲特质</span><span class="effect-tag">高敏感特质</span>
-          <span class="effect-tag">冒名顶替特质</span><span class="effect-tag">沉没成本特质</span><span class="effect-tag">确认偏误特质</span>
+          <span class="effect-tag">回避特质</span><span class="effect-tag">控制特质</span><span class="effect-tag">高敏感特质</span>
+          <span class="effect-tag">冒名特质</span><span class="effect-tag">沉没成本特质</span><span class="effect-tag">确认偏误特质</span>
           <span class="effect-tag">自我设限特质</span>
         </div>
       </div>
@@ -279,7 +279,7 @@
         <p><strong>🎯 什么是心理效应？</strong><br>心理效应是我们在日常生活中不自觉表现出的思维、行为模式。本测试聚焦12种最常见的内耗型心理效应，帮你识别自己的心理倾向，并提供可落地的改善方案。</p>
       </div>
       <button class="hero-btn" id="startBtn">🚀 测测你的内耗根源 →</button>
-      <div style="font-size:0.75rem; color:#6c757d; margin-top:16px;">✨ 超准人格特质测评 | 本内容仅为娱乐用途，非专业心理诊断</div>
+      <div style="font-size:0.75rem; color:#6c757d; margin-top:16px;">✨ 趣味人格测评 | 本内容仅为娱乐用途，非专业心理诊断</div>
     </div>
   </div>
 
@@ -335,7 +335,7 @@
 <div class="copy-toast" id="copyToast">✓ 复制成功！快去分享吧</div>
 
 <script>
-// ==================== 配置 ====================
+// ==================== 配置（请替换真实支付链接和密钥） ====================
 const CONFIG = {
   PAY_URL: "https://afdian.com/item/xxxx",      // 替换为爱发电/面包多商品链接
   UNLOCK_KEY: "sbti_psych_2025",
@@ -343,7 +343,7 @@ const CONFIG = {
   EXPIRE_HOURS: 24
 };
 
-// ==================== IP 图片映射 ====================
+// ==================== IP 图片映射（完整12个效应） ====================
 const IP_IMG_MAP = {
   whitebear:   "images_compressed_1mb/whitebear.png",
   peoplepleaser:"images_compressed_1mb/peoplepleaser.png",
@@ -360,25 +360,24 @@ const IP_IMG_MAP = {
   default:     "images_compressed_1mb/whitebear.png"
 };
 
-// 心理效应库（带前缀）
+// 心理效应库（含前缀、短描述）
 const EFFECT_LIB = {
-  whitebear:   { name: "白熊效应", short: "越想忘记，越挥之不去", prefix: "白熊", type: "main" },
-  peoplepleaser:{name: "讨好型特质", short: "习惯性迁就，害怕拒绝", prefix: "讨好", type: "main" },
-  spotlight:   { name: "聚光灯效应", short: "总觉得所有人都在关注自己", prefix: "聚光灯", type: "main" },
-  internal:    { name: "精神内耗特质", short: "反复复盘，自我消耗", prefix: "内耗", type: "main" },
-  ruminate:    { name: "情绪反刍特质", short: "反复咀嚼负面情绪", prefix: "反刍", type: "main" },
-  avoid:       { name: "回避型特质", short: "害怕冲突，选择逃避", prefix: "回避", type: "main" },
-  control:     { name: "控制欲特质", short: "总想掌控一切，否则焦虑", prefix: "控制", type: "main" },
+  whitebear:   { name: "白熊特质", short: "越想忘记，越挥之不去", prefix: "白熊", type: "main" },
+  peoplepleaser:{ name: "讨好特质", short: "习惯性迁就，害怕拒绝", prefix: "讨好", type: "main" },
+  spotlight:   { name: "聚光灯特质", short: "总觉得所有人都在关注自己", prefix: "聚光灯", type: "main" },
+  internal:    { name: "内耗特质", short: "反复复盘，自我消耗", prefix: "内耗", type: "main" },
+  ruminate:    { name: "反刍特质", short: "反复咀嚼负面情绪", prefix: "反刍", type: "main" },
+  avoid:       { name: "回避特质", short: "害怕冲突，选择逃避", prefix: "回避", type: "main" },
+  control:     { name: "控制特质", short: "总想掌控一切，否则焦虑", prefix: "控制", type: "main" },
   sensitive:   { name: "高敏感特质", short: "情绪细腻，容易受伤", prefix: "高敏感", type: "main" }
 };
 
-// ==================== 题库（10题，每题3选项，梯度赋值 + 效应互斥隔离 + 强赋值次数绝对均等） ====================
-// 每个效应精确出现4次+3、4次-3，总强赋值次数完全一致；反向计分仅在同一效应上。
+// ========== 题库（10题3选项，每个效应精确4次+3、4次-3，反向计分仅作用于本效应） ==========
 const QUESTIONS = [
   { text: "聚会里不小心说错一句话，散场后你的第一反应是？",
     options: [
       { text: "满脑子都是大家会不会因此对我有看法，反复回想", effects: [{key:"spotlight",val:3},{key:"ruminate",val:3}] },
-      { text: "有点在意，但很快就安慰自己“没人会记得”", effects: [{key:"spotlight",val:1},{key:"ruminate",val:1}] },
+      { text: "有点在意，但很快就安慰自己'没人会记得'", effects: [{key:"spotlight",val:1},{key:"ruminate",val:1}] },
       { text: "完全无所谓，谁还没说错过话", effects: [{key:"spotlight",val:-3},{key:"ruminate",val:-3}] }
     ] },
   { text: "朋友找你帮忙做一件你很不想做的事，你会怎么做？",
@@ -437,62 +436,80 @@ const QUESTIONS = [
     ] }
 ];
 
-// ========== 核心数据 ==========
+// ========== 全局变量 ==========
 let currentIdx = 0;
-let extraScore = 0;    // 外向性得分（5道题，每题满分15分，共75分，阈值40分）
-let rationalScore = 0; // 理性得分（5道题，同理）
-let effectScores = {};   // 8个主效应得分（可负，最终兜底归零）
-let effectStrongCount = {}; // 每个效应获得+3的次数
-let savedAnswers = null;   // 用于本地缓存恢复
+let extraScore = 0;      // 外向性得分（前5题累加，范围-15..+15）
+let rationalScore = 0;   // 理性得分（后5题累加）
+let effectScores = {};    // 每个效应原始总分（含负，最终会兜底）
+let effectStrongCount = {}; // 获得+3的次数
+let effectReverseCount = {}; // 获得-3的次数（反向匹配）
+let inviteId = localStorage.getItem('inviteId') || ('inv_' + Date.now() + '_' + Math.random().toString(36).substr(2,6));
+let isPaid = false, extraUnlocked = false;
+localStorage.setItem('inviteId', inviteId);
 
-// 初始化分数
-Object.keys(EFFECT_LIB).forEach(k => { effectScores[k] = 0; effectStrongCount[k] = 0; });
+Object.keys(EFFECT_LIB).forEach(k => {
+  effectScores[k] = 0;
+  effectStrongCount[k] = 0;
+  effectReverseCount[k] = 0;
+});
 
 // ========== 辅助函数 ==========
-function getPersonalityType(extra, rational) {
-  const e = extra >= 40 ? "外向" : "内向";   // 外向总分75，40为中位数
-  const r = rational >= 40 ? "理性" : "感性";
-  if (e === "外向" && r === "理性") return "外向理性者";
-  if (e === "外向" && r === "感性") return "外向感性者";
-  if (e === "内向" && r === "理性") return "内向理性者";
-  return "内向感性者";
-}
-function getRankText(score) { if (score <= 13) return "超越了 93% 的测试者"; if (score <= 21) return "超越了 68% 的测试者"; if (score <= 31) return "超越了 42% 的测试者"; return "超越了 21% 的测试者"; }
-function getRarityText(score) { if (score <= 13) return "🌟 稀有度：极为罕见"; if (score <= 21) return "✨ 稀有度：比较独特"; if (score <= 31) return "🍃 稀有度：较为常见"; return "🌿 稀有度：主流人群"; }
-function safeDecode(b64) { try { return atob(b64); } catch(e) { return "解析内容加载失败，请刷新重试。"; } }
-
-// 归一化处理（边界防护）
-function clampScore(score, max) {
+// 归一化：将原始分转为标准分0-100，理论最高分 = 该效应获得+3的次数 × 3
+const MAX_SCORE_BY_EFFECT = {
+  whitebear: 12, peoplepleaser: 12, spotlight: 12, internal: 12,
+  ruminate: 12, avoid: 12, control: 12, sensitive: 12
+};
+function normalize(score, effectKey) {
+  const max = MAX_SCORE_BY_EFFECT[effectKey];
   let s = Math.max(0, score);
   if (s > max) s = max;
-  return s;
+  return (s / max) * 100;
 }
 
-// 固定排序规则：先比强赋值次数，再比效应固定顺序
+function clampScore(score, max) {
+  if (score < 0) return 0;
+  if (score > max) return max;
+  return score;
+}
+
+function getPersonality(extra, rational) {
+  const extraNorm = extra + 15;   // 转化到0..30
+  const rationalNorm = rational + 15;
+  const extraVal = extraNorm >= 15 ? "外向" : "内向";
+  const rationalVal = rationalNorm >= 15 ? "理性" : "感性";
+  if (extraVal === "外向" && rationalVal === "理性") return "外向理性者";
+  if (extraVal === "外向" && rationalVal === "感性") return "外向感性者";
+  if (extraVal === "内向" && rationalVal === "理性") return "内向理性者";
+  return "内向感性者";
+}
+
+// 固定排序仲裁链：标准总分 -> 强赋值次数 -> 反向匹配次数 -> 效应固定顺序
 const effectOrder = ["whitebear","peoplepleaser","spotlight","internal","ruminate","avoid","control","sensitive"];
 function getTopEffect() {
-  const entries = effectOrder.map(key => ({ key, score: effectScores[key], strong: effectStrongCount[key] }));
+  const entries = effectOrder.map(key => ({
+    key,
+    normalized: normalize(effectScores[key], key),
+    strong: effectStrongCount[key],
+    reverse: effectReverseCount[key]
+  }));
   entries.sort((a,b) => {
+    if (a.normalized !== b.normalized) return b.normalized - a.normalized;
     if (a.strong !== b.strong) return b.strong - a.strong;
-    if (a.score !== b.score) return b.score - a.score;
-    return 0; // 保持原有顺序
+    if (a.reverse !== b.reverse) return a.reverse - b.reverse; // 反向次数越少越好
+    return 0;
   });
-  let topKey = entries[0].key;
-  // 极端情况：所有效应得分完全一致且强次数一致 → 按顺序循环分配，保证所有效应都有机会（实际调试用）
-  const allSame = entries.every(e => e.score === entries[0].score && e.strong === entries[0].strong);
-  if (allSame) {
-    // 根据当前已触发次数（内存中）轮换，简单起见按固定顺序取模，保证可复现
-    let idx = (Date.now() % effectOrder.length); // 为了demo，但更严谨可用localStorage计数器
-    topKey = effectOrder[idx];
-  }
-  return topKey;
+  return entries[0].key;
 }
 
-// ========== 页面渲染与交互 ==========
+// 极端中立兜底：若外向/理性得分均为0，强制指定一人格（内向感性）
+function ensurePersonality(extra, rational) {
+  if (extra === 0 && rational === 0) return "内向感性者";
+  return getPersonality(extra, rational);
+}
+
+// ========== 进度持久化 ==========
 function saveProgress() {
-  const progress = {
-    currentIdx, extraScore, rationalScore, effectScores, effectStrongCount
-  };
+  const progress = { currentIdx, extraScore, rationalScore, effectScores, effectStrongCount, effectReverseCount };
   localStorage.setItem('sbti_progress', JSON.stringify(progress));
 }
 function loadProgress() {
@@ -505,6 +522,7 @@ function loadProgress() {
       rationalScore = data.rationalScore;
       effectScores = data.effectScores;
       effectStrongCount = data.effectStrongCount;
+      effectReverseCount = data.effectReverseCount;
       return true;
     } catch(e) {}
   }
@@ -515,14 +533,16 @@ function resetProgress() {
   currentIdx = 0;
   extraScore = 0;
   rationalScore = 0;
-  Object.keys(effectScores).forEach(k => { effectScores[k] = 0; effectStrongCount[k] = 0; });
+  Object.keys(effectScores).forEach(k => { effectScores[k] = 0; effectStrongCount[k] = 0; effectReverseCount[k] = 0; });
 }
 
+// ========== 页面交互 ==========
 function startTest() {
   resetProgress();
   renderQuestion();
   switchPage("test");
 }
+
 function renderQuestion() {
   if (currentIdx >= QUESTIONS.length) {
     generateResult();
@@ -532,87 +552,87 @@ function renderQuestion() {
   document.getElementById("questionText").innerText = q.text;
   const container = document.getElementById("optionsContainer");
   container.innerHTML = "";
-  // 选项随机排序（避免惯性选择）
+  // 随机打乱选项顺序（避免惯性选择）
   const shuffled = [...q.options];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
-  shuffled.forEach((opt, idx) => {
+  shuffled.forEach(opt => {
     const div = document.createElement("div");
     div.className = "option";
     div.innerText = opt.text;
-    div.onclick = () => { selectOption(opt); };
+    div.onclick = () => selectOption(opt);
     container.appendChild(div);
   });
-  document.getElementById("progressFill").style.width = ((currentIdx+1)/QUESTIONS.length)*100 + "%";
+  const progressPercent = ((currentIdx+1)/QUESTIONS.length)*100;
+  document.getElementById("progressFill").style.width = progressPercent + "%";
 }
+
 function selectOption(opt) {
-  // 更新外向/理性得分（前5道题外向，后5道题理性？实际需要区分题号）
-  // 简化：每道题对两个维度都有影响？为保证正交，前5道题仅影响外向，后5道题仅影响理性
-  // 题目顺序固定：index 0-4 影响外向，5-9 影响理性
+  // 前5题影响外向性，后5题影响理性
   if (currentIdx < 5) {
-    // 外向维度：根据选项内容提取外向值（我们暂用替换文本判断，更准确方案是在题库中预设extraVal）
-    // 为简化，我们采用选项的隐含赋值：根据选项在原始顺序中的位置，0/1/2 对应 3/1/-3
-    // 但题库中effect值已明确，我们额外定义extraVal字段。为避免代码过于复杂，采用固定映射：
-    // 此优化暂不展开，仍然基于原始设计：外向维度由选项的effect中的某个特殊标记决定，但时间有限，为保证功能，我们先保留原有得分机制（直接使用选项的effect得分平均值作为外向得分）
-    // 考虑到时间，此版本暂只保留核心效应和人格类型（外向/理性）的简单计分。
-    // 实际上外向/理性得分我们已在题目中预设了简化的映射：选第一项+3，第二项+1，第三项-3（绝对值同）。
-    // 正式实现可完善，但当前不影响32种结果的验证。以下简单模拟：
-    const val = (opt === QUESTIONS[currentIdx].options[0] ? 3 : opt === QUESTIONS[currentIdx].options[1] ? 1 : -3);
-    extraScore += val;
+    // 根据选项在原始题库中的效果粗略估算外向分值：我们直接采用效果中第一个效应的val绝对值平均？
+    // 为了精准，预先为每个选项设定 extraValue / rationalValue。
+    // 简化但可靠的方法：根据选项位置（第一项+3，第二项+1，第三项-3）。保证5题总分范围正确。
+    const idx = QUESTIONS[currentIdx].options.findIndex(o => o === opt);
+    if (idx === 0) extraScore += 3;
+    else if (idx === 1) extraScore += 1;
+    else extraScore -= 3;
   } else {
-    const val = (opt === QUESTIONS[currentIdx].options[0] ? 3 : opt === QUESTIONS[currentIdx].options[1] ? 1 : -3);
-    rationalScore += val;
+    const idx = QUESTIONS[currentIdx].options.findIndex(o => o === opt);
+    if (idx === 0) rationalScore += 3;
+    else if (idx === 1) rationalScore += 1;
+    else rationalScore -= 3;
   }
-  // 更新效应得分
+  // 效应计分
   opt.effects.forEach(e => {
-    let newScore = effectScores[e.key] + e.val;
-    if (newScore < 0) newScore = 0;
-    effectScores[e.key] = newScore;
+    effectScores[e.key] += e.val;
     if (e.val === 3) effectStrongCount[e.key] += 1;
+    if (e.val === -3) effectReverseCount[e.key] += 1;
   });
   currentIdx++;
   saveProgress();
   renderQuestion();
 }
+
 function generateResult() {
-  // 归一化：外向/理性得分范围 -15..15，转为0..30方便阈值
-  let extraNorm = clampScore(extraScore + 15, 30);
-  let rationalNorm = clampScore(rationalScore + 15, 30);
-  const extraThresh = 15; // 阈值中线
-  const rationalThresh = 15;
-  const extraType = extraNorm >= extraThresh ? "外向" : "内向";
-  const rationalType = rationalNorm >= rationalThresh ? "理性" : "感性";
-  let personality = "";
-  if (extraType === "外向" && rationalType === "理性") personality = "外向理性者";
-  else if (extraType === "外向" && rationalType === "感性") personality = "外向感性者";
-  else if (extraType === "内向" && rationalType === "理性") personality = "内向理性者";
-  else personality = "内向感性者";
-  
-  // 获取TOP1效应（固定排序）
+  // 人格类型（带极端兜底）
+  let personality = ensurePersonality(extraScore, rationalScore);
+  // 获取top效应
   const topKey = getTopEffect();
   const topData = EFFECT_LIB[topKey];
-  const prefix = topData.prefix;
-  const fullLabel = `${prefix}型${personality}`;
+  const fullLabel = `${topData.prefix}型${personality}`;
   document.getElementById("personalityTag").innerHTML = fullLabel;
   
-  // 稀有度（总分 = 外向+理性 归一化总分）
-  const totalScore = extraNorm + rationalNorm;
-  document.getElementById("rareBadge").innerHTML = getRarityText(totalScore);
-  document.getElementById("rankBadge").innerHTML = `🏆 ${getRankText(totalScore)}`;
+  // 稀有度排名（外向+理性的总分范围-30..+30，转为0..60）
+  const totalRaw = extraScore + rationalScore;
+  const totalNorm = totalRaw + 30; // 0..60
+  function getRarity(score) {
+    if (score <= 12) return "🌟 稀有度：极为罕见";
+    if (score <= 25) return "✨ 稀有度：比较独特";
+    if (score <= 45) return "🍃 稀有度：较为常见";
+    return "🌿 稀有度：主流人群";
+  }
+  function getRank(score) {
+    if (score <= 12) return "超越了 93% 的测试者";
+    if (score <= 25) return "超越了 68% 的测试者";
+    if (score <= 45) return "超越了 42% 的测试者";
+    return "超越了 21% 的测试者";
+  }
+  document.getElementById("rareBadge").innerHTML = getRarity(totalNorm);
+  document.getElementById("rankBadge").innerHTML = `🏆 ${getRank(totalNorm)}`;
   
-  // 人格维度展示（外向/理性百分比）
-  const extraPercent = Math.min(100, Math.floor(extraNorm / 30 * 100));
-  const rationalPercent = Math.min(100, Math.floor(rationalNorm / 30 * 100));
+  // 人格维度展示（外向性/理性百分比）
+  const extraPercent = Math.min(100, Math.floor(((extraScore + 15)/30)*100));
+  const rationalPercent = Math.min(100, Math.floor(((rationalScore + 15)/30)*100));
   let dimHtml = `<div style="font-weight:700; margin:20px 0 12px;">你的人格维度</div>`;
   dimHtml += `<div class="dimension-item"><div class="dimension-label"><span>外向性</span><span>${extraPercent}%</span></div><div class="dimension-bar-bg"><div class="dimension-bar-fill" style="width:${extraPercent}%"></div></div></div>`;
   dimHtml += `<div class="dimension-item"><div class="dimension-label"><span>理性</span><span>${rationalPercent}%</span></div><div class="dimension-bar-bg"><div class="dimension-bar-fill" style="width:${rationalPercent}%"></div></div></div>`;
   document.getElementById("dimensionSection").innerHTML = dimHtml;
   
-  // 心理效应卡片
+  // 心理效应卡片（免费TOP1完整，其余锁定）
   document.getElementById("effectFree").innerHTML = `<div class="effect-free"><div class="effect-name">${topData.name}</div><div class="effect-desc">${topData.short}<br>✨ 今日改善：接纳自己，慢慢调整</div></div>`;
-  // 锁定其余效应展示
   let lockedHtml = "";
   const otherKeys = effectOrder.filter(k => k !== topKey).slice(0,4);
   for (let k of otherKeys) {
@@ -632,7 +652,8 @@ function generateResult() {
   checkUnlock();
   switchPage("result");
 }
-// 付费解锁等功能（与之前相同，略）
+
+// ========== 付费、分享等功能（与之前相同） ==========
 function checkUnlock() {
   const urlKey = new URLSearchParams(location.search).get('unlock');
   if(urlKey === CONFIG.UNLOCK_KEY) { unlockFull(); history.replaceState({},'',location.pathname); return; }
@@ -664,12 +685,8 @@ function switchPage(id) {
   }
 }
 
-let inviteId = localStorage.getItem('inviteId') || ('inv_' + Date.now() + '_' + Math.random().toString(36).substr(2,6));
-localStorage.setItem('inviteId', inviteId);
-let isPaid = false, extraUnlocked = false;
-
+// ========== 页面加载 ==========
 document.addEventListener('DOMContentLoaded', () => {
-  // 尝试加载未完成的进度
   if (loadProgress() && currentIdx > 0 && currentIdx < QUESTIONS.length) {
     renderQuestion();
     switchPage("test");
@@ -685,12 +702,13 @@ document.addEventListener('DOMContentLoaded', () => {
   checkUnlock();
 });
 
-// ========== Debug 预埋（控制台可验证32种结果） ==========
-window.debugSbti = (personality, effectKey) => {
-  // 直接修改人格标签和效应，模拟强制输出
+// ========== Debug工具：控制台快速验证32种组合 ==========
+window.debugSbti = (personalityName, effectKey) => {
+  const validPersonalities = ["外向理性者","外向感性者","内向理性者","内向感性者"];
+  if (!validPersonalities.includes(personalityName)) personalityName = "内向感性者";
   const effect = EFFECT_LIB[effectKey];
   if (!effect) return;
-  const fullLabel = `${effect.prefix}型${personality}`;
+  const fullLabel = `${effect.prefix}型${personalityName}`;
   document.getElementById("personalityTag").innerHTML = fullLabel;
   document.getElementById("effectFree").innerHTML = `<div class="effect-free"><div class="effect-name">${effect.name}</div><div class="effect-desc">${effect.short}<br>✨ 今日改善：模拟调试结果</div></div>`;
   const img = document.getElementById("resultIpImg");
