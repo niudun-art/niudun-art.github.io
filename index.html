@@ -1,595 +1,415 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>SBTI进阶人格测试 · 心理效应深度解析</title>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            background: #ffffff;
-            font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, sans-serif;
-            max-width: 420px;
-            margin: 0 auto;
-            padding: 0;
-        }
-        .page {
-            display: none;
-            padding: 24px 20px 40px;
-            min-height: 100vh;
-        }
-        .page.active {
-            display: block;
-        }
-        .home { text-align: center; padding-top: 60px; }
-        .badge {
-            display: inline-block;
-            background: #000;
-            color: #fff;
-            font-size: 12px;
-            padding: 4px 12px;
-            border-radius: 40px;
-            margin-bottom: 20px;
-        }
-        h1 { font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
-        .sub { font-size: 16px; color: #666; margin-bottom: 30px; }
-        .hot-tag {
-            background: #fff1f0;
-            color: #ff4d4f;
-            padding: 6px 14px;
-            border-radius: 40px;
-            font-size: 14px;
-            display: inline-block;
-            margin-bottom: 40px;
-        }
-        .start-btn {
-            background: #6366f1;
-            color: #fff;
-            border: none;
-            width: 80%;
-            padding: 16px;
-            border-radius: 60px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .start-btn:active { opacity: 0.9; transform: scale(0.98); }
-        .progress-bar {
-            height: 4px;
-            background: #e5e7eb;
-            border-radius: 4px;
-            margin-bottom: 24px;
-        }
-        .progress-fill {
-            width: 0%;
-            height: 100%;
-            background: #6366f1;
-            border-radius: 4px;
-            transition: 0.3s;
-        }
-        .question-text {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            line-height: 1.4;
-        }
-        .option {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 60px;
-            padding: 14px 18px;
-            margin-bottom: 12px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .option:active {
-            background: #eef2ff;
-            border-color: #6366f1;
-            transform: scale(0.98);
-        }
-        .result-card {
-            background: #f9fafb;
-            border-radius: 32px;
-            padding: 24px;
-        }
-        .personality-tag {
-            font-size: 40px;
-            font-weight: 800;
-            text-align: center;
-            background: #eef2ff;
-            padding: 16px;
-            border-radius: 60px;
-            margin-bottom: 16px;
-        }
-        .personality-desc {
-            font-size: 16px;
-            text-align: center;
-            color: #374151;
-            margin-bottom: 24px;
-        }
-        .dimension-item { margin-bottom: 16px; }
-        .dimension-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            margin-bottom: 6px;
-            color: #4b5563;
-        }
-        .dimension-bar-bg {
-            height: 6px;
-            background: #e5e7eb;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .dimension-bar-fill {
-            height: 100%;
-            background: #6366f1;
-            width: 0%;
-            border-radius: 3px;
-            transition: 0.5s;
-        }
-        .effect-section { margin-top: 28px; }
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-        .effect-free {
-            background: #fff;
-            border-radius: 20px;
-            padding: 16px;
-            border-left: 4px solid #6366f1;
-            margin-bottom: 16px;
-        }
-        .effect-name { font-weight: 700; margin-bottom: 6px; }
-        .effect-desc { font-size: 14px; color: #4b5563; line-height: 1.5; }
-        .effect-locked {
-            position: relative;
-            background: #fff;
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 12px;
-            overflow: hidden;
-        }
-        .effect-locked .blur { filter: blur(4px); opacity: 0.6; }
-        .lock-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255,255,255,0.7);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            border-radius: 20px;
-        }
-        .unlock-btn {
-            background: linear-gradient(135deg, #ff4d4f, #ff7875);
-            color: #fff;
-            border: none;
-            width: 100%;
-            padding: 16px;
-            border-radius: 60px;
-            font-size: 17px;
-            font-weight: 700;
-            margin: 20px 0 12px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .unlock-btn:active { opacity: 0.9; transform: scale(0.98); }
-        .pay-tip { font-size: 12px; text-align: center; color: #6b7280; }
-        .benefits-list { margin: 16px 0; padding-left: 24px; }
-        .benefits-list li {
-            font-size: 13px;
-            margin-bottom: 6px;
-            list-style: none;
-        }
-        .benefits-list li::before { content: "✅ "; }
-        .share-section { margin-top: 28px; text-align: center; }
-        .share-btns {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin: 16px 0;
-            flex-wrap: wrap;
-        }
-        .share-btn {
-            background: #fff;
-            border: 1px solid #6366f1;
-            color: #6366f1;
-            padding: 8px 16px;
-            border-radius: 40px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .share-btn:active { background: #eef2ff; }
-        .copy-toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            color: #fff;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-size: 14px;
-            z-index: 1000;
-            display: none;
-        }
-        footer { font-size: 10px; color: #9ca3af; text-align: center; margin-top: 30px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>SBTI进阶人格测试 · 12大心理效应解码</title>
+  <meta name="description" content="MBTI无法告诉你的12种心理效应，测出你的内耗根源。">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      background: radial-gradient(circle at 10% 20%, #1e293b, #0f172a);
+      font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, sans-serif;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 48px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .page {
+      display: none;
+      padding: 36px 32px;
+      animation: fadeInUp 0.5s ease;
+    }
+    .page.active { display: block; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 首页钩子 */
+    .hero-section { text-align: center; margin-bottom: 30px; }
+    .fire-badge {
+      background: linear-gradient(135deg, #ff5722, #ff9800);
+      color: white;
+      display: inline-block;
+      padding: 10px 28px;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(255,87,34,0.3);
+    }
+    h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.2; color: #0f172a; margin-bottom: 16px; }
+    .hero-sub { font-size: 1.2rem; color: #475569; margin-bottom: 20px; }
+    .big-hook {
+      background: linear-gradient(120deg, #fff3e0, #ffe0b5);
+      padding: 20px;
+      border-radius: 60px;
+      margin: 28px 0;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #d9480f;
+      text-align: center;
+      border: 2px solid #ffaa33;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .big-hook i { margin-right: 12px; }
+    .hero-btn {
+      background: linear-gradient(135deg, #ff5722, #ff9800); color: white; border: none; width: 100%;
+      padding: 18px; border-radius: 60px; font-size: 1.3rem; font-weight: 800; cursor: pointer; margin: 20px 0;
+    }
+
+    /* 5个IP图片网格 */
+    .ip-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+    .ip-card {
+      background: white;
+      border-radius: 36px;
+      padding: 18px 12px;
+      text-align: center;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+      transition: 0.2s;
+    }
+    .ip-card:hover { transform: translateY(-5px); background: #fefce8; }
+    .ip-card img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 12px;
+    }
+    .ip-card .label { font-weight: 700; font-size: 0.9rem; color: #1e293b; }
+
+    /* 其余效应文字列表 */
+    .effect-list {
+      background: #f1f5f9;
+      border-radius: 32px;
+      padding: 24px;
+      margin: 24px 0;
+    }
+    .effect-list h3 {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .effect-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .effect-tag {
+      background: white;
+      padding: 8px 18px;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #1e293b;
+      border: 1px solid #cbd5e1;
+    }
+
+    .effect-definition { background: #f8fafc; border-radius: 32px; padding: 24px; margin: 24px 0; }
+    .effect-definition p { font-size: 0.95rem; line-height: 1.5; color: #334155; }
+
+    /* 答题页 */
+    .progress-bar { height: 10px; background: #e2e8f0; border-radius: 10px; margin-bottom: 32px; }
+    .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); border-radius: 10px; }
+    .question-card { background: #f8fafc; border-radius: 36px; padding: 36px; margin-bottom: 24px; }
+    .question-text { font-size: 1.6rem; font-weight: 600; margin-bottom: 32px; }
+    .option { background: white; border: 1px solid #e2e8f0; border-radius: 60px; padding: 16px 24px; margin-bottom: 14px; cursor: pointer; transition: 0.2s; font-weight: 500; }
+    .option:hover { background: #eef2ff; border-color: #3b82f6; transform: translateX(8px); }
+
+    /* 结果页 */
+    .result-header {
+      display: flex; align-items: center; gap: 24px;
+      background: linear-gradient(135deg, #fff5eb, #ffe9f0); border-radius: 48px; padding: 28px; margin-bottom: 28px;
+    }
+    .ip-card-large {
+      background: white; width: 120px; height: 120px; border-radius: 60px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 12px 20px -8px rgba(0,0,0,0.15);
+    }
+    .ip-emoji { font-size: 70px; }
+    .ip-name { font-size: 16px; font-weight: 700; color: #f97316; margin-top: 8px; }
+    .result-title-box { flex: 1; }
+    .rare-badge-group { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+    .rare-badge { background: #ff5722; color: white; border-radius: 40px; padding: 8px 18px; font-size: 0.9rem; font-weight: 600; }
+    .rare-rank { background: #8b5cf6; }
+    .personality-tag-new { font-size: 2rem; font-weight: 800; margin: 8px 0; background: linear-gradient(135deg, #1e293b, #3b82f6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .sub-effect { font-size: 1rem; color: #666; }
+    .slogan-text { font-style: italic; color: #f97316; font-weight: 500; margin-top: 6px; }
+
+    .dimension-item { margin-bottom: 22px; }
+    .dimension-label { display: flex; justify-content: space-between; font-weight: 500; margin-bottom: 8px; font-size: 0.95rem; }
+    .dimension-bar-bg { height: 8px; background: #e2e8f0; border-radius: 6px; overflow: hidden; }
+    .dimension-bar-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); width: 0%; transition: width 0.5s; }
+
+    .effect-free, .effect-locked { background: white; border-radius: 28px; padding: 20px; margin-bottom: 16px; border-left: 6px solid #3b82f6; }
+    .effect-locked { position: relative; overflow: hidden; }
+    .effect-locked .blur { filter: blur(4px); opacity: 0.6; }
+    .lock-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.75); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; border-radius: 28px; }
+    
+    .action-hook {
+      background: linear-gradient(120deg, #fef9e3, #ffefc0);
+      border-radius: 40px;
+      padding: 24px;
+      margin: 28px 0;
+      text-align: center;
+      border: 1px solid #ffd966;
+    }
+    .btn-pay { background: linear-gradient(135deg, #ef4444, #f97316); color: white; border: none; padding: 14px 28px; border-radius: 60px; font-weight: 800; font-size: 1.1rem; cursor: pointer; margin: 8px; }
+    .btn-share { background: white; border: 2px solid #f97316; color: #f97316; padding: 12px 24px; border-radius: 60px; font-weight: 700; font-size: 1rem; cursor: pointer; margin: 8px; }
+    .benefits-list { margin: 16px 0 0 24px; list-style: none; }
+    .benefits-list li { font-size: 0.9rem; margin-bottom: 10px; padding-left: 28px; position: relative; }
+    .benefits-list li::before { content: "✅"; position: absolute; left: 0; }
+
+    .share-module { margin: 36px 0 28px; background: #fef9e3; border-radius: 36px; padding: 28px 24px; text-align: center; }
+    .btn-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .share-btn { background: white; border: 2px solid #3b82f6; color: #3b82f6; padding: 12px 24px; border-radius: 60px; font-weight: 600; cursor: pointer; }
+    footer { text-align: center; font-size: 0.8rem; color: #94a3b8; margin-top: 28px; }
+    .copy-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 10px 24px; border-radius: 60px; font-size: 0.9rem; z-index: 2000; display: none; }
+    @media (max-width: 700px) {
+      .page { padding: 24px 20px; }
+      h1 { font-size: 2rem; }
+      .big-hook { font-size: 1.2rem; padding: 16px; }
+      .ip-card img { width: 60px; height: 60px; }
+    }
+  </style>
 </head>
 <body>
+<div class="container">
+  <!-- 首页 -->
+  <div class="page active" id="home">
+    <div class="hero-section">
+      <div class="fire-badge"><i class="fas fa-fire"></i> ✨ 全网爆火 · 100w+年轻人已测 ✨ <i class="fas fa-fire"></i></div>
+      <h1>MBTI只能看到表面？<br>你的<strong style="background: linear-gradient(135deg,#1e293b,#3b82f6); -webkit-background-clip:text; background-clip:text; color:transparent;">12种心理效应</strong>，正在操控你的内耗人生</h1>
+      <div class="hero-sub">基于大五人格+认知行为理论 | 1分钟极速测评</div>
+      
+      <div class="big-hook">
+        <i class="fas fa-heart"></i> 如何更了解自己？ <i class="fas fa-heart"></i>
+      </div>
 
-<!-- 首页 -->
-<div class="page active" id="home">
-    <div class="home">
-        <div class="badge">⚠️ MBTI已经过时？</div>
-        <h1>SBTI进阶人格<br>心理效应解码</h1>
-        <div class="sub">新一代人格+12大心理效应深度解析</div>
-        <div class="hot-tag">🔥 全网刷屏 · 1分钟极速测评</div>
-        <button class="start-btn" onclick="startTest()">开始测试 →</button>
-        <footer>本测试仅为娱乐参考，不做诊断</footer>
+      <!-- 5个IP图片网格（路径指向 images_compressed_1mb） -->
+      <div class="ip-grid">
+        <div class="ip-card"><img src="images_compressed_1mb/whitebear.png" alt="白熊效应" onerror="this.src='https://placehold.co/80x80?text=🐻'"><div class="label">白熊效应</div></div>
+        <div class="ip-card"><img src="images_compressed_1mb/peoplepleaser.png" alt="讨好型效应" onerror="this.src='https://placehold.co/80x80?text=🦝'"><div class="label">讨好型效应</div></div>
+        <div class="ip-card"><img src="images_compressed_1mb/spotlight.png" alt="聚光灯效应" onerror="this.src='https://placehold.co/80x80?text=🦊'"><div class="label">聚光灯效应</div></div>
+        <div class="ip-card"><img src="images_compressed_1mb/internal.png" alt="内耗效应" onerror="this.src='https://placehold.co/80x80?text=🌀'"><div class="label">内耗效应</div></div>
+        <div class="ip-card"><img src="images_compressed_1mb/ruminate.png" alt="情绪反刍" onerror="this.src='https://placehold.co/80x80?text=🐱'"><div class="label">情绪反刍</div></div>
+      </div>
+
+      <!-- 其余效应文字列表 -->
+      <div class="effect-list">
+        <h3><i class="fas fa-list-ul"></i> 以及更多隐藏效应</h3>
+        <div class="effect-tags">
+          <span class="effect-tag">回避型心理</span>
+          <span class="effect-tag">控制欲效应</span>
+          <span class="effect-tag">高敏感效应</span>
+          <span class="effect-tag">冒名顶替综合征</span>
+          <span class="effect-tag">沉没成本效应</span>
+          <span class="effect-tag">确认偏误</span>
+          <span class="effect-tag">自我设限效应</span>
+          <span class="effect-tag">+ 更多隐藏</span>
+        </div>
+      </div>
+
+      <div class="effect-definition">
+        <p><strong>🎯 什么是心理效应？</strong><br>心理效应是我们在日常生活中不自觉表现出的思维、行为模式。本测试聚焦12种最常见的内耗型心理效应，帮你识别自己的心理倾向，并提供可落地的改善方案。</p>
+      </div>
+
+      <button class="hero-btn" id="startBtn">🚀 立即拆解我的心理效应 →</button>
+      <div style="font-size:0.8rem; color:#6c757d; text-align:center; margin-top:16px;">✔ 专属IP形象 ✔ 稀有度排名 ✔ 永久保存报告 ✔ 分享解锁福利</div>
     </div>
-</div>
+  </div>
 
-<!-- 答题页 -->
-<div class="page" id="test">
+  <!-- 答题页 -->
+  <div class="page" id="test">
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="question-text" id="questionText"></div>
-    <div id="optionsContainer"></div>
-    <footer>答题过程中请勿刷新</footer>
-</div>
+    <div class="question-card"><div class="question-text" id="questionText"></div><div id="optionsContainer"></div></div>
+    <footer>点击选项自动进入下一题</footer>
+  </div>
 
-<!-- 结果页 -->
-<div class="page" id="result">
-    <div class="result-card" id="resultCard">
-        <div class="personality-tag" id="personalityTag">内耗型吗喽</div>
-        <div class="personality-desc" id="personalityDesc">表面平静，内心早已上演了八百集连续剧...</div>
-        <div class="dimension-section" id="dimensionSection"></div>
-        <div class="effect-section">
-            <div class="section-title">🔍 你的专属心理效应</div>
-            <div id="effectFree"></div>
-            <div id="effectLocked"></div>
-        </div>
-        <button class="unlock-btn" id="unlockBtn">💥 立即解锁 · 查看全部12大心理效应</button>
-        <div class="pay-tip" id="payTip">仅需9.9元，解锁完整成因+改善方案</div>
-        <ul class="benefits-list" id="benefitsList">
-            <li>全部12大心理效应完整解析</li>
-            <li>专属24小时反内耗行动清单</li>
-            <li>情绪调节落地改善方法</li>
-            <li>高清无水印个人结果海报</li>
-            <li>永久解锁后续题库更新</li>
-        </ul>
-        <div class="share-section">
-            <div class="section-title">🎁 分享领福利</div>
-            <div class="share-btns">
-                <button class="share-btn" onclick="copyInviteLink()">📋 复制邀请链接</button>
-                <button class="share-btn" onclick="generatePoster()">📷 生成海报</button>
-                <button class="share-btn" onclick="fakeShareUnlock()">🎉 分享解锁福利</button>
-            </div>
-        </div>
+  <!-- 结果页 -->
+  <div class="page" id="result">
+    <div class="result-header">
+      <div class="ip-card-large"><div class="ip-emoji" id="ipEmoji">🧸</div><div class="ip-name" id="ipName">心理精灵</div></div>
+      <div class="result-title-box">
+        <div class="rare-badge-group"><span class="rare-badge" id="rareBadge">🌟 稀有度</span><span class="rare-badge rare-rank" id="rankBadge">🏆 排名</span></div>
+        <div class="personality-tag-new" id="personalityTag">内耗型吗喽</div>
+        <div class="sub-effect" id="subEffect">核心效应：<strong id="topEffectName">--</strong></div>
+        <div class="slogan-text" id="sloganText">✨ 一起探索内心世界</div>
+      </div>
     </div>
-    <footer>分享给好友，双方皆可解锁反内耗福利</footer>
+    <div id="dimensionSection"></div>
+    <div id="effectFree"></div>
+    <div id="effectLocked"></div>
+    <div class="action-hook">
+      <div style="font-size:1.3rem; font-weight:800;">🎁 解锁全部12大心理效应</div>
+      <button class="btn-pay" id="unlockBtn">💥 付费解锁 (¥9.9)</button>
+      <button class="btn-share" id="shareUnlockBtn">🎉 分享好友免费领福利</button>
+      <ul class="benefits-list">
+        <li>全部12效应完整解析</li><li>反内耗行动清单</li><li>人格身份卡&高清海报</li>
+      </ul>
+    </div>
+    <div class="share-module">
+      <div class="share-title">📢 分享得福利</div>
+      <div class="btn-group">
+        <button class="share-btn" id="copyInviteBtn">📋 复制邀请链接</button>
+        <button class="share-btn" id="genPosterBtn">📷 生成海报</button>
+      </div>
+    </div>
+    <footer>分享后解锁隐藏效应+反内耗清单</footer>
+  </div>
 </div>
-
-<div class="copy-toast" id="copyToast">链接已复制！快去分享吧</div>
+<div class="copy-toast" id="copyToast">✓ 复制成功！快去分享吧</div>
 
 <script>
-// ==================== 配置区（请替换为真实信息） ====================
+// ==================== 配置（请替换真实信息） ====================
 const CONFIG = {
-    PAY_URL: "https://afdian.com/item/你的商品链接",      // 替换你的爱发电/面包多商品链接
-    UNLOCK_KEY: "sbti_psych_2025",                     // 自定义解锁密钥
-    QR_CODE_URL: "https://你的网站二维码图片.png",      // 替换为你的二维码图片URL
-    EXPIRE_HOURS: 24
+  PAY_URL: "https://afdian.com/item/xxxx",      // 替换为爱发电/面包多商品链接
+  UNLOCK_KEY: "sbti_psych_2025",               // 自定义解锁密钥
+  QR_CODE_URL: "https://example.com/qr.png",   // 可选：海报二维码
+  EXPIRE_HOURS: 24
 };
 
-// ==================== 心理效应库（8常驻 + 4隐藏） ====================
+// ==================== IP 映射表（结果页动态IP） ====================
+const IP_MAP = {
+  whitebear:   { emoji: "🐻", name: "白熊宝",  slogan: "越想忘掉越忘不掉🐻" },
+  peoplepleaser:{ emoji: "🦝", name: "讨好熊", slogan: "别总讨好别人啦，对自己好点🦝" },
+  spotlight:   { emoji: "🦊", name: "聚光灯狐", slogan: "其实根本没人在看你🦊" },
+  internal:    { emoji: "🌀", name: "内耗兽",   slogan: "脑子里别打架了，休息一下🌀" },
+  ruminate:    { emoji: "🐱", name: "反刍猫",   slogan: "别重播啦，该换碟了🐱" },
+  avoid:       { emoji: "🐰", name: "躲藏兔",   slogan: "偶尔面对，也没那么可怕🐰" },
+  control:     { emoji: "🦅", name: "掌控鹰",   slogan: "地球没你也能转，放松点🦅" },
+  sensitive:   { emoji: "🦌", name: "敏感鹿",   slogan: "照顾好情绪，你值得被爱🦌" },
+  imposter:    { emoji: "🐧", name: "冒充企鹅", slogan: "你配！脱下伪装做自己🐧" },
+  sunkcost:    { emoji: "🐙", name: "不舍章鱼", slogan: "放下过去，迎接新可能🐙" },
+  default:     { emoji: "🧸", name: "心理精灵", slogan: "一起探索内心世界吧🧸" }
+};
+
+// ==================== 心理效应库（8常驻+4隐藏） ====================
 const EFFECT_LIB = {
-    spotlight: { name: "聚光灯效应", short: "总觉得所有人都在关注自己", full: "VGhlIHBvc3RsaWdodCBmZWFjdCBlbmdpbmVlcmluZyB0aGF0IGJvZHkgb3RoZXJzIGFyZSBjb25zaWRlcmF0dXJlbHkgd2FpdGluZyB0byBzYXkgb3IgZG8gbm90IHNvbWUgdGhpbmcgdG8geW91Lg==", type: "main" },
-    whitebear: { name: "白熊效应", short: "越想忘记，越挥之不去", full: "VGhlIHdoaXRlIGJlYXIgZmVhY3QgaXMgdGhlIGFic29sdXRlIG9mIHdoYXQgeW91IGFyZSB0cnlpbmcgdG8gZm9yZ2V0LiBZb3VyIGJyYWluIG1lYW5zIG91dCB0aGUgb3B0aW9ucyB5b3UgYWx3YXlzIGFyZSB0cnlpbmcgdG8gZm9yZ2V0LiA=", type: "main" },
-    peoplepleaser: { name: "讨好型效应", short: "习惯性迁就，害怕拒绝", full: "UGVvcGxlcGxlYXNlciBmZWFjdCBpcyBhIHN0YW5kYXJkIHBlcmlvZGFuY2UgdGhhdCBvbmUgd2lsbCBjYWxjdWxhdGUgYW5kIGZhbGxvd2UgdGhlbXNlbHZlcyBpbiBmYXZlIG9mIG90aGVycy4g", type: "main" },
-    internal: { name: "精神内耗效应", short: "反复复盘，自我消耗", full: "SW50ZXJuYWwgY29uc3VtZXJpbmcgYW5kIG1pbmltYWwgY29uc3VtZXJpbmcgdGhhdCBjYW4gZGlzY292ZXIgYSBsaW5nIGxvbmcgYW5kIGF0dHJpYnV0ZSB0aGUgbW9zdCBzdWJqZWN0IGZvciBpbmRpZXMgb2Ygb3RoZXJzLiA=", type: "main" },
-    ruminate: { name: "情绪反刍", short: "反复咀嚼负面情绪", full: "Um91bmluYXRpb24gaXMgdGhlIGFjdGl2aXR5IG9mIGVudHJ5bGlnaHRpbmcgb24gbmVnYXJpYWwgc3RpbGwgc2Vuc2VzIGFuZCBtb3Jpb3MgYWZ0ZXIgdGhleSBhcmUgZGVjb2RlZCBhcyBuZWVmYWJsZS4g", type: "main" },
-    avoid: { name: "回避型心理", short: "害怕冲突，选择逃避", full: "QXZvaWRpbmcgY29uZmxpY3QgaXMgYSBzdGFuZGFyZCByZWFjdGlvbiB0aGF0IG1ha2VzIHlvdSBjaG9vc2UgdG8gZXNjYXBlIGluc3RlYWQgb2YgY29tbXVuaWNhdGUgYW5kIHNvbHZlIGl0LiA=", type: "main" },
-    control: { name: "控制欲效应", short: "总想掌控一切，否则焦虑", full: "Q29udHJvbCBmZWVlZGluZyBtYWtlcyB5b3Ugd2FudCB0byBjb250cm9sIGV2ZXJ5dGhpbmcgYXJvdW5kIHlvdS4gSWYgeW91IGNhbid0IGNvbnRyb2wgaXQsIHlvdSB3aWxsIGZlZWwgYW54aW91cyBhbmQgcGFuaWMu", type: "main" },
-    sensitive: { name: "高敏感效应", short: "情绪细腻，容易受伤", full: "SG93IGEgZ2VuZXJhdGVkIG9mIHBlb3BsZSB3aG8gYXJlIGhpZ2hseSBzZW5zaXRpdmUgdG8gZXZlcnl0aGluZyBhbmQgY2l0eXMuIEhvdyBmb3IgdGhlbSB0byBiZSBhIGdlbmVyYXRlZCBvZiBwZW9wbGUgd2hvIGFyZSBoaWdobHkgc2Vuc2l0aXZlIHRvIGV2ZXJ5dGhpbmcgYW5kIGNpdHlzLg==", type: "main" },
-    imposter: { name: "冒名顶替综合征", short: "总觉得自己不配，害怕被看穿", full: "WW91IGFsd2F5cyBmZWVsIHRoYXQgeW91IGFyZSBub3QgZGVzZXJ2aW5nIG9mIHRoZSBzdWNjZXNzLCBhbmQgdGhhdCB5b3UgYXJlIGEgdG90YWwgbGllciBhbmQgdG8gYmUgZXhwb3NlZCBhdCBhbnkgbW9tZW50Lg==", type: "hidden" },
-    sunkcost: { name: "沉没成本效应", short: "舍不得放手，越陷越深", full: "WW91IGNhbid0IGdpdmUgdXAgdGhlIHRoaW5ncyB5b3UndmUgYmVlbiB3b3JyaWVkIGFib3V0LCBldmVuIGlmIHRoZXkgYXJlIG5vdCBnb29kIGZvciB5b3UsIGJjLiB5b3UgZmVlbCBpdCB3aWxsIGJlIGEgd2FzdGUu", type: "hidden" },
-    confirmation: { name: "确认偏误", short: "只相信自己愿意相信的", full: "WW91IG9ubHkgc2VlIHRoZSBpbmZvcm1hdGlvbiB0aGF0IHN1cHBvcnRzIHlvdXIgY3VycmVudCB2aWV3cyBhbmQgaWdub3JlIGFueXRoaW5nIHRoYXQgZGlzYWdyZWVzIHlvdS4=", type: "hidden" },
-    selfhandicap: { name: "自我设限效应", short: "还没开始，就先给自己找退路", full: "WW91IGluc3RhbGwgYmFycmllcnMgYmVmb3JlIGRvaW5nIHRoaW5ncywgc28gdGhhdCBpZiB5b3UgZmFpbCwgeW91IGNhbiBibGFtZSBpdCBvbiB0aGUgYmFycmllciBpbnN0ZWFkIG9mIGxhd25lc3Mu", type: "hidden" }
+  spotlight: { name: "聚光灯效应", short: "总觉得所有人都在关注自己", full: "VGhlIHBvc3RsaWdodCBmZWFjdCBlbmdpbmVlcmluZyB0aGF0IGJvZHkgb3RoZXJzIGFyZSBjb25zaWRlcmF0dXJlbHkgd2FpdGluZyB0byBzYXkgb3IgZG8gbm90IHNvbWUgdGhpbmcgdG8geW91Lg==", type: "main" },
+  whitebear: { name: "白熊效应", short: "越想忘记，越挥之不去", full: "VGhlIHdoaXRlIGJlYXIgZmVhY3QgaXMgdGhlIGFic29sdXRlIG9mIHdoYXQgeW91IGFyZSB0cnlpbmcgdG8gZm9yZ2V0LiBZb3VyIGJyYWluIG1lYW5zIG91dCB0aGUgb3B0aW9ucyB5b3UgYWx3YXlzIGFyZSB0cnlpbmcgdG8gZm9yZ2V0LiA=", type: "main" },
+  peoplepleaser: { name: "讨好型效应", short: "习惯性迁就，害怕拒绝", full: "UGVvcGxlcGxlYXNlciBmZWFjdCBpcyBhIHN0YW5kYXJkIHBlcmlvZGFuY2UgdGhhdCBvbmUgd2lsbCBjYWxjdWxhdGUgYW5kIGZhbGxvd2UgdGhlbXNlbHZlcyBpbiBmYXZlIG9mIG90aGVycy4g", type: "main" },
+  internal: { name: "精神内耗效应", short: "反复复盘，自我消耗", full: "SW50ZXJuYWwgY29uc3VtZXJpbmcgYW5kIG1pbmltYWwgY29uc3VtZXJpbmcgdGhhdCBjYW4gZGlzY292ZXIgYSBsaW5nIGxvbmcgYW5kIGF0dHJpYnV0ZSB0aGUgbW9zdCBzdWJqZWN0IGZvciBpbmRpZXMgb2Ygb3RoZXJzLiA=", type: "main" },
+  ruminate: { name: "情绪反刍", short: "反复咀嚼负面情绪", full: "Um91bmluYXRpb24gaXMgdGhlIGFjdGl2aXR5IG9mIGVudHJ5bGlnaHRpbmcgb24gbmVnYXJpYWwgc3RpbGwgc2Vuc2VzIGFuZCBtb3Jpb3MgYWZ0ZXIgdGhleSBhcmUgZGVjb2RlZCBhcyBuZWVmYWJsZS4g", type: "main" },
+  avoid: { name: "回避型心理", short: "害怕冲突，选择逃避", full: "QXZvaWRpbmcgY29uZmxpY3QgaXMgYSBzdGFuZGFyZCByZWFjdGlvbiB0aGF0IG1ha2VzIHlvdSBjaG9vc2UgdG8gZXNjYXBlIGluc3RlYWQgb2YgY29tbXVuaWNhdGUgYW5kIHNvbHZlIGl0LiA=", type: "main" },
+  control: { name: "控制欲效应", short: "总想掌控一切，否则焦虑", full: "Q29udHJvbCBmZWVlZGluZyBtYWtlcyB5b3Ugd2FudCB0byBjb250cm9sIGV2ZXJ5dGhpbmcgYXJvdW5kIHlvdS4gSWYgeW91IGNhbid0IGNvbnRyb2wgaXQsIHlvdSB3aWxsIGZlZWwgYW54aW91cyBhbmQgcGFuaWMu", type: "main" },
+  sensitive: { name: "高敏感效应", short: "情绪细腻，容易受伤", full: "SG93IGEgZ2VuZXJhdGVkIG9mIHBlb3BsZSB3aG8gYXJlIGhpZ2hseSBzZW5zaXRpdmUgdG8gZXZlcnl0aGluZyBhbmQgY2l0eXMuIEhvdyBmb3IgdGhlbSB0byBiZSBhIGdlbmVyYXRlZCBvZiBwZW9wbGUgd2hvIGFyZSBoaWdobHkgc2Vuc2l0aXZlIHRvIGV2ZXJ5dGhpbmcgYW5kIGNpdHlzLg==", type: "main" },
+  imposter: { name: "冒名顶替综合征", short: "总觉得自己不配，害怕被看穿", full: "WW91IGFsd2F5cyBmZWVsIHRoYXQgeW91IGFyZSBub3QgZGVzZXJ2aW5nIG9mIHRoZSBzdWNjZXNzLCBhbmQgdGhhdCB5b3UgYXJlIGEgdG90YWwgbGllciBhbmQgdG8gYmUgZXhwb3NlZCBhdCBhbnkgbW9tZW50Lg==", type: "hidden" },
+  sunkcost: { name: "沉没成本效应", short: "舍不得放手，越陷越深", full: "WW91IGNhbid0IGdpdmUgdXAgdGhlIHRoaW5ncyB5b3UndmUgYmVlbiB3b3JyaWVkIGFib3V0LCBldmVuIGlmIHRoZXkgYXJlIG5vdCBnb29kIGZvciB5b3UsIGJjLiB5b3UgZmVlbCBpdCB3aWxsIGJlIGEgd2FzdGUu", type: "hidden" },
+  confirmation: { name: "确认偏误", short: "只相信自己愿意相信的", full: "WW91IG9ubHkgc2VlIHRoZSBpbmZvcm1hdGlvbiB0aGF0IHN1cHBvcnRzIHlvdXIgY3VycmVudCB2aWV3cyBhbmQgaWdub3JlIGFueXRoaW5nIHRoYXQgZGlzYWdyZWVzIHlvdS4=", type: "hidden" },
+  selfhandicap: { name: "自我设限效应", short: "还没开始，就先给自己找退路", full: "WW91IGluc3RhbGwgYmFycmllcnMgYmVmb3JlIGRvaW5nIHRoaW5ncywgc28gdGhhdCBpZiB5b3UgZmFpbCwgeW91IGNhbiBibGFtZSBpdCBvbiB0aGUgYmFycmllciBpbnN0ZWFkIG9mIGxhd25lc3Mu", type: "hidden" }
 };
-
-const HIDDEN_BONUS = {
-    name: "情绪钝感力",
-    desc: "不易受干扰，自我恢复能力强",
-    content: "【成因】天生敏感度低或后天习得技巧。\n【改善】①继续保持觉察 ②帮助身边敏感的人 ③做情绪稳定榜样。"
-};
+const HIDDEN_BONUS = { name: "情绪钝感力", content: "【成因】天生敏感度低或后天习得技巧。\n【改善】①继续保持觉察 ②帮助身边敏感的人 ③做情绪稳定榜样。" };
 const ANTI_LIST = "🧾 反内耗行动清单：\n1. 微小完成事项（整理桌面）\n2. 焦虑笔记本（写下来就关闭）\n3. 5分钟身体扫描冥想\n4. 给情绪命名“我现在是______”\n5. 社交断舍离";
 
-// ==================== 10道爆款题库 ====================
+// 10道题目
 const QUESTIONS = [
-    { q: "别人对你的评价，你会反复琢磨很久吗？", opt: ["完全会","偶尔会","基本不会","完全不在意"], sbti: [4,3,2,1], effect: [{key:"spotlight",w:2},{key:"sensitive",w:1}] },
-    { q: "越想忘记一件小事，脑子里越挥之不去？", opt: ["经常这样","偶尔","很少","不会"], sbti: [4,3,2,1], effect: [{key:"whitebear",w:2},{key:"ruminate",w:1}] },
-    { q: "面对别人请求，很难开口拒绝？", opt: ["次次妥协","勉强答应","选择性拒绝","果断拒绝"], sbti: [4,3,2,1], effect: [{key:"peoplepleaser",w:2}] },
-    { q: "睡前经常复盘白天、陷入内耗胡思乱想？", opt: ["每天","经常","偶尔","从不"], sbti: [4,3,2,1], effect: [{key:"internal",w:2},{key:"ruminate",w:1}] },
-    { q: "遇到矛盾第一反应是逃避而不是解决？", opt: ["是的","一般","很少","不会"], sbti: [4,3,2,1], effect: [{key:"avoid",w:2}] },
-    { q: "总想掌控身边的一切，否则会感到不安？", opt: ["是的","偶尔","很少","从不"], sbti: [4,3,2,1], effect: [{key:"control",w:2}] },
-    { q: "情绪波动很大，很容易被小事影响心情？", opt: ["经常","偶尔","很少","从不"], sbti: [4,3,2,1], effect: [{key:"sensitive",w:2}] },
-    { q: "总是不自觉地迎合别人，忽略自己的感受？", opt: ["总是","经常","偶尔","从不"], sbti: [4,3,2,1], effect: [{key:"peoplepleaser",w:2},{key:"internal",w:1}] },
-    { q: "在公众场合会特别在意自己的言行举止？", opt: ["非常在意","比较在意","不太在意","完全不在意"], sbti: [4,3,2,1], effect: [{key:"spotlight",w:2}] },
-    { q: "对于已经发生的事情，会反复思考如果当初...", opt: ["经常","偶尔","很少","从不"], sbti: [4,3,2,1], effect: [{key:"ruminate",w:2},{key:"whitebear",w:1}] }
+  { q: "别人对你的评价，你会反复琢磨很久吗？", opt: ["完全会","偶尔会","基本不会","完全不在意"], sbti: [4,3,2,1], effect: [{key:"spotlight",w:2},{key:"sensitive",w:1}] },
+  { q: "越想忘记一件小事，脑子里越挥之不去？", opt: ["经常这样","偶尔","很少","不会"], sbti: [4,3,2,1], effect: [{key:"whitebear",w:2},{key:"ruminate",w:1}] },
+  { q: "面对别人请求，很难开口拒绝？", opt: ["次次妥协","勉强答应","选择性拒绝","果断拒绝"], sbti: [4,3,2,1], effect: [{key:"peoplepleaser",w:2}] },
+  { q: "睡前经常复盘白天、陷入内耗胡思乱想？", opt: ["每天","经常","偶尔","从不"], sbti: [4,3,2,1], effect: [{key:"internal",w:2},{key:"ruminate",w:1}] },
+  { q: "遇到矛盾第一反应是逃避而不是解决？", opt: ["是的","一般","很少","不会"], sbti: [4,3,2,1], effect: [{key:"avoid",w:2}] },
+  { q: "总想掌控身边的一切，否则会感到不安？", opt: ["是的","偶尔","很少","从不"], sbti: [4,3,2,1], effect: [{key:"control",w:2}] },
+  { q: "情绪波动很大，很容易被小事影响心情？", opt: ["经常","偶尔","很少","从不"], sbti: [4,3,2,1], effect: [{key:"sensitive",w:2}] },
+  { q: "总是不自觉地迎合别人，忽略自己的感受？", opt: ["总是","经常","偶尔","从不"], sbti: [4,3,2,1], effect: [{key:"peoplepleaser",w:2},{key:"internal",w:1}] },
+  { q: "在公众场合会特别在意自己的言行举止？", opt: ["非常在意","比较在意","不太在意","完全不在意"], sbti: [4,3,2,1], effect: [{key:"spotlight",w:2}] },
+  { q: "对于已经发生的事情，会反复思考如果当初...", opt: ["经常","偶尔","很少","不会"], sbti: [4,3,2,1], effect: [{key:"ruminate",w:2},{key:"whitebear",w:1}] }
 ];
 
-let currentIdx = 0;
-let sbtiScore = 0;
-let effectScores = {};
-let inviteId = localStorage.getItem('inviteId') || ('inv_' + Date.now() + '_' + Math.random().toString(36).substr(2,6));
+let currentIdx = 0, sbtiScore = 0, effectScores = {}, inviteId = localStorage.getItem('inviteId') || ('inv_' + Date.now() + '_' + Math.random().toString(36).substr(2,6)), isPaid = false, extraUnlocked = false;
 localStorage.setItem('inviteId', inviteId);
-let isPaid = false;
-let extraUnlocked = false;
-
 Object.keys(EFFECT_LIB).forEach(k => effectScores[k] = 0);
 
-// ==================== 核心函数 ====================
-function startTest() {
-    currentIdx = 0;
-    sbtiScore = 0;
-    Object.keys(effectScores).forEach(k => effectScores[k] = 0);
-    renderQuestion();
-    switchPage("test");
-}
-
-function renderQuestion() {
-    const q = QUESTIONS[currentIdx];
-    const questionEl = document.getElementById("questionText");
-    const container = document.getElementById("optionsContainer");
-    if(!questionEl || !container) return;
-
-    questionEl.innerText = q.q;
-    container.innerHTML = "";
-    q.opt.forEach((opt, idx) => {
-        const div = document.createElement("div");
-        div.className = "option";
-        div.innerText = opt;
-        div.onclick = () => selectOption(idx);
-        container.appendChild(div);
-    });
-    const progress = ((currentIdx + 1) / QUESTIONS.length) * 100;
-    document.getElementById("progressFill").style.width = progress + "%";
-}
-
-function selectOption(optIndex) {
-    const q = QUESTIONS[currentIdx];
-    sbtiScore += q.sbti[optIndex];
-    q.effect.forEach(e => {
-        if (EFFECT_LIB[e.key]?.type === "main") effectScores[e.key] += e.w;
-    });
-    currentIdx++;
-    currentIdx < QUESTIONS.length ? renderQuestion() : generateResult();
-}
-
-function fillHiddenScores() {
-    const mainKeys = Object.keys(EFFECT_LIB).filter(k => EFFECT_LIB[k].type === "main");
-    const total = mainKeys.reduce((sum, k) => sum + effectScores[k], 0);
-    const avg = mainKeys.length ? total / mainKeys.length : 8;
-    Object.keys(EFFECT_LIB).forEach(k => {
-        if (EFFECT_LIB[k].type === "hidden") {
-            effectScores[k] = effectScores[k] || Math.floor(avg * 0.8) + 1;
-        }
-    });
-}
-
-function safeDecode(base64) {
-    try { return atob(base64); } catch(e) { return "暂无详细解析，请稍后重试。"; }
-}
-
+function getRankText(score) { if (score <= 11) return "超越了 93% 的测试者"; if (score <= 19) return "超越了 68% 的测试者"; if (score <= 30) return "超越了 42% 的测试者"; return "超越了 21% 的测试者"; }
+function getRarityText(score) { if (score <= 11) return "🌟 稀有度：极为罕见"; if (score <= 19) return "✨ 稀有度：比较独特"; if (score <= 30) return "🍃 稀有度：较为常见"; return "🌿 稀有度：主流人群"; }
+function safeDecode(b64) { try { return atob(b64); } catch(e) { return "解析内容加载失败，请刷新重试。"; } }
+function fillHiddenScores() { const mains = Object.keys(EFFECT_LIB).filter(k=>EFFECT_LIB[k].type==="main"); const avg = mains.reduce((s,k)=>s+effectScores[k],0)/mains.length || 8; Object.keys(EFFECT_LIB).forEach(k=>{ if(EFFECT_LIB[k].type==="hidden") effectScores[k]=effectScores[k]||Math.floor(avg*0.75+2); }); }
+function switchPage(id) { document.querySelectorAll(".page").forEach(p=>p.classList.remove("active")); document.getElementById(id).classList.add("active"); }
+function startTest() { currentIdx = 0; sbtiScore = 0; Object.keys(effectScores).forEach(k => effectScores[k] = 0); renderQuestion(); switchPage("test"); }
+function renderQuestion() { const q = QUESTIONS[currentIdx]; document.getElementById("questionText").innerText = q.q; const container = document.getElementById("optionsContainer"); container.innerHTML = ""; q.opt.forEach((opt, idx) => { const div = document.createElement("div"); div.className = "option"; div.innerText = opt; div.onclick = () => { selectOption(idx); }; container.appendChild(div); }); document.getElementById("progressFill").style.width = ((currentIdx+1)/QUESTIONS.length)*100 + "%"; }
+function selectOption(optIndex) { const q = QUESTIONS[currentIdx]; sbtiScore += q.sbti[optIndex]; q.effect.forEach(e => { if (EFFECT_LIB[e.key]?.type === "main") effectScores[e.key] += e.w; }); currentIdx++; if (currentIdx < QUESTIONS.length) renderQuestion(); else generateResult(); }
 function generateResult() {
-    let personality = "", desc = "";
-    if (sbtiScore <= 15) {
-        personality = "🐒 内耗型吗喽";
-        desc = "表面平静，内心早已上演了八百集连续剧，主打一个精神内耗。";
-    } else if (sbtiScore <= 25) {
-        personality = "⚖️ 矛盾摆烂人";
-        desc = "一边想躺平摆烂，一边又忍不住焦虑内卷，反复横跳。";
-    } else if (sbtiScore <= 35) {
-        personality = "🌿 松弛自愈者";
-        desc = "情绪稳定，心态平和，能快速自我调节，朋友眼中的治愈系大神。";
-    } else {
-        personality = "👁️ 人间清醒者";
-        desc = "看透一切，活得通透，不被世俗眼光束缚，只做真实的自己。";
-    }
-    document.getElementById("personalityTag").innerText = personality;
-    document.getElementById("personalityDesc").innerText = desc;
+  let personality = "", desc = "";
+  if (sbtiScore <= 11) { personality = "🐒 内耗型吗喽"; desc = "表面平静，内心早已上演了八百集连续剧。"; }
+  else if (sbtiScore <= 19) { personality = "⚖️ 矛盾摆烂人"; desc = "一边想躺平，一边忍不住内卷。"; }
+  else if (sbtiScore <= 30) { personality = "🌿 松弛自愈者"; desc = "情绪稳定，自我调节能力强。"; }
+  else { personality = "👁️ 人间清醒者"; desc = "活得通透，不被世俗束缚。"; }
+  document.getElementById("personalityTag").innerText = personality;
+  document.getElementById("rareBadge").innerHTML = getRarityText(sbtiScore);
+  document.getElementById("rankBadge").innerHTML = `🏆 ${getRankText(sbtiScore)}`;
+  
+  const dims = [
+    { name: "内耗指数", score: Math.min(100, (effectScores.internal||0)*10 + (effectScores.ruminate||0)*5) },
+    { name: "社交回避", score: Math.min(100, (effectScores.avoid||0)*15 + (effectScores.spotlight||0)*5) },
+    { name: "讨好倾向", score: Math.min(100, (effectScores.peoplepleaser||0)*20) },
+    { name: "反刍倾向", score: Math.min(100, (effectScores.ruminate||0)*15 + (effectScores.whitebear||0)*5) }
+  ];
+  let dimHtml = `<div style="font-weight:700; margin:20px 0 12px;">你的人格维度</div>`;
+  dims.forEach(d => { dimHtml += `<div class="dimension-item"><div class="dimension-label"><span>${d.name}</span><span>${d.score}%</span></div><div class="dimension-bar-bg"><div class="dimension-bar-fill" style="width:${d.score}%"></div></div></div>`; });
+  document.getElementById("dimensionSection").innerHTML = dimHtml;
 
-    // 维度展示
-    const dims = [
-        { name: "内耗指数", score: Math.min(100, (effectScores.internal||0)*10 + (effectScores.ruminate||0)*5) },
-        { name: "社交回避", score: Math.min(100, (effectScores.avoid||0)*15 + (effectScores.spotlight||0)*5) },
-        { name: "讨好倾向", score: Math.min(100, (effectScores.peoplepleaser||0)*20) },
-        { name: "反刍倾向", score: Math.min(100, (effectScores.ruminate||0)*15 + (effectScores.whitebear||0)*5) }
-    ];
-    let dimHtml = `<div class="section-title">你的人格维度</div>`;
-    dims.forEach(d => {
-        dimHtml += `<div class="dimension-item">
-            <div class="dimension-label"><span>${d.name}</span><span>${d.score}%</span></div>
-            <div class="dimension-bar-bg"><div class="dimension-bar-fill" style="width:${d.score}%"></div></div>
-        </div>`;
-    });
-    document.getElementById("dimensionSection").innerHTML = dimHtml;
-
-    // 免费结果：只展示常驻效应的TOP1，其余4个常驻锁定（隐藏效应完全不显示）
-    const mainSorted = Object.entries(effectScores)
-        .filter(([k]) => EFFECT_LIB[k]?.type === "main")
-        .sort((a,b)=>b[1]-a[1]);
-    
-    const top = mainSorted[0];
-    const topData = EFFECT_LIB[top[0]];
-    const decoded = safeDecode(topData.full);
-    const improvement = decoded.split('【改善】')[1]?.split('\n')[0] || "接纳自己，慢慢调整";
-    document.getElementById("effectFree").innerHTML = `
-        <div class="effect-free">
-            <div class="effect-name">${topData.name}</div>
-            <div class="effect-desc">${topData.short}<br>✨ 今日改善：${improvement}</div>
-        </div>`;
-
-    const lockedDiv = document.getElementById("effectLocked");
-    lockedDiv.innerHTML = "";
-    for (let i=1; i<Math.min(5, mainSorted.length); i++) {
-        const [key, score] = mainSorted[i];
-        const data = EFFECT_LIB[key];
-        lockedDiv.innerHTML += `
-            <div class="effect-locked">
-                <div class="blur">
-                    <div class="effect-name">${data.name}</div>
-                    <div class="effect-desc">${data.short} —— 解锁查看完整成因+改善步骤</div>
-                </div>
-                <div class="lock-overlay">🔒</div>
-            </div>`;
-    }
-
-    checkUnlock();
-    switchPage("result");
+  const mainSorted = Object.entries(effectScores).filter(([k])=>EFFECT_LIB[k]?.type==="main").sort((a,b)=>b[1]-a[1]);
+  const topKey = mainSorted[0][0];
+  const topData = EFFECT_LIB[topKey];
+  const decoded = safeDecode(topData.full);
+  const improvement = decoded.split('【改善】')[1]?.split('\n')[0] || "接纳自己，慢慢调整";
+  document.getElementById("effectFree").innerHTML = `<div class="effect-free"><div class="effect-name">${topData.name}</div><div class="effect-desc">${topData.short}<br>✨ 今日改善：${improvement}</div></div>`;
+  let lockedHtml = "";
+  for(let i=1; i<Math.min(5, mainSorted.length); i++) { const data = EFFECT_LIB[mainSorted[i][0]]; lockedHtml += `<div class="effect-locked"><div class="blur"><div class="effect-name">${data.name}</div><div class="effect-desc">${data.short} —— 解锁查看完整成因+改善步骤</div></div><div class="lock-overlay">🔒</div></div>`; }
+  document.getElementById("effectLocked").innerHTML = lockedHtml;
+  
+  const ip = IP_MAP[topKey] || IP_MAP.default;
+  document.getElementById("ipEmoji").innerHTML = ip.emoji;
+  document.getElementById("ipName").innerHTML = ip.name;
+  document.getElementById("sloganText").innerHTML = `✨ ${ip.slogan}`;
+  document.getElementById("topEffectName").innerHTML = topData.name;
+  document.getElementById("subEffect").innerHTML = `核心心理效应：<strong>${topData.name}</strong>`;
+  
+  checkUnlock();
+  switchPage("result");
 }
-
 function showFullContent() {
-    fillHiddenScores();
-    const allEffects = Object.entries(effectScores)
-        .filter(([k]) => EFFECT_LIB[k])
-        .sort((a,b)=>b[1]-a[1]);
-    let effectsHtml = "";
-    allEffects.forEach(([key, score]) => {
-        const data = EFFECT_LIB[key];
-        const fullText = safeDecode(data.full);
-        effectsHtml += `
-            <div class="effect-free">
-                <div class="effect-name">${data.name} (强度 ${score})</div>
-                <div class="effect-desc">${fullText.replace(/\n/g,'<br>')}</div>
-            </div>`;
-    });
-    if (extraUnlocked) {
-        effectsHtml += `
-            <div class="effect-free" style="border-left-color:#f97316;">
-                <div class="effect-name">🎁 隐藏福利：${HIDDEN_BONUS.name}</div>
-                <div class="effect-desc">${HIDDEN_BONUS.content.replace(/\n/g,'<br>')}</div>
-            </div>`;
-    }
-    document.getElementById("effectFree").innerHTML = effectsHtml;
-    document.getElementById("effectLocked").innerHTML = "";
-    document.getElementById("unlockBtn").style.display = "none";
-    document.getElementById("payTip").style.display = "none";
-    document.getElementById("benefitsList").style.display = "none";
+  fillHiddenScores();
+  const all = Object.entries(effectScores).filter(([k])=>EFFECT_LIB[k]).sort((a,b)=>b[1]-a[1]);
+  let html = "";
+  all.forEach(([key,score])=>{ const d=EFFECT_LIB[key]; html+=`<div class="effect-free"><div class="effect-name">${d.name} (强度 ${score})</div><div class="effect-desc">${safeDecode(d.full).replace(/\n/g,'<br>')}</div></div>`; });
+  if(extraUnlocked) html+=`<div class="effect-free" style="border-left-color:#f97316;"><div class="effect-name">🎁 隐藏福利：${HIDDEN_BONUS.name}</div><div class="effect-desc">${HIDDEN_BONUS.content}</div></div>`;
+  document.getElementById("effectFree").innerHTML = html;
+  document.getElementById("effectLocked").innerHTML = "";
+  document.getElementById("unlockBtn").style.display = "none";
+  document.querySelector(".pay-tip") && (document.querySelector(".pay-tip").style.display = "none");
+  document.querySelector(".benefits-list") && (document.querySelector(".benefits-list").style.display = "none");
 }
+function goPay() { window.open(CONFIG.PAY_URL, '_blank'); setTimeout(()=>{ if(confirm("支付已完成？点击确定自动解锁")) unlockFull(); },2000); }
+function unlockFull() { isPaid=true; localStorage.setItem('sbti_paid_expire', Date.now()+CONFIG.EXPIRE_HOURS*3600000); showFullContent(); }
+function checkUnlock() { if(new URLSearchParams(location.search).get('unlock')===CONFIG.UNLOCK_KEY){ unlockFull(); history.replaceState({},'',location.pathname); return; } let exp = localStorage.getItem('sbti_paid_expire'); if(exp && Date.now()<parseInt(exp)){ isPaid=true; showFullContent(); } }
+function getShareText() { const p=document.getElementById('personalityTag').innerText, e=document.getElementById('topEffectName').innerText, emoji=document.getElementById('ipEmoji').innerText, rank=document.getElementById('rankBadge').innerText; return `🔥 刚测出我是 ${p}！\n我的心理小动物：${emoji}\n核心效应：${e}\n${rank}\n快来测测你的专属心理小动物 👉 ${location.origin}${location.pathname}?invite=${inviteId}`; }
+function copyInviteLink() { const text=getShareText(); navigator.clipboard.writeText(text).then(()=>{ const t=document.getElementById("copyToast"); t.style.display="block"; setTimeout(()=>t.style.display="none",2000); }).catch(()=>alert("复制失败")); }
+async function generatePoster() { let header=document.querySelector(".result-header"); if(!header) return; let clone=header.cloneNode(true); clone.style.width="320px"; clone.style.padding="20px"; clone.style.background="white"; clone.style.borderRadius="48px"; if(CONFIG.QR_CODE_URL && CONFIG.QR_CODE_URL!=="https://example.com/qr.png") { let qrDiv=document.createElement("div"); qrDiv.style.textAlign="center"; qrDiv.style.marginTop="16px"; qrDiv.innerHTML=`<img src="${CONFIG.QR_CODE_URL}" width="80">`; clone.appendChild(qrDiv); } document.body.appendChild(clone); try{ let canvas=await html2canvas(clone,{scale:1.5,backgroundColor:"#fff"}); let a=document.createElement('a'); a.download="SBTI_poster.png"; a.href=canvas.toDataURL(); a.click(); }catch(e){ alert("生成失败"); } document.body.removeChild(clone); }
+function fakeShareUnlock() { if(extraUnlocked){ alert("福利已解锁！"); return; } extraUnlocked=true; localStorage.setItem('sbti_extra_unlocked','true'); alert("🎉 分享成功！已解锁「情绪钝感力」+ 反内耗清单\n\n"+ANTI_LIST); if(isPaid) showFullContent(); else { let extraHtml=`<div class="effect-free" style="border-left-color:#f97316;"><div class="effect-name">🎁 已解锁福利：${HIDDEN_BONUS.name}</div><div class="effect-desc">${HIDDEN_BONUS.content}</div></div>`; document.getElementById("effectFree").innerHTML += extraHtml; } }
 
-// ==================== 付费 & 解锁 ====================
-function goPay() {
-    window.open(CONFIG.PAY_URL, '_blank');
-    setTimeout(() => {
-        if(confirm("支付已完成？点击确定自动解锁")) unlockFull();
-    }, 2000);
-}
-
-function unlockFull() {
-    isPaid = true;
-    localStorage.setItem('sbti_paid_expire', Date.now() + CONFIG.EXPIRE_HOURS*3600000);
-    showFullContent();
-}
-
-function checkUnlock() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlKey = urlParams.get('unlock');
-    if(urlKey === CONFIG.UNLOCK_KEY) {
-        unlockFull();
-        window.history.replaceState({}, document.title, window.location.pathname);
-        return;
-    }
-    const expire = localStorage.getItem('sbti_paid_expire');
-    if(expire && Date.now() < parseInt(expire)) {
-        isPaid = true;
-        showFullContent();
-    }
-}
-
-// ==================== 分享功能 ====================
-function copyInviteLink() {
-    const link = window.location.origin + window.location.pathname + "?invite=" + inviteId;
-    const toast = document.getElementById("copyToast");
-    try {
-        navigator.clipboard.writeText(link);
-        toast.style.display = "block";
-        setTimeout(() => toast.style.display = "none", 1500);
-    } catch (e) {
-        alert("链接复制成功：" + link);
-    }
-}
-
-async function generatePoster() {
-    const card = document.getElementById("resultCard");
-    if(!card) { alert("生成失败，请稍后重试"); return; }
-    const cloneCard = card.cloneNode(true);
-    cloneCard.style.width = "360px";
-    cloneCard.style.padding = "20px";
-    cloneCard.style.backgroundColor = "#ffffff";
-    if(CONFIG.QR_CODE_URL && CONFIG.QR_CODE_URL !== "https://你的网站二维码图片.png") {
-        const qrContainer = document.createElement("div");
-        qrContainer.style.textAlign = "center";
-        qrContainer.style.marginTop = "16px";
-        qrContainer.innerHTML = `<img src="${CONFIG.QR_CODE_URL}" width="100" style="border-radius:12px;">`;
-        cloneCard.appendChild(qrContainer);
-    }
-    document.body.appendChild(cloneCard);
-    try {
-        const canvas = await html2canvas(cloneCard, {
-            useCORS: true,
-            scale: 1.5,
-            backgroundColor: '#ffffff'
-        });
-        const link = document.createElement('a');
-        link.download = 'SBTI人格测试.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-    } catch(e) { alert("生成失败，请直接截图保存"); }
-    document.body.removeChild(cloneCard);
-}
-
-function fakeShareUnlock() {
-    if(extraUnlocked) { alert("🎉 福利已经解锁啦！"); return; }
-    extraUnlocked = true;
-    localStorage.setItem('sbti_extra_unlocked', 'true');
-    alert("🎉 分享成功！已解锁「情绪钝感力」+ 反内耗清单\n\n" + ANTI_LIST);
-    if(isPaid) {
-        showFullContent();
-    } else {
-        const extraHtml = `
-            <div class="effect-free" style="border-left-color:#f97316;">
-                <div class="effect-name">🎁 已解锁福利：${HIDDEN_BONUS.name}</div>
-                <div class="effect-desc">${HIDDEN_BONUS.content}</div>
-            </div>`;
-        document.getElementById("effectFree").innerHTML += extraHtml;
-    }
-}
-
-function switchPage(id) {
-    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-    const target = document.getElementById(id);
-    if(target) target.classList.add("active");
-}
-
-// ==================== 初始化 ====================
-window.addEventListener('load', () => {
-    extraUnlocked = localStorage.getItem('sbti_extra_unlocked') === 'true';
-    checkUnlock();
-    const unlockBtn = document.getElementById("unlockBtn");
-    if(unlockBtn) unlockBtn.onclick = goPay;
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('startBtn').onclick = startTest;
+  const unlockBtn = document.getElementById('unlockBtn');
+  if(unlockBtn) unlockBtn.onclick = goPay;
+  document.getElementById('copyInviteBtn').onclick = copyInviteLink;
+  document.getElementById('genPosterBtn').onclick = generatePoster;
+  document.getElementById('shareUnlockBtn').onclick = fakeShareUnlock;
+  extraUnlocked = localStorage.getItem('sbti_extra_unlocked') === 'true';
+  checkUnlock();
 });
 </script>
 </body>
