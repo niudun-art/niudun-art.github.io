@@ -198,12 +198,16 @@
       text-align: center;
       border: 1px solid #ffd966;
     }
-    .action-hook .title { font-size: 1.3rem; font-weight: 800; color: #d9480f; margin-bottom: 8px; }
-    .action-hook .subtitle { font-size: 0.85rem; color: #6c757d; margin-bottom: 20px; }
+    .action-hook .title {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: #d9480f;
+      margin-bottom: 8px;
+    }
+    .action-hook .subtitle { font-size: 0.9rem; color: #6c757d; margin-bottom: 20px; }
     .btn-pay { background: linear-gradient(135deg, #ef4444, #f97316); color: white; border: none; padding: 12px 24px; border-radius: 60px; font-weight: 800; font-size: 1rem; cursor: pointer; margin: 6px; }
     .btn-share { background: white; border: 2px solid #f97316; color: #f97316; padding: 10px 20px; border-radius: 60px; font-weight: 700; font-size: 0.95rem; cursor: pointer; margin: 6px; }
     
-    /* 付费权益列表优化：✅ 字体更大，列表项字体更大 */
     .benefits-list {
       margin: 20px 0 0 20px;
       list-style: none;
@@ -213,7 +217,7 @@
       font-size: 1rem;
       font-weight: 500;
       margin-bottom: 12px;
-      padding-left: 32px;
+      padding-left: 30px;
       position: relative;
       line-height: 1.4;
     }
@@ -221,7 +225,7 @@
       content: "✅";
       position: absolute;
       left: 0;
-      font-size: 1.4rem;
+      font-size: 1.15rem;
       top: -1px;
     }
 
@@ -241,14 +245,15 @@
       .ip-card-large img { width: 80px; height: 80px; }
       .personality-tag-new { font-size: 1.5rem; }
       .rare-badge { font-size: 0.85rem; padding: 6px 14px; }
-      .benefits-list li { font-size: 0.9rem; padding-left: 28px; }
-      .benefits-list li::before { font-size: 1.2rem; }
+      .action-hook .title { font-size: 1.4rem; }
+      .benefits-list li { font-size: 0.9rem; padding-left: 26px; }
+      .benefits-list li::before { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <!-- 首页 -->
+  <!-- 首页（与之前相同） -->
   <div class="page active" id="home">
     <div class="hero-section">
       <div class="fire-badge"><i class="fas fa-fire"></i> ✨ 全网爆火 · 100w+年轻人已测 ✨ <i class="fas fa-fire"></i></div>
@@ -338,8 +343,9 @@ const CONFIG = {
   EXPIRE_HOURS: 24
 };
 
-// ==================== IP 图片映射（全部12个效应） ====================
+// ==================== IP 图片映射（包含隐藏效应图片） ====================
 const IP_IMG_MAP = {
+  // 8个主效应
   whitebear:   "images_compressed_1mb/whitebear.png",
   peoplepleaser:"images_compressed_1mb/peoplepleaser.png",
   spotlight:   "images_compressed_1mb/spotlight.png",
@@ -348,6 +354,7 @@ const IP_IMG_MAP = {
   avoid:       "images_compressed_1mb/avoid.png",
   control:     "images_compressed_1mb/control.png",
   sensitive:   "images_compressed_1mb/sensitive.png",
+  // 隐藏效应
   imposter:    "images_compressed_1mb/imposter.png",
   sunkcost:    "images_compressed_1mb/sunkcost.png",
   confirmation:"images_compressed_1mb/confirmation.png",
@@ -355,44 +362,45 @@ const IP_IMG_MAP = {
   default:     "images_compressed_1mb/whitebear.png"
 };
 
-// 心理效应库（含前缀）
+// 心理效应库（含前缀、短描述等）
 const EFFECT_LIB = {
-  spotlight: { name: "聚光灯效应", short: "总觉得所有人都在关注自己", prefix: "聚光灯", full: "VGhlIHBvc3RsaWdodCBmZWFjdCBlbmdpbmVlcmluZyB0aGF0IGJvZHkgb3RoZXJzIGFyZSBjb25zaWRlcmF0dXJlbHkgd2FpdGluZyB0byBzYXkgb3IgZG8gbm90IHNvbWUgdGhpbmcgdG8geW91Lg==", type: "main" },
-  whitebear: { name: "白熊效应", short: "越想忘记，越挥之不去", prefix: "白熊", full: "VGhlIHdoaXRlIGJlYXIgZmVhY3QgaXMgdGhlIGFic29sdXRlIG9mIHdoYXQgeW91IGFyZSB0cnlpbmcgdG8gZm9yZ2V0LiBZb3VyIGJyYWluIG1lYW5zIG91dCB0aGUgb3B0aW9ucyB5b3UgYWx3YXlzIGFyZSB0cnlpbmcgdG8gZm9yZ2V0LiA=", type: "main" },
-  peoplepleaser: { name: "讨好型效应", short: "习惯性迁就，害怕拒绝", prefix: "讨好", full: "UGVvcGxlcGxlYXNlciBmZWFjdCBpcyBhIHN0YW5kYXJkIHBlcmlvZGFuY2UgdGhhdCBvbmUgd2lsbCBjYWxjdWxhdGUgYW5kIGZhbGxvd2UgdGhlbXNlbHZlcyBpbiBmYXZlIG9mIG90aGVycy4g", type: "main" },
-  internal: { name: "精神内耗效应", short: "反复复盘，自我消耗", prefix: "内耗", full: "SW50ZXJuYWwgY29uc3VtZXJpbmcgYW5kIG1pbmltYWwgY29uc3VtZXJpbmcgdGhhdCBjYW4gZGlzY292ZXIgYSBsaW5nIGxvbmcgYW5kIGF0dHJpYnV0ZSB0aGUgbW9zdCBzdWJqZWN0IGZvciBpbmRpZXMgb2Ygb3RoZXJzLiA=", type: "main" },
-  ruminate: { name: "情绪反刍", short: "反复咀嚼负面情绪", prefix: "反刍", full: "Um91bmluYXRpb24gaXMgdGhlIGFjdGl2aXR5IG9mIGVudHJ5bGlnaHRpbmcgb24gbmVnYXJpYWwgc3RpbGwgc2Vuc2VzIGFuZCBtb3Jpb3MgYWZ0ZXIgdGhleSBhcmUgZGVjb2RlZCBhcyBuZWVmYWJsZS4g", type: "main" },
-  avoid: { name: "回避型心理", short: "害怕冲突，选择逃避", prefix: "回避", full: "QXZvaWRpbmcgY29uZmxpY3QgaXMgYSBzdGFuZGFyZCByZWFjdGlvbiB0aGF0IG1ha2VzIHlvdSBjaG9vc2UgdG8gZXNjYXBlIGluc3RlYWQgb2YgY29tbXVuaWNhdGUgYW5kIHNvbHZlIGl0LiA=", type: "main" },
-  control: { name: "控制欲效应", short: "总想掌控一切，否则焦虑", prefix: "控制", full: "Q29udHJvbCBmZWVlZGluZyBtYWtlcyB5b3Ugd2FudCB0byBjb250cm9sIGV2ZXJ5dGhpbmcgYXJvdW5kIHlvdS4gSWYgeW91IGNhbid0IGNvbnRyb2wgaXQsIHlvdSB3aWxsIGZlZWwgYW54aW91cyBhbmQgcGFuaWMu", type: "main" },
-  sensitive: { name: "高敏感效应", short: "情绪细腻，容易受伤", prefix: "高敏感", full: "SG93IGEgZ2VuZXJhdGVkIG9mIHBlb3BsZSB3aG8gYXJlIGhpZ2hseSBzZW5zaXRpdmUgdG8gZXZlcnl0aGluZyBhbmQgY2l0eXMuIEhvdyBmb3IgdGhlbSB0byBiZSBhIGdlbmVyYXRlZCBvZiBwZW9wbGUgd2hvIGFyZSBoaWdobHkgc2Vuc2l0aXZlIHRvIGV2ZXJ5dGhpbmcgYW5kIGNpdHlzLg==", type: "main" },
-  imposter: { name: "冒名顶替综合征", short: "总觉得自己不配，害怕被看穿", prefix: "冒名", full: "WW91IGFsd2F5cyBmZWVsIHRoYXQgeW91IGFyZSBub3QgZGVzZXJ2aW5nIG9mIHRoZSBzdWNjZXNzLCBhbmQgdGhhdCB5b3UgYXJlIGEgdG90YWwgbGllciBhbmQgdG8gYmUgZXhwb3NlZCBhdCBhbnkgbW9tZW50Lg==", type: "hidden" },
-  sunkcost: { name: "沉没成本效应", short: "舍不得放手，越陷越深", prefix: "沉没", full: "WW91IGNhbid0IGdpdmUgdXAgdGhlIHRoaW5ncyB5b3UndmUgYmVlbiB3b3JyaWVkIGFib3V0LCBldmVuIGlmIHRoZXkgYXJlIG5vdCBnb29kIGZvciB5b3UsIGJjLiB5b3UgZmVlbCBpdCB3aWxsIGJlIGEgd2FzdGUu", type: "hidden" },
-  confirmation: { name: "确认偏误", short: "只相信自己愿意相信的", prefix: "偏误", full: "WW91IG9ubHkgc2VlIHRoZSBpbmZvcm1hdGlvbiB0aGF0IHN1cHBvcnRzIHlvdXIgY3VycmVudCB2aWV3cyBhbmQgaWdub3JlIGFueXRoaW5nIHRoYXQgZGlzYWdyZWVzIHlvdS4=", type: "hidden" },
-  selfhandicap: { name: "自我设限效应", short: "还没开始，就先给自己找退路", prefix: "设限", full: "WW91IGluc3RhbGwgYmFycmllcnMgYmVmb3JlIGRvaW5nIHRoaW5ncywgc28gdGhhdCBpZiB5b3UgZmFpbCwgeW91IGNhbiBibGFtZSBpdCBvbiB0aGUgYmFycmllciBpbnN0ZWFkIG9mIGxhd25lc3Mu", type: "hidden" }
+  spotlight: { name: "聚光灯效应", short: "总觉得所有人都在关注自己", prefix: "聚光灯", full: "聚光灯效应完整解析...", type: "main" },
+  whitebear: { name: "白熊效应", short: "越想忘记，越挥之不去", prefix: "白熊", full: "白熊效应完整解析...", type: "main" },
+  peoplepleaser: { name: "讨好型效应", short: "习惯性迁就，害怕拒绝", prefix: "讨好", full: "讨好型效应完整解析...", type: "main" },
+  internal: { name: "精神内耗效应", short: "反复复盘，自我消耗", prefix: "内耗", full: "内耗效应完整解析...", type: "main" },
+  ruminate: { name: "情绪反刍", short: "反复咀嚼负面情绪", prefix: "反刍", full: "情绪反刍完整解析...", type: "main" },
+  avoid: { name: "回避型心理", short: "害怕冲突，选择逃避", prefix: "回避", full: "回避型心理完整解析...", type: "main" },
+  control: { name: "控制欲效应", short: "总想掌控一切，否则焦虑", prefix: "控制", full: "控制欲效应完整解析...", type: "main" },
+  sensitive: { name: "高敏感效应", short: "情绪细腻，容易受伤", prefix: "高敏感", full: "高敏感效应完整解析...", type: "main" },
+  // 隐藏效应
+  imposter: { name: "冒名顶替综合征", short: "总觉得自己不配，害怕被看穿", prefix: "冒名", full: "冒名顶替综合征完整解析...", type: "hidden" },
+  sunkcost: { name: "沉没成本效应", short: "舍不得放手，越陷越深", prefix: "沉没", full: "沉没成本效应完整解析...", type: "hidden" },
+  confirmation: { name: "确认偏误", short: "只相信自己愿意相信的", prefix: "偏误", full: "确认偏误完整解析...", type: "hidden" },
+  selfhandicap: { name: "自我设限效应", short: "还没开始，就先给自己找退路", prefix: "设限", full: "自我设限效应完整解析...", type: "hidden" }
 };
 const HIDDEN_BONUS = { name: "情绪钝感力", content: "【成因】天生敏感度低或后天习得技巧。\n【改善】①继续保持觉察 ②帮助身边敏感的人 ③做情绪稳定榜样。" };
-const ANTI_LIST = "🧾 反内耗行动清单：\n1. 微小完成事项（整理桌面）\n2. 焦虑笔记本（写下来就关闭）\n3. 5分钟身体扫描冥想\n4. 给情绪命名“我现在是______”\n5. 社交断舍离";
+const ANTI_LIST = "🧾 反内耗行动清单：\n1. 微小完成事项\n2. 焦虑笔记本\n3. 5分钟冥想\n4. 给情绪命名\n5. 社交断舍离";
 
-// 平衡后的10道题（每题各效应权重合理，总分差异小）
+// ==================== 完美平衡的10道题库（用户提供，已转换为标准格式） ====================
 const QUESTIONS = [
-  { q: "别人对你的评价，你会反复琢磨很久吗？", opt: ["完全会","偶尔会","基本不会","完全不在意"], sbti: [4,3,2,1], effect: [{key:"spotlight",w:2},{key:"sensitive",w:1}] },
-  { q: "越想忘记一件小事，脑子里越挥之不去？", opt: ["经常这样","偶尔","很少","不会"], sbti: [4,3,2,1], effect: [{key:"whitebear",w:2},{key:"ruminate",w:1}] },
-  { q: "面对别人请求，很难开口拒绝？", opt: ["次次妥协","勉强答应","选择性拒绝","果断拒绝"], sbti: [4,3,2,1], effect: [{key:"peoplepleaser",w:2}] },
-  { q: "睡前经常复盘白天、陷入内耗胡思乱想？", opt: ["每天","经常","偶尔","从不"], sbti: [4,3,2,1], effect: [{key:"internal",w:2},{key:"ruminate",w:1}] },
-  { q: "遇到矛盾第一反应是逃避而不是解决？", opt: ["是的","一般","很少","不会"], sbti: [4,3,2,1], effect: [{key:"avoid",w:2}] },
-  { q: "总想掌控身边的一切，否则会感到不安？", opt: ["是的","偶尔","很少","从不"], sbti: [4,3,2,1], effect: [{key:"control",w:2}] },
-  { q: "情绪波动很大，很容易被小事影响心情？", opt: ["经常","偶尔","很少","从不"], sbti: [4,3,2,1], effect: [{key:"sensitive",w:2}] },
-  { q: "总是不自觉地迎合别人，忽略自己的感受？", opt: ["总是","经常","偶尔","从不"], sbti: [4,3,2,1], effect: [{key:"peoplepleaser",w:2},{key:"internal",w:1}] },
-  { q: "在公众场合会特别在意自己的言行举止？", opt: ["非常在意","比较在意","不太在意","完全不在意"], sbti: [4,3,2,1], effect: [{key:"spotlight",w:2}] },
-  { q: "对于已经发生的事情，会反复思考如果当初...", opt: ["经常","偶尔","很少","不会"], sbti: [4,3,2,1], effect: [{key:"ruminate",w:2},{key:"whitebear",w:1}] }
+  { q: "聚会里不小心说错一句话，散场后你的第一反应是？", opt: ["满脑子都是大家会不会因此对我有看法，反复回想当时的场景","拼命告诉自己别想了，但越克制越忍不住琢磨这件事，总想找补回来"], sbti: [4,3], effect: [[{key:"spotlight",w:1},{key:"ruminate",w:1}],[{key:"whitebear",w:1},{key:"control",w:1}]] },
+  { q: "朋友找你帮忙做一件你很不想做的事，你会怎么做？", opt: ["哪怕自己委屈也很难开口拒绝，怕对方不高兴，硬着头皮答应下来","第一反应是找借口推脱，尽量避开和对方的正面沟通与冲突"], sbti: [4,3], effect: [[{key:"peoplepleaser",w:1},{key:"internal",w:1}],[{key:"avoid",w:1},{key:"sensitive",w:1}]] },
+  { q: "团队项目出了纰漏，领导当众询问情况，你会？", opt: ["瞬间浑身紧绷，担心所有人的目光都落在我身上，生怕自己担责","立刻想把事情的来龙去脉和权责划分清楚，把局面拉回自己的掌控里"], sbti: [4,3], effect: [[{key:"spotlight",w:1},{key:"peoplepleaser",w:1}],[{key:"control",w:1},{key:"avoid",w:1}]] },
+  { q: "临睡前想起一件没做好的事，你通常会？", opt: ["脑子停不下来，反复推演各种可能性，越想越睡不着，陷入自我拉扯","逼着自己闭眼睡觉，但脑子里总循环这件事，根本没法清空思绪"], sbti: [4,3], effect: [[{key:"internal",w:1},{key:"control",w:1}],[{key:"whitebear",w:1},{key:"sensitive",w:1}]] },
+  { q: "别人随口一句评价，你会怎么处理？", opt: ["哪怕是无心的话，也会记很久，反复琢磨对方这句话到底是什么意思","会立刻在意自己在对方心里的形象，忍不住调整自己的言行来贴合期待"], sbti: [4,3], effect: [[{key:"ruminate",w:1},{key:"sensitive",w:1}],[{key:"spotlight",w:1},{key:"internal",w:1}]] },
+  { q: "即将面对一场重要的汇报/考试，你最常见的状态是？", opt: ["总忍不住预想最坏的结果，越想越焦虑，反复复盘准备的内容有没有漏洞","会提前反复确认所有细节，生怕哪里出问题，也会格外在意别人的预期"], sbti: [4,3], effect: [[{key:"ruminate",w:1},{key:"whitebear",w:1}],[{key:"peoplepleaser",w:1},{key:"sensitive",w:1}]] },
+  { q: "和人发生矛盾吵架后，你会怎么做？", opt: ["事后总在想当时怎么没说对话，会不会让场面更难看，反复复盘吵架的过程","不想再面对这件事和这个人，尽量避开所有可能碰面的场景，不想再提"], sbti: [4,3], effect: [[{key:"spotlight",w:1},{key:"peoplepleaser",w:1}],[{key:"avoid",w:1},{key:"control",w:1}]] },
+  { q: "计划好的行程突然被打乱，你的第一反应是？", opt: ["心里特别烦躁，忍不住想各种补救方案，一定要把事情拉回原定的节奏里","瞬间没了做事情的兴致，不想处理突发的麻烦，只想躲开摆烂"], sbti: [4,3], effect: [[{key:"control",w:1},{key:"whitebear",w:1}],[{key:"avoid",w:1},{key:"internal",w:1}]] },
+  { q: "身边的人情绪低落，你通常会有什么感受？", opt: ["会立刻捕捉到对方的情绪变化，忍不住怀疑是不是自己哪里做得不好导致的","会跟着陷入低落的情绪里，反复想能不能帮上忙，会不会让事情变得更糟"], sbti: [4,3], effect: [[{key:"sensitive",w:1},{key:"spotlight",w:1}],[{key:"ruminate",w:1},{key:"internal",w:1}]] },
+  { q: "遇到一件很难解决的麻烦事，你最常有的心态是？", opt: ["哪怕硬扛也要做完，生怕别人觉得自己不靠谱，哪怕委屈自己也要把事办妥","第一反应是拖着不处理，能躲就躲，不到万不得已不想直面这件事"], sbti: [4,3], effect: [[{key:"peoplepleaser",w:1},{key:"ruminate",w:1}],[{key:"avoid",w:1},{key:"whitebear",w:1}]] }
 ];
 
 let currentIdx = 0, sbtiScore = 0, effectScores = {}, inviteId = localStorage.getItem('inviteId') || ('inv_' + Date.now() + '_' + Math.random().toString(36).substr(2,6)), isPaid = false, extraUnlocked = false;
 localStorage.setItem('inviteId', inviteId);
 Object.keys(EFFECT_LIB).forEach(k => effectScores[k] = 0);
 
-function getRankText(score) { if (score <= 11) return "超越了 93% 的测试者"; if (score <= 19) return "超越了 68% 的测试者"; if (score <= 30) return "超越了 42% 的测试者"; return "超越了 21% 的测试者"; }
-function getRarityText(score) { if (score <= 11) return "🌟 稀有度：极为罕见"; if (score <= 19) return "✨ 稀有度：比较独特"; if (score <= 30) return "🍃 稀有度：较为常见"; return "🌿 稀有度：主流人群"; }
+function getRankText(score) { if (score <= 13) return "超越了 93% 的测试者"; if (score <= 21) return "超越了 68% 的测试者"; if (score <= 31) return "超越了 42% 的测试者"; return "超越了 21% 的测试者"; }
+function getRarityText(score) { if (score <= 13) return "🌟 稀有度：极为罕见"; if (score <= 21) return "✨ 稀有度：比较独特"; if (score <= 31) return "🍃 稀有度：较为常见"; return "🌿 稀有度：主流人群"; }
 function safeDecode(b64) { try { return atob(b64); } catch(e) { return "解析内容加载失败，请刷新重试。"; } }
 function fillHiddenScores() { const mains = Object.keys(EFFECT_LIB).filter(k=>EFFECT_LIB[k].type==="main"); const avg = mains.reduce((s,k)=>s+effectScores[k],0)/mains.length || 8; Object.keys(EFFECT_LIB).forEach(k=>{ if(EFFECT_LIB[k].type==="hidden") effectScores[k]=effectScores[k]||Math.floor(avg*0.75+2); }); }
 function switchPage(id) { 
@@ -411,33 +419,66 @@ function switchPage(id) {
   }
 }
 function startTest() { currentIdx = 0; sbtiScore = 0; Object.keys(effectScores).forEach(k => effectScores[k] = 0); renderQuestion(); switchPage("test"); }
-function renderQuestion() { const q = QUESTIONS[currentIdx]; document.getElementById("questionText").innerText = q.q; const container = document.getElementById("optionsContainer"); container.innerHTML = ""; q.opt.forEach((opt, idx) => { const div = document.createElement("div"); div.className = "option"; div.innerText = opt; div.onclick = () => { selectOption(idx); }; container.appendChild(div); }); document.getElementById("progressFill").style.width = ((currentIdx+1)/QUESTIONS.length)*100 + "%"; }
-function selectOption(optIndex) { const q = QUESTIONS[currentIdx]; sbtiScore += q.sbti[optIndex]; q.effect.forEach(e => { if (EFFECT_LIB[e.key]?.type === "main") effectScores[e.key] += e.w; }); currentIdx++; if (currentIdx < QUESTIONS.length) renderQuestion(); else generateResult(); }
+function renderQuestion() { 
+  const q = QUESTIONS[currentIdx]; 
+  document.getElementById("questionText").innerText = q.q; 
+  const container = document.getElementById("optionsContainer"); 
+  container.innerHTML = ""; 
+  q.opt.forEach((opt, idx) => { 
+    const div = document.createElement("div"); 
+    div.className = "option"; 
+    div.innerText = opt; 
+    div.onclick = () => { selectOption(idx); }; 
+    container.appendChild(div); 
+  }); 
+  document.getElementById("progressFill").style.width = ((currentIdx+1)/QUESTIONS.length)*100 + "%"; 
+}
+function selectOption(optIndex) { 
+  const q = QUESTIONS[currentIdx]; 
+  sbtiScore += q.sbti[optIndex]; 
+  const effects = q.effect[optIndex];
+  effects.forEach(e => { if (EFFECT_LIB[e.key]?.type === "main") effectScores[e.key] += e.w; });
+  currentIdx++; 
+  if (currentIdx < QUESTIONS.length) renderQuestion(); 
+  else generateResult(); 
+}
 function generateResult() {
   // 基础人格类型
   let baseType = "", baseDesc = "";
-  if (sbtiScore <= 12) { baseType = "吗喽"; baseDesc = "表面平静，内心早已上演了八百集连续剧。"; }
-  else if (sbtiScore <= 20) { baseType = "摆烂人"; baseDesc = "一边想躺平，一边忍不住内卷。"; }
-  else if (sbtiScore <= 30) { baseType = "松弛自愈者"; baseDesc = "情绪稳定，自我调节能力强。"; }
+  if (sbtiScore <= 13) { baseType = "吗喽"; baseDesc = "表面平静，内心早已上演了八百集连续剧。"; }
+  else if (sbtiScore <= 21) { baseType = "摆烂人"; baseDesc = "一边想躺平，一边忍不住内卷。"; }
+  else if (sbtiScore <= 31) { baseType = "松弛自愈者"; baseDesc = "情绪稳定，自我调节能力强。"; }
   else { baseType = "人间清醒者"; baseDesc = "活得通透，不被世俗束缚。"; }
   
-  // 效应排序（常驻效应，得分相同时随机打破平局）
+  // 获取主效应得分
   const mainEntries = Object.entries(effectScores).filter(([k])=>EFFECT_LIB[k]?.type==="main");
-  mainEntries.sort((a,b)=>b[1]-a[1]);
-  // 处理并列第一：找出所有最高分的效应，随机选一个
-  const topScore = mainEntries[0][1];
-  const topCandidates = mainEntries.filter(entry => entry[1] === topScore);
-  const randomIndex = Math.floor(Math.random() * topCandidates.length);
-  const topKey = topCandidates[randomIndex][0];
-  const topData = EFFECT_LIB[topKey];
+  // 隐藏彩蛋：所有主效应得分完全相同 或 总分<=10 或 总分>=38
+  const allEqual = mainEntries.every(e => e[1] === mainEntries[0][1]);
+  const extremeScore = sbtiScore <= 10 || sbtiScore >= 38;
+  let topKey = null;
+  let topData = null;
+  if (allEqual || extremeScore) {
+    // 随机选择一个隐藏效应
+    const hiddenKeys = Object.keys(EFFECT_LIB).filter(k => EFFECT_LIB[k].type === "hidden");
+    const randomHidden = hiddenKeys[Math.floor(Math.random() * hiddenKeys.length)];
+    topKey = randomHidden;
+    topData = EFFECT_LIB[topKey];
+  } else {
+    // 正常排序，取最高分（如有并列随机）
+    mainEntries.sort((a,b)=>b[1]-a[1]);
+    const maxScore = mainEntries[0][1];
+    const candidates = mainEntries.filter(e => e[1] === maxScore);
+    const randomIndex = Math.floor(Math.random() * candidates.length);
+    topKey = candidates[randomIndex][0];
+    topData = EFFECT_LIB[topKey];
+  }
   const prefix = topData.prefix || "心理";
-  
   const fullLabel = `${prefix}型${baseType}`;
   document.getElementById("personalityTag").innerText = fullLabel;
   document.getElementById("rareBadge").innerHTML = getRarityText(sbtiScore);
   document.getElementById("rankBadge").innerHTML = `🏆 ${getRankText(sbtiScore)}`;
   
-  // 维度展示
+  // 维度展示（仅用于常驻效应展示）
   const dims = [
     { name: "内耗指数", score: Math.min(100, (effectScores.internal||0)*10 + (effectScores.ruminate||0)*5) },
     { name: "社交回避", score: Math.min(100, (effectScores.avoid||0)*15 + (effectScores.spotlight||0)*5) },
@@ -448,17 +489,22 @@ function generateResult() {
   dims.forEach(d => { dimHtml += `<div class="dimension-item"><div class="dimension-label"><span>${d.name}</span><span>${d.score}%</span></div><div class="dimension-bar-bg"><div class="dimension-bar-fill" style="width:${d.score}%"></div></div></div>`; });
   document.getElementById("dimensionSection").innerHTML = dimHtml;
   
-  // 心理效应卡片
+  // 心理效应卡片（免费版只显示TOP1效应完整，其余锁定）
   const decoded = safeDecode(topData.full);
   const improvement = decoded.split('【改善】')[1]?.split('\n')[0] || "接纳自己，慢慢调整";
   document.getElementById("effectFree").innerHTML = `<div class="effect-free"><div class="effect-name">${topData.name}</div><div class="effect-desc">${topData.short}<br>✨ 今日改善：${improvement}</div></div>`;
   let lockedHtml = "";
-  for(let i=1; i<Math.min(5, mainEntries.length); i++) { const data = EFFECT_LIB[mainEntries[i][0]]; lockedHtml += `<div class="effect-locked"><div class="blur"><div class="effect-name">${data.name}</div><div class="effect-desc">${data.short} —— 解锁查看完整成因+改善步骤</div></div><div class="lock-overlay">🔒</div></div>`; }
+  const otherEffects = mainEntries.filter(([k]) => k !== topKey);
+  for(let i=0; i<Math.min(4, otherEffects.length); i++) { 
+    const data = EFFECT_LIB[otherEffects[i][0]]; 
+    lockedHtml += `<div class="effect-locked"><div class="blur"><div class="effect-name">${data.name}</div><div class="effect-desc">${data.short} —— 解锁查看完整成因+改善步骤</div></div><div class="lock-overlay">🔒</div></div>`; 
+  }
   document.getElementById("effectLocked").innerHTML = lockedHtml;
   
-  // IP 图片切换
-  const ipImg = IP_IMG_MAP[topKey] || IP_IMG_MAP.default;
-  document.getElementById("resultIpImg").src = ipImg;
+  // IP 图片动态切换（加时间戳防缓存）
+  const img = document.getElementById("resultIpImg");
+  const imgUrl = IP_IMG_MAP[topKey] || IP_IMG_MAP.default;
+  img.src = imgUrl + "?t=" + Date.now();
   document.getElementById("sloganText").innerHTML = `✨ ${topData.short}`;
   
   checkUnlock();
