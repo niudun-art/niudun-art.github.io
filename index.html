@@ -8,19 +8,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
-    /* ========== 完整样式（简洁现代，已适配移动端） ========== */
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
-      background: radial-gradient(circle at 10% 20%, #1e293b, #0f172a);
+      background: #0b0f17;
       font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, sans-serif;
       padding: 20px;
     }
     .container {
       max-width: 800px;
       margin: 0 auto;
-      background: #ffffff;
+      background: transparent;
       border-radius: 48px;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.3);
       overflow: hidden;
     }
     .page {
@@ -34,7 +32,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* 首页样式 */
+    /* ========== 首页样式（深色科技感） ========== */
     .hero-section { text-align: center; margin-bottom: 30px; }
     .fire-badge {
       background: linear-gradient(135deg, #ff5722, #ff9800);
@@ -47,8 +45,8 @@
       margin-bottom: 20px;
       box-shadow: 0 8px 20px rgba(255,87,34,0.3);
     }
-    h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.3; color: #0f172a; margin-bottom: 16px; }
-    .hero-sub { font-size: 1rem; color: #475569; margin-bottom: 24px; }
+    h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.3; color: #f0f3fa; margin-bottom: 16px; }
+    .hero-sub { font-size: 1rem; color: #9ca3af; margin-bottom: 24px; }
     .big-hook {
       background: linear-gradient(120deg, #fff3e0, #ffe0b5);
       padding: 16px 20px;
@@ -65,8 +63,6 @@
       width: 100%; padding: 18px; border-radius: 60px; font-size: 1.3rem; font-weight: 800;
       cursor: pointer; margin: 20px 0; transition: 0.2s;
     }
-    .hero-btn:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(255,87,34,0.4); }
-
     .ip-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -74,40 +70,38 @@
       margin: 32px 0;
     }
     .ip-card {
-      background: white;
+      background: #1e293b;
       border-radius: 36px;
       padding: 18px 12px;
       text-align: center;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.05);
       transition: 0.2s;
     }
-    .ip-card:hover { transform: translateY(-5px); background: #fefce8; }
     .ip-card img { width: 80px; height: 80px; object-fit: contain; margin-bottom: 12px; }
-    .ip-card .label { font-weight: 700; font-size: 0.9rem; color: #1e293b; }
-
+    .ip-card .label { font-weight: 700; font-size: 0.9rem; color: #e2e8f0; }
     .effect-list {
-      background: #f1f5f9;
+      background: #1e293b;
       border-radius: 32px;
       padding: 24px;
       margin: 24px 0;
     }
-    .effect-list h3 { font-size: 1.2rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .effect-list h3 { font-size: 1.2rem; margin-bottom: 16px; color: #facc15; }
     .effect-tags { display: flex; flex-wrap: wrap; gap: 12px; }
     .effect-tag {
-      background: white;
+      background: #0f172a;
       padding: 8px 18px;
       border-radius: 60px;
       font-size: 0.85rem;
       font-weight: 500;
-      color: #1e293b;
-      border: 1px solid #cbd5e1;
+      color: #cbd5e1;
+      border: 1px solid #334155;
     }
-    .effect-definition { background: #f8fafc; border-radius: 32px; padding: 24px; margin: 24px 0; }
-    .effect-definition p { font-size: 0.95rem; line-height: 1.5; color: #334155; }
+    .effect-definition { background: #1e293b; border-radius: 32px; padding: 24px; margin: 24px 0; }
+    .effect-definition p { font-size: 0.95rem; line-height: 1.5; color: #cbd5e1; }
+    footer { text-align: center; font-size: 0.7rem; color: #6c757d; margin-top: 28px; }
 
-    /* 答题页提示条 */
+    /* ========== 答题页样式 ========== */
     .info-tip {
-      background: #eef2ff;
+      background: #1e293b;
       border-radius: 24px;
       padding: 14px 18px;
       margin-bottom: 24px;
@@ -117,143 +111,275 @@
       border-left: 6px solid #3b82f6;
       font-size: 0.85rem;
       line-height: 1.4;
-      color: #1e293b;
+      color: #cbd5e1;
     }
-    .info-tip i { color: #3b82f6; font-size: 1.2rem; margin-top: 2px; }
     .info-tip .close-tip { margin-left: auto; cursor: pointer; color: #94a3b8; }
-    .info-tip .close-tip:hover { color: #ef4444; }
-
-    .progress-bar { height: 10px; background: #e2e8f0; border-radius: 10px; margin-bottom: 32px; }
+    .progress-bar { height: 10px; background: #334155; border-radius: 10px; margin-bottom: 32px; }
     .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); border-radius: 10px; }
-    .question-card { background: #f8fafc; border-radius: 36px; padding: 36px; margin-bottom: 24px; }
-    .question-text { font-size: 1.5rem; font-weight: 600; margin-bottom: 32px; }
-    .option { background: white; border: 1px solid #e2e8f0; border-radius: 60px; padding: 16px 24px; margin-bottom: 14px; cursor: pointer; transition: 0.2s; font-weight: 500; }
-    .option:hover { background: #eef2ff; border-color: #3b82f6; transform: translateX(8px); }
+    .question-card { background: #1e293b; border-radius: 36px; padding: 36px; margin-bottom: 24px; }
+    .question-text { font-size: 1.5rem; font-weight: 600; margin-bottom: 32px; color: #f0f3fa; }
+    .option { background: #0f172a; border: 1px solid #334155; border-radius: 60px; padding: 16px 24px; margin-bottom: 14px; cursor: pointer; transition: 0.2s; font-weight: 500; color: #e2e8f0; }
+    .option:hover { background: #2d3a5e; border-color: #3b82f6; transform: translateX(8px); }
 
-    /* 结果页 */
-    .result-header {
+    /* ========== 结果页全新设计（参考截图风格） ========== */
+    .result-card {
+      background: linear-gradient(145deg, #0f172a, #030712);
+      border-radius: 48px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 45px rgba(0,0,0,0.6);
+    }
+    .result-card::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: -20%;
+      width: 140%;
+      height: 140%;
+      background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    /* 顶部：IP + 人格标题 */
+    .result-top {
       display: flex;
       align-items: center;
       gap: 24px;
-      background: linear-gradient(135deg, #fff5eb, #ffe9f0);
-      border-radius: 48px;
-      padding: 28px;
       margin-bottom: 28px;
+      flex-wrap: wrap;
     }
-    .ip-card-large {
-      background: white;
-      width: 130px;
-      height: 130px;
-      border-radius: 65px;
+    .ip-circle {
+      background: #1e293b;
+      width: 120px;
+      height: 120px;
+      border-radius: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 12px 20px -8px rgba(0,0,0,0.15);
+      box-shadow: 0 0 0 4px rgba(59,130,246,0.5), 0 12px 20px rgba(0,0,0,0.3);
     }
-    .ip-card-large img { width: 110px; height: 110px; object-fit: contain; }
-    .result-title-box { flex: 1; }
-    .rare-badge-group { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
-    .rare-badge {
-      background: #ff5722;
-      color: white;
-      border-radius: 40px;
-      padding: 10px 22px;
-      font-size: 1rem;
-      font-weight: 700;
-    }
-    .rare-rank { background: #8b5cf6; }
-    .personality-tag-new {
-      font-size: 2rem;
+    .ip-circle img { width: 100px; height: 100px; object-fit: contain; }
+    .personality-area { flex: 1; }
+    .personality-big {
+      font-size: 2.8rem;
       font-weight: 800;
-      margin: 12px 0 8px;
-      background: linear-gradient(135deg, #1e293b, #3b82f6);
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #fff, #60a5fa);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
-    .slogan-text {
-      font-style: italic;
-      color: #f97316;
-      font-weight: 500;
+    .match-info {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .match-badge {
+      background: rgba(59,130,246,0.2);
+      backdrop-filter: blur(4px);
+      padding: 6px 16px;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      color: #93c5fd;
+      border: 1px solid #3b82f6;
+    }
+    .depth-badge {
+      background: rgba(245,158,11,0.2);
+      border-color: #f59e0b;
+      color: #fcd34d;
+    }
+    .main-type {
       margin-top: 8px;
-      font-size: 1rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #facc15;
     }
-    .sub-effect { display: none; }
-
-    .dimension-item { margin-bottom: 22px; }
-    .dimension-label { display: flex; justify-content: space-between; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem; }
-    .dimension-bar-bg { height: 8px; background: #e2e8f0; border-radius: 6px; overflow: hidden; }
-    .dimension-bar-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); width: 0%; transition: width 0.5s; }
-
-    .effect-free, .effect-locked { background: white; border-radius: 28px; padding: 20px; margin-bottom: 16px; border-left: 6px solid #3b82f6; }
-    .effect-locked { position: relative; overflow: hidden; }
-    .effect-locked .blur { filter: blur(4px); opacity: 0.6; }
-    .lock-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.75); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; border-radius: 28px; }
-    
-    .action-hook {
-      background: linear-gradient(120deg, #fef9e3, #ffefc0);
-      border-radius: 40px;
-      padding: 24px;
-      margin: 28px 0;
-      text-align: center;
-      border: 1px solid #ffd966;
+    /* 解读文案 */
+    .insight-text {
+      background: rgba(0,0,0,0.4);
+      border-radius: 28px;
+      padding: 20px;
+      margin: 20px 0;
+      border-left: 4px solid #3b82f6;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #cbd5e1;
     }
-    .action-hook .title {
-      font-size: 1.65rem;
-      font-weight: 800;
-      color: #d9480f;
+    /* 人格维度（外向/理性进度条） */
+    .dimension-grid {
+      display: flex;
+      gap: 24px;
+      margin: 24px 0;
+      flex-wrap: wrap;
+    }
+    .dim-item {
+      flex: 1;
+      background: #1e293b;
+      border-radius: 28px;
+      padding: 16px;
+    }
+    .dim-label {
+      font-size: 0.85rem;
+      color: #9ca3af;
       margin-bottom: 8px;
     }
-    .action-hook .subtitle { font-size: 0.9rem; color: #6c757d; margin-bottom: 20px; }
-    .btn-pay { background: linear-gradient(135deg, #ef4444, #f97316); color: white; border: none; padding: 12px 24px; border-radius: 60px; font-weight: 800; font-size: 1rem; cursor: pointer; margin: 6px; }
-    .btn-share { background: white; border: 2px solid #f97316; color: #f97316; padding: 10px 20px; border-radius: 60px; font-weight: 700; font-size: 0.95rem; cursor: pointer; margin: 6px; }
-    
-    .benefits-list {
-      margin: 20px 0 0 20px;
-      list-style: none;
-      text-align: left;
+    .dim-bar-bg {
+      height: 8px;
+      background: #334155;
+      border-radius: 10px;
+      overflow: hidden;
     }
-    .benefits-list li {
-      font-size: 1rem;
-      font-weight: 500;
-      margin-bottom: 12px;
-      padding-left: 30px;
-      position: relative;
-      line-height: 1.4;
+    .dim-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      width: 0%;
+      border-radius: 10px;
+      transition: width 0.5s;
     }
-    .benefits-list li::before {
-      content: "✅";
+    .dim-value {
+      text-align: right;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      margin-top: 6px;
+    }
+    /* 心理效应卡片（保留原有布局） */
+    .effect-section {
+      margin: 28px 0;
+    }
+    .effect-free, .effect-locked {
+      background: #1e293b;
+      border-radius: 24px;
+      padding: 18px;
+      margin-bottom: 14px;
+      border-left: 5px solid #3b82f6;
+    }
+    .effect-name {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #facc15;
+      margin-bottom: 6px;
+    }
+    .effect-desc {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+    .effect-locked { position: relative; overflow: hidden; }
+    .effect-locked .blur { filter: blur(4px); opacity: 0.6; }
+    .lock-overlay {
       position: absolute;
-      left: 0;
-      font-size: 1.15rem;
-      top: -1px;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      border-radius: 24px;
+      color: #facc15;
     }
-
-    .share-module { margin: 36px 0 28px; background: #fef9e3; border-radius: 36px; padding: 24px 20px; text-align: center; }
-    .btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .share-btn { background: white; border: 2px solid #3b82f6; color: #3b82f6; padding: 10px 20px; border-radius: 60px; font-weight: 600; font-size: 0.85rem; cursor: pointer; }
-    footer { text-align: center; font-size: 0.7rem; color: #94a3b8; margin-top: 28px; }
-    .copy-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 8px 20px; border-radius: 60px; font-size: 0.85rem; z-index: 2000; display: none; }
-
+    /* 解锁完整版按钮区域 */
+    .unlock-banner {
+      text-align: center;
+      margin: 28px 0 20px;
+      padding: 24px;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border-radius: 40px;
+      border: 1px solid #facc15;
+    }
+    .unlock-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #facc15;
+      margin-bottom: 12px;
+    }
+    .unlock-sub {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-bottom: 20px;
+    }
+    .unlock-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-pay {
+      background: linear-gradient(135deg, #ef4444, #f97316);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 60px;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .btn-share {
+      background: transparent;
+      border: 2px solid #f97316;
+      color: #f97316;
+      padding: 10px 24px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    .share-module {
+      margin: 24px 0;
+      text-align: center;
+      background: #1e293b;
+      border-radius: 32px;
+      padding: 20px;
+    }
+    .share-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #facc15;
+      margin-bottom: 16px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .share-btn {
+      background: #0f172a;
+      border: 1px solid #3b82f6;
+      color: #93c5fd;
+      padding: 10px 20px;
+      border-radius: 60px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .copy-toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      z-index: 2000;
+      display: none;
+    }
     @media (max-width: 700px) {
       .page { padding: 24px 20px; }
       h1 { font-size: 1.6rem; }
-      .big-hook { font-size: 1rem; padding: 12px; }
-      .ip-card img { width: 55px; height: 55px; }
-      .result-header { flex-direction: column; text-align: center; }
-      .ip-card-large { width: 100px; height: 100px; }
-      .ip-card-large img { width: 80px; height: 80px; }
-      .personality-tag-new { font-size: 1.5rem; }
-      .rare-badge { font-size: 0.85rem; padding: 6px 14px; }
-      .action-hook .title { font-size: 1.4rem; }
-      .benefits-list li { font-size: 0.9rem; padding-left: 26px; }
-      .benefits-list li::before { font-size: 1rem; }
+      .ip-circle { width: 90px; height: 90px; }
+      .ip-circle img { width: 70px; height: 70px; }
+      .personality-big { font-size: 1.8rem; }
+      .match-badge, .depth-badge { font-size: 0.7rem; }
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <!-- 首页 -->
+  <!-- 首页（内容不变） -->
   <div class="page active" id="home">
     <div class="hero-section">
       <div class="fire-badge"><i class="fas fa-fire"></i> ✨ 全网爆火 · 100w+年轻人已测 ✨ <i class="fas fa-fire"></i></div>
@@ -279,7 +405,7 @@
         <p><strong>🎯 什么是心理效应？</strong><br>心理效应是我们在日常生活中不自觉表现出的思维、行为模式。本测试聚焦12种最常见的内耗型心理效应，帮你识别自己的心理倾向，并提供可落地的改善方案。</p>
       </div>
       <button class="hero-btn" id="startBtn">🚀 测测你的内耗根源 →</button>
-      <div style="font-size:0.75rem; color:#6c757d; margin-top:16px;">✨ 趣味人格测评 | 本内容仅为娱乐用途，非专业心理诊断</div>
+      <footer style="color:#6c757d;">✨ 趣味人格测评 | 本内容仅为娱乐用途，非专业心理诊断</footer>
     </div>
   </div>
 
@@ -291,59 +417,68 @@
     <footer>点击选项自动进入下一题</footer>
   </div>
 
-  <!-- 结果页 -->
+  <!-- 结果页（全新酷炫设计） -->
   <div class="page" id="result">
-    <div class="result-header">
-      <div class="ip-card-large">
-        <img id="resultIpImg" src="images_compressed_1mb/whitebear.png" alt="IP形象" style="width: 100%; height: 100%; object-fit: contain;">
+    <div class="result-card">
+      <div class="result-top">
+        <div class="ip-circle">
+          <img id="resultIpImg" src="images_compressed_1mb/whitebear.png" alt="IP形象" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+        <div class="personality-area">
+          <div class="personality-big" id="personalityBig">外向理性者</div>
+          <div class="match-info">
+            <span class="match-badge" id="matchBadge">匹配度 77% · 精准命中 10/15 维</span>
+            <span class="match-badge depth-badge" id="depthBadge">维度命中度较高，当前结果可视为你的第一人格画像</span>
+          </div>
+          <div class="main-type" id="mainType"></div>
+        </div>
       </div>
-      <div class="result-title-box">
-        <div class="rare-badge-group"><span class="rare-badge" id="rareBadge">🌟 稀有度</span><span class="rare-badge rare-rank" id="rankBadge">🏆 排名</span></div>
-        <div class="personality-tag-new" id="personalityTag">外向理性者</div>
-        <div class="slogan-text" id="sloganText">✨ 一起探索内心世界</div>
+
+      <div class="insight-text" id="insightText">
+        经研究发现，你的大脑构造与常人有根本性不同。你善于审视信息，注重逻辑与细节，在群体中常扮演理性分析者的角色。
+      </div>
+
+      <div class="dimension-grid" id="dimensionGrid"></div>
+
+      <div class="effect-section">
+        <div id="effectFree"></div>
+        <div id="effectLocked"></div>
+      </div>
+
+      <!-- 解锁完整版引导模块 -->
+      <div class="unlock-banner" id="unlockBanner">
+        <div class="unlock-title">🔓 解锁完整版 · 查看全部12大心理效应</div>
+        <div class="unlock-sub">包含深度成因分析、日常改善步骤、反内耗行动清单</div>
+        <div class="unlock-buttons">
+          <button class="btn-pay" id="unlockBtn">💥 立即付费解锁 (¥9.9)</button>
+          <button class="btn-share" id="shareUnlockBtn">🎉 分享好友免费领福利</button>
+        </div>
+      </div>
+
+      <div class="share-module">
+        <div class="share-title">📢 分享得福利</div>
+        <div class="btn-group">
+          <button class="share-btn" id="copyInviteBtn">📋 复制邀请链接</button>
+          <button class="share-btn" id="genPosterBtn">📷 生成海报</button>
+        </div>
+        <div style="font-size:0.7rem; color:#6c757d; margin-top:12px;">截图分享朋友圈，好友扫码测出你的同款小动物</div>
       </div>
     </div>
-    <div id="dimensionSection"></div>
-    <div id="effectFree"></div>
-    <div id="effectLocked"></div>
-    <div class="action-hook">
-      <div class="title">内耗人必测！立即解锁你的专属报告</div>
-      <div class="subtitle">1分钟免费测评，解锁你的内耗自救指南</div>
-      <div>
-        <button class="btn-pay" id="unlockBtn">💥 立即付费解锁 (¥9.9)</button>
-        <button class="btn-share" id="shareUnlockBtn">🎉 分享好友免费领福利</button>
-      </div>
-      <ul class="benefits-list">
-        <li>全部12大心理效应完整解析</li>
-        <li>24小时反内耗行动清单全文</li>
-        <li>情绪调节落地方法 & 人格身份卡</li>
-        <li>高清无水印个人结果海报</li>
-        <li>永久解锁后续题库更新 + 职场/恋爱参考</li>
-      </ul>
-    </div>
-    <div class="share-module">
-      <div class="share-title">📢 分享得福利</div>
-      <div class="btn-group">
-        <button class="share-btn" id="copyInviteBtn">📋 复制邀请链接</button>
-        <button class="share-btn" id="genPosterBtn">📷 生成海报</button>
-      </div>
-      <div style="font-size:0.75rem; color:#999; margin-top:12px;">截图分享朋友圈，好友扫码测出你的同款小动物</div>
-    </div>
-    <footer>本测评仅为娱乐用途，非专业心理诊断 | 分享给好友，双方皆可解锁反内耗清单+隐藏心理效应</footer>
+    <footer style="margin-top: 20px;">本测评仅为娱乐用途，非专业心理诊断 | 分享给好友，双方皆可解锁隐藏福利</footer>
   </div>
 </div>
 <div class="copy-toast" id="copyToast">✓ 复制成功！快去分享吧</div>
 
 <script>
-// ==================== 配置（请替换真实支付链接和密钥） ====================
+// ==================== 配置（请替换真实支付链接） ====================
 const CONFIG = {
-  PAY_URL: "https://afdian.com/item/xxxx",      // 替换为爱发电/面包多商品链接
+  PAY_URL: "https://afdian.com/item/xxxx",
   UNLOCK_KEY: "sbti_psych_2025",
   QR_CODE_URL: "https://example.com/qr.png",
   EXPIRE_HOURS: 24
 };
 
-// ==================== IP 图片映射（完整12个效应） ====================
+// ==================== IP 图片映射 ====================
 const IP_IMG_MAP = {
   whitebear:   "images_compressed_1mb/whitebear.png",
   peoplepleaser:"images_compressed_1mb/peoplepleaser.png",
@@ -360,7 +495,7 @@ const IP_IMG_MAP = {
   default:     "images_compressed_1mb/whitebear.png"
 };
 
-// 心理效应库（含前缀、短描述）
+// 心理效应库
 const EFFECT_LIB = {
   whitebear:   { name: "白熊特质", short: "越想忘记，越挥之不去", prefix: "白熊", type: "main" },
   peoplepleaser:{ name: "讨好特质", short: "习惯性迁就，害怕拒绝", prefix: "讨好", type: "main" },
@@ -372,7 +507,7 @@ const EFFECT_LIB = {
   sensitive:   { name: "高敏感特质", short: "情绪细腻，容易受伤", prefix: "高敏感", type: "main" }
 };
 
-// ========== 题库（10题3选项，每个效应精确4次+3、4次-3，反向计分仅作用于本效应） ==========
+// 题库（10题3选项，三级梯度，每个效应均等）
 const QUESTIONS = [
   { text: "聚会里不小心说错一句话，散场后你的第一反应是？",
     options: [
@@ -436,128 +571,61 @@ const QUESTIONS = [
     ] }
 ];
 
-// ========== 全局变量 ==========
-let currentIdx = 0;
-let extraScore = 0;      // 外向性得分（前5题累加，范围-15..+15）
-let rationalScore = 0;   // 理性得分（后5题累加）
-let effectScores = {};    // 每个效应原始总分（含负，最终会兜底）
-let effectStrongCount = {}; // 获得+3的次数
-let effectReverseCount = {}; // 获得-3的次数（反向匹配）
+let currentIdx = 0, extraScore = 0, rationalScore = 0;
+let effectScores = {}, effectStrongCount = {}, effectReverseCount = {};
 let inviteId = localStorage.getItem('inviteId') || ('inv_' + Date.now() + '_' + Math.random().toString(36).substr(2,6));
 let isPaid = false, extraUnlocked = false;
 localStorage.setItem('inviteId', inviteId);
+Object.keys(EFFECT_LIB).forEach(k => { effectScores[k] = 0; effectStrongCount[k] = 0; effectReverseCount[k] = 0; });
 
-Object.keys(EFFECT_LIB).forEach(k => {
-  effectScores[k] = 0;
-  effectStrongCount[k] = 0;
-  effectReverseCount[k] = 0;
-});
-
-// ========== 辅助函数 ==========
-// 归一化：将原始分转为标准分0-100，理论最高分 = 该效应获得+3的次数 × 3
-const MAX_SCORE_BY_EFFECT = {
-  whitebear: 12, peoplepleaser: 12, spotlight: 12, internal: 12,
-  ruminate: 12, avoid: 12, control: 12, sensitive: 12
-};
-function normalize(score, effectKey) {
-  const max = MAX_SCORE_BY_EFFECT[effectKey];
-  let s = Math.max(0, score);
-  if (s > max) s = max;
-  return (s / max) * 100;
-}
-
-function clampScore(score, max) {
-  if (score < 0) return 0;
-  if (score > max) return max;
-  return score;
-}
-
+// 辅助函数
 function getPersonality(extra, rational) {
-  const extraNorm = extra + 15;   // 转化到0..30
-  const rationalNorm = rational + 15;
-  const extraVal = extraNorm >= 15 ? "外向" : "内向";
-  const rationalVal = rationalNorm >= 15 ? "理性" : "感性";
-  if (extraVal === "外向" && rationalVal === "理性") return "外向理性者";
-  if (extraVal === "外向" && rationalVal === "感性") return "外向感性者";
-  if (extraVal === "内向" && rationalVal === "理性") return "内向理性者";
+  const extraNorm = extra + 15, rationalNorm = rational + 15;
+  const e = extraNorm >= 15 ? "外向" : "内向";
+  const r = rationalNorm >= 15 ? "理性" : "感性";
+  if (e === "外向" && r === "理性") return "外向理性者";
+  if (e === "外向" && r === "感性") return "外向感性者";
+  if (e === "内向" && r === "理性") return "内向理性者";
   return "内向感性者";
 }
-
-// 固定排序仲裁链：标准总分 -> 强赋值次数 -> 反向匹配次数 -> 效应固定顺序
+function getMatchPercent(extra, rational) {
+  const extraNorm = extra + 15, rationalNorm = rational + 15;
+  return Math.floor((extraNorm + rationalNorm) / 60 * 100);
+}
+function getDepthText(extra, rational) {
+  const score = getMatchPercent(extra, rational);
+  if (score >= 70) return "维度命中度较高，当前结果可视为你的第一人格画像";
+  if (score >= 50) return "维度命中度中等，可参考为主要人格倾向";
+  return "维度命中度偏低，建议重新测试或参考其他视角";
+}
 const effectOrder = ["whitebear","peoplepleaser","spotlight","internal","ruminate","avoid","control","sensitive"];
+const MAX_SCORE_BY_EFFECT = { whitebear:12, peoplepleaser:12, spotlight:12, internal:12, ruminate:12, avoid:12, control:12, sensitive:12 };
+function normalize(score, key) { let s = Math.max(0, score); if(s > MAX_SCORE_BY_EFFECT[key]) s = MAX_SCORE_BY_EFFECT[key]; return (s / MAX_SCORE_BY_EFFECT[key]) * 100; }
 function getTopEffect() {
-  const entries = effectOrder.map(key => ({
-    key,
-    normalized: normalize(effectScores[key], key),
-    strong: effectStrongCount[key],
-    reverse: effectReverseCount[key]
-  }));
+  const entries = effectOrder.map(key => ({ key, norm: normalize(effectScores[key], key), strong: effectStrongCount[key], reverse: effectReverseCount[key] }));
   entries.sort((a,b) => {
-    if (a.normalized !== b.normalized) return b.normalized - a.normalized;
-    if (a.strong !== b.strong) return b.strong - a.strong;
-    if (a.reverse !== b.reverse) return a.reverse - b.reverse; // 反向次数越少越好
+    if(a.norm !== b.norm) return b.norm - a.norm;
+    if(a.strong !== b.strong) return b.strong - a.strong;
+    if(a.reverse !== b.reverse) return a.reverse - b.reverse;
     return 0;
   });
   return entries[0].key;
 }
 
-// 极端中立兜底：若外向/理性得分均为0，强制指定一人格（内向感性）
-function ensurePersonality(extra, rational) {
-  if (extra === 0 && rational === 0) return "内向感性者";
-  return getPersonality(extra, rational);
-}
+// 进度保存与恢复
+function saveProgress() { localStorage.setItem('sbti_progress', JSON.stringify({ currentIdx, extraScore, rationalScore, effectScores, effectStrongCount, effectReverseCount })); }
+function loadProgress() { try { let d = JSON.parse(localStorage.getItem('sbti_progress')); if(d) { currentIdx=d.currentIdx; extraScore=d.extraScore; rationalScore=d.rationalScore; effectScores=d.effectScores; effectStrongCount=d.effectStrongCount; effectReverseCount=d.effectReverseCount; return true; } } catch(e){} return false; }
+function resetProgress() { localStorage.removeItem('sbti_progress'); currentIdx=0; extraScore=0; rationalScore=0; Object.keys(effectScores).forEach(k=>{ effectScores[k]=0; effectStrongCount[k]=0; effectReverseCount[k]=0; }); }
 
-// ========== 进度持久化 ==========
-function saveProgress() {
-  const progress = { currentIdx, extraScore, rationalScore, effectScores, effectStrongCount, effectReverseCount };
-  localStorage.setItem('sbti_progress', JSON.stringify(progress));
-}
-function loadProgress() {
-  const raw = localStorage.getItem('sbti_progress');
-  if (raw) {
-    try {
-      const data = JSON.parse(raw);
-      currentIdx = data.currentIdx;
-      extraScore = data.extraScore;
-      rationalScore = data.rationalScore;
-      effectScores = data.effectScores;
-      effectStrongCount = data.effectStrongCount;
-      effectReverseCount = data.effectReverseCount;
-      return true;
-    } catch(e) {}
-  }
-  return false;
-}
-function resetProgress() {
-  localStorage.removeItem('sbti_progress');
-  currentIdx = 0;
-  extraScore = 0;
-  rationalScore = 0;
-  Object.keys(effectScores).forEach(k => { effectScores[k] = 0; effectStrongCount[k] = 0; effectReverseCount[k] = 0; });
-}
-
-// ========== 页面交互 ==========
-function startTest() {
-  resetProgress();
-  renderQuestion();
-  switchPage("test");
-}
-
+function startTest() { resetProgress(); renderQuestion(); switchPage("test"); }
 function renderQuestion() {
-  if (currentIdx >= QUESTIONS.length) {
-    generateResult();
-    return;
-  }
+  if(currentIdx >= QUESTIONS.length) { generateResult(); return; }
   const q = QUESTIONS[currentIdx];
   document.getElementById("questionText").innerText = q.text;
   const container = document.getElementById("optionsContainer");
   container.innerHTML = "";
-  // 随机打乱选项顺序（避免惯性选择）
   const shuffled = [...q.options];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
+  for(let i=shuffled.length-1;i>0;i--) { let j=Math.floor(Math.random()*(i+1)); [shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]]; }
   shuffled.forEach(opt => {
     const div = document.createElement("div");
     div.className = "option";
@@ -565,134 +633,115 @@ function renderQuestion() {
     div.onclick = () => selectOption(opt);
     container.appendChild(div);
   });
-  const progressPercent = ((currentIdx+1)/QUESTIONS.length)*100;
-  document.getElementById("progressFill").style.width = progressPercent + "%";
+  document.getElementById("progressFill").style.width = ((currentIdx+1)/QUESTIONS.length)*100 + "%";
 }
-
 function selectOption(opt) {
-  // 前5题影响外向性，后5题影响理性
-  if (currentIdx < 5) {
-    // 根据选项在原始题库中的效果粗略估算外向分值：我们直接采用效果中第一个效应的val绝对值平均？
-    // 为了精准，预先为每个选项设定 extraValue / rationalValue。
-    // 简化但可靠的方法：根据选项位置（第一项+3，第二项+1，第三项-3）。保证5题总分范围正确。
-    const idx = QUESTIONS[currentIdx].options.findIndex(o => o === opt);
-    if (idx === 0) extraScore += 3;
-    else if (idx === 1) extraScore += 1;
-    else extraScore -= 3;
-  } else {
-    const idx = QUESTIONS[currentIdx].options.findIndex(o => o === opt);
-    if (idx === 0) rationalScore += 3;
-    else if (idx === 1) rationalScore += 1;
-    else rationalScore -= 3;
-  }
-  // 效应计分
+  const idx = QUESTIONS[currentIdx].options.findIndex(o => o === opt);
+  if(currentIdx < 5) extraScore += (idx===0 ? 3 : idx===1 ? 1 : -3);
+  else rationalScore += (idx===0 ? 3 : idx===1 ? 1 : -3);
   opt.effects.forEach(e => {
     effectScores[e.key] += e.val;
-    if (e.val === 3) effectStrongCount[e.key] += 1;
-    if (e.val === -3) effectReverseCount[e.key] += 1;
+    if(e.val === 3) effectStrongCount[e.key] += 1;
+    if(e.val === -3) effectReverseCount[e.key] += 1;
   });
   currentIdx++;
   saveProgress();
   renderQuestion();
 }
-
 function generateResult() {
-  // 人格类型（带极端兜底）
-  let personality = ensurePersonality(extraScore, rationalScore);
-  // 获取top效应
+  const personality = getPersonality(extraScore, rationalScore);
   const topKey = getTopEffect();
   const topData = EFFECT_LIB[topKey];
   const fullLabel = `${topData.prefix}型${personality}`;
-  document.getElementById("personalityTag").innerHTML = fullLabel;
-  
-  // 稀有度排名（外向+理性的总分范围-30..+30，转为0..60）
-  const totalRaw = extraScore + rationalScore;
-  const totalNorm = totalRaw + 30; // 0..60
-  function getRarity(score) {
-    if (score <= 12) return "🌟 稀有度：极为罕见";
-    if (score <= 25) return "✨ 稀有度：比较独特";
-    if (score <= 45) return "🍃 稀有度：较为常见";
-    return "🌿 稀有度：主流人群";
-  }
-  function getRank(score) {
-    if (score <= 12) return "超越了 93% 的测试者";
-    if (score <= 25) return "超越了 68% 的测试者";
-    if (score <= 45) return "超越了 42% 的测试者";
-    return "超越了 21% 的测试者";
-  }
-  document.getElementById("rareBadge").innerHTML = getRarity(totalNorm);
-  document.getElementById("rankBadge").innerHTML = `🏆 ${getRank(totalNorm)}`;
-  
-  // 人格维度展示（外向性/理性百分比）
-  const extraPercent = Math.min(100, Math.floor(((extraScore + 15)/30)*100));
-  const rationalPercent = Math.min(100, Math.floor(((rationalScore + 15)/30)*100));
-  let dimHtml = `<div style="font-weight:700; margin:20px 0 12px;">你的人格维度</div>`;
-  dimHtml += `<div class="dimension-item"><div class="dimension-label"><span>外向性</span><span>${extraPercent}%</span></div><div class="dimension-bar-bg"><div class="dimension-bar-fill" style="width:${extraPercent}%"></div></div></div>`;
-  dimHtml += `<div class="dimension-item"><div class="dimension-label"><span>理性</span><span>${rationalPercent}%</span></div><div class="dimension-bar-bg"><div class="dimension-bar-fill" style="width:${rationalPercent}%"></div></div></div>`;
-  document.getElementById("dimensionSection").innerHTML = dimHtml;
-  
-  // 心理效应卡片（免费TOP1完整，其余锁定）
-  document.getElementById("effectFree").innerHTML = `<div class="effect-free"><div class="effect-name">${topData.name}</div><div class="effect-desc">${topData.short}<br>✨ 今日改善：接纳自己，慢慢调整</div></div>`;
+  document.getElementById("personalityBig").innerText = fullLabel;
+  const matchPercent = getMatchPercent(extraScore, rationalScore);
+  const matchText = `匹配度 ${matchPercent}% · 精准命中 ${Math.floor(matchPercent/10)}/15 维`;
+  document.getElementById("matchBadge").innerHTML = matchText;
+  document.getElementById("depthBadge").innerHTML = getDepthText(extraScore, rationalScore);
+  document.getElementById("mainType").innerHTML = `你的主类型 · ${topData.name}`;
+  // 洞察文案
+  const insightMap = {
+    whitebear: "你常常陷入“越想忘记越忘不掉”的循环。大脑像有自己的意志，反复检索那些你想摆脱的念头。",
+    peoplepleaser: "你习惯性迁就他人，害怕拒绝带来的冲突。你的善意值得被珍惜，但也请记得照顾自己的感受。",
+    spotlight: "你总觉得所有人都在关注你的一举一动。其实，大多数时候别人并没有那么在意你——放轻松。",
+    internal: "你是一个自我要求很高的人，反复复盘、自我消耗，常常在事情发生前就已经耗尽精力。",
+    ruminate: "你倾向于反复咀嚼负面情绪，像牛反刍一样停不下来。试着给烦恼设置一个“暂停键”。",
+    avoid: "你害怕冲突，常常选择逃避而不是面对。偶尔的回避可以理解，但长期会让你失去成长的机会。",
+    control: "你渴望掌控一切，否则就会焦虑。学会放手，承认自己的有限，反而能获得更多自由。",
+    sensitive: "你像雷达一样捕捉外界情绪，容易受伤却也更懂得共情。记得给自己留出充电的时间。"
+  };
+  document.getElementById("insightText").innerHTML = `✨ 洞察解析：${insightMap[topKey] || "你是一个不断探索内心世界的人，每一次自我觉察都是成长的开始。"}`;
+  // 维度展示
+  const extraPercent = Math.min(100, Math.floor(((extraScore+15)/30)*100));
+  const rationalPercent = Math.min(100, Math.floor(((rationalScore+15)/30)*100));
+  document.getElementById("dimensionGrid").innerHTML = `
+    <div class="dim-item"><div class="dim-label">外向性</div><div class="dim-bar-bg"><div class="dim-bar-fill" style="width:${extraPercent}%"></div></div><div class="dim-value">${extraPercent}%</div></div>
+    <div class="dim-item"><div class="dim-label">理性</div><div class="dim-bar-bg"><div class="dim-bar-fill" style="width:${rationalPercent}%"></div></div><div class="dim-value">${rationalPercent}%</div></div>
+  `;
+  // 心理效应免费TOP1完整，其余锁定
+  document.getElementById("effectFree").innerHTML = `<div class="effect-free"><div class="effect-name">${topData.name}</div><div class="effect-desc">${topData.short}<br>✨ 今日改善：${insightMap[topKey]?.split('。')[0] || "接纳自己，慢慢调整"}</div></div>`;
   let lockedHtml = "";
-  const otherKeys = effectOrder.filter(k => k !== topKey).slice(0,4);
-  for (let k of otherKeys) {
+  for(let k of effectOrder.slice(0,4)) {
+    if(k === topKey) continue;
     const data = EFFECT_LIB[k];
     lockedHtml += `<div class="effect-locked"><div class="blur"><div class="effect-name">${data.name}</div><div class="effect-desc">${data.short} —— 解锁查看完整成因+改善步骤</div></div><div class="lock-overlay">🔒</div></div>`;
   }
   document.getElementById("effectLocked").innerHTML = lockedHtml;
-  
   // IP图片切换
-  const img = document.getElementById("resultIpImg");
-  const imgUrl = IP_IMG_MAP[topKey] || IP_IMG_MAP.default;
-  img.src = imgUrl + "?t=" + Date.now();
-  document.getElementById("sloganText").innerHTML = `✨ ${topData.short}`;
-  
-  // 清除进度缓存
+  const ipImg = IP_IMG_MAP[topKey] || IP_IMG_MAP.default;
+  document.getElementById("resultIpImg").src = ipImg + "?t=" + Date.now();
+  // 清除进度
   localStorage.removeItem('sbti_progress');
   checkUnlock();
   switchPage("result");
 }
-
-// ========== 付费、分享等功能（与之前相同） ==========
 function checkUnlock() {
-  const urlKey = new URLSearchParams(location.search).get('unlock');
-  if(urlKey === CONFIG.UNLOCK_KEY) { unlockFull(); history.replaceState({},'',location.pathname); return; }
+  if(new URLSearchParams(location.search).get('unlock') === CONFIG.UNLOCK_KEY) { unlockFull(); history.replaceState({},'',location.pathname); return; }
   let exp = localStorage.getItem('sbti_paid_expire');
   if(exp && Date.now() < parseInt(exp)) { isPaid=true; showFullContent(); }
 }
-function showFullContent() {
-  document.getElementById("effectLocked").innerHTML = "";
-  document.querySelector(".action-hook").style.display = "none";
-}
+function showFullContent() { document.getElementById("effectLocked").innerHTML = ""; document.getElementById("unlockBanner").style.display = "none"; }
 function unlockFull() { isPaid=true; localStorage.setItem('sbti_paid_expire', Date.now()+CONFIG.EXPIRE_HOURS*3600000); showFullContent(); }
 function goPay() { window.open(CONFIG.PAY_URL, '_blank'); setTimeout(()=>{ if(confirm("支付已完成？点击确定自动解锁")) unlockFull(); },2000); }
 function copyInviteLink() { let link = location.origin+location.pathname+"?invite="+inviteId; navigator.clipboard.writeText(link).then(()=>{ let t=document.getElementById("copyToast"); t.style.display="block"; setTimeout(()=>t.style.display="none",2000); }).catch(()=>alert("复制失败")); }
-async function generatePoster() { let header=document.querySelector(".result-header"); if(!header) return; let clone=header.cloneNode(true); clone.style.width="320px"; clone.style.padding="20px"; clone.style.background="white"; clone.style.borderRadius="48px"; if(CONFIG.QR_CODE_URL && CONFIG.QR_CODE_URL!=="https://example.com/qr.png") { let qrDiv=document.createElement("div"); qrDiv.style.textAlign="center"; qrDiv.style.marginTop="16px"; qrDiv.innerHTML=`<img src="${CONFIG.QR_CODE_URL}" width="80">`; clone.appendChild(qrDiv); } document.body.appendChild(clone); try{ let canvas=await html2canvas(clone,{scale:1.5,backgroundColor:"#fff"}); let a=document.createElement('a'); a.download="SBTI_poster.png"; a.href=canvas.toDataURL(); a.click(); }catch(e){ alert("生成失败"); } document.body.removeChild(clone); }
+async function generatePoster() {
+  let card = document.querySelector(".result-card");
+  if(!card) return;
+  let clone = card.cloneNode(true);
+  clone.style.width = "380px";
+  clone.style.padding = "24px";
+  clone.style.background = "#0f172a";
+  clone.style.borderRadius = "40px";
+  if(CONFIG.QR_CODE_URL && CONFIG.QR_CODE_URL !== "https://example.com/qr.png") {
+    let qrDiv = document.createElement("div");
+    qrDiv.style.textAlign = "center";
+    qrDiv.style.marginTop = "16px";
+    qrDiv.innerHTML = `<img src="${CONFIG.QR_CODE_URL}" width="100" style="border-radius:16px;">`;
+    clone.appendChild(qrDiv);
+  }
+  document.body.appendChild(clone);
+  try { let canvas = await html2canvas(clone, { scale: 2, backgroundColor: "#0f172a" }); let a = document.createElement('a'); a.download = "SBTI_poster.png"; a.href = canvas.toDataURL(); a.click(); } catch(e){ alert("生成失败，可截图保存"); }
+  document.body.removeChild(clone);
+}
 function fakeShareUnlock() { if(extraUnlocked){ alert("福利已解锁！"); return; } extraUnlocked=true; localStorage.setItem('sbti_extra_unlocked','true'); alert("🎉 分享成功！已解锁「情绪钝感力」+ 反内耗清单"); if(isPaid) showFullContent(); else { let extraHtml=`<div class="effect-free" style="border-left-color:#f97316;"><div class="effect-name">🎁 已解锁福利：情绪钝感力</div><div class="effect-desc">【成因】天生敏感度低或后天习得技巧。\n【改善】①继续保持觉察 ②帮助身边敏感的人 ③做情绪稳定榜样。</div></div>`; document.getElementById("effectFree").innerHTML += extraHtml; } }
 function switchPage(id) {
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-  if (id === "test" && !document.querySelector(".info-tip")) {
-    const container = document.getElementById("infoTipContainer");
-    if (container) {
-      const tipDiv = document.createElement("div");
+  if(id === "test" && !document.querySelector(".info-tip")) {
+    let container = document.getElementById("infoTipContainer");
+    if(container) {
+      let tipDiv = document.createElement("div");
       tipDiv.className = "info-tip";
       tipDiv.innerHTML = `<i class="fas fa-info-circle"></i><span>SBTI 进阶人格测试，基于经典大五人格理论与认知行为心理学，结合当代人内耗、自我拉扯的心理状态研发，不止给你人格标签，更给你可落地的成长与自救方案。</span><i class="fas fa-times close-tip"></i>`;
       container.appendChild(tipDiv);
       tipDiv.querySelector(".close-tip").addEventListener("click", () => tipDiv.remove());
-      setTimeout(() => { if (tipDiv.parentNode) tipDiv.remove(); }, 6000);
+      setTimeout(() => { if(tipDiv.parentNode) tipDiv.remove(); }, 6000);
     }
   }
 }
-
-// ========== 页面加载 ==========
 document.addEventListener('DOMContentLoaded', () => {
-  if (loadProgress() && currentIdx > 0 && currentIdx < QUESTIONS.length) {
-    renderQuestion();
-    switchPage("test");
-  } else {
-    resetProgress();
-  }
+  if(loadProgress() && currentIdx>0 && currentIdx<QUESTIONS.length) { renderQuestion(); switchPage("test"); }
+  else resetProgress();
   document.getElementById('startBtn').onclick = startTest;
   document.getElementById('unlockBtn').onclick = goPay;
   document.getElementById('copyInviteBtn').onclick = copyInviteLink;
@@ -701,21 +750,6 @@ document.addEventListener('DOMContentLoaded', () => {
   extraUnlocked = localStorage.getItem('sbti_extra_unlocked') === 'true';
   checkUnlock();
 });
-
-// ========== Debug工具：控制台快速验证32种组合 ==========
-window.debugSbti = (personalityName, effectKey) => {
-  const validPersonalities = ["外向理性者","外向感性者","内向理性者","内向感性者"];
-  if (!validPersonalities.includes(personalityName)) personalityName = "内向感性者";
-  const effect = EFFECT_LIB[effectKey];
-  if (!effect) return;
-  const fullLabel = `${effect.prefix}型${personalityName}`;
-  document.getElementById("personalityTag").innerHTML = fullLabel;
-  document.getElementById("effectFree").innerHTML = `<div class="effect-free"><div class="effect-name">${effect.name}</div><div class="effect-desc">${effect.short}<br>✨ 今日改善：模拟调试结果</div></div>`;
-  const img = document.getElementById("resultIpImg");
-  img.src = IP_IMG_MAP[effectKey] + "?t=" + Date.now();
-  document.getElementById("sloganText").innerHTML = `✨ ${effect.short}`;
-  switchPage("result");
-};
 </script>
 </body>
 </html>
