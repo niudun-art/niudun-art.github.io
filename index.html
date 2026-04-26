@@ -144,7 +144,7 @@
     .option { background: white; border: 1px solid #e2e8f0; border-radius: 60px; padding: 16px 24px; margin-bottom: 14px; cursor: pointer; transition: 0.2s; font-weight: 500; }
     .option:hover { background: #eef2ff; border-color: #3b82f6; transform: translateX(8px); }
 
-    /* 结果页 - 字体调大 */
+    /* 结果页 - 修正后不再显示多余行 */
     .result-header {
       display: flex;
       align-items: center;
@@ -165,7 +165,6 @@
       box-shadow: 0 12px 20px -8px rgba(0,0,0,0.15);
     }
     .ip-card-large img { width: 110px; height: 110px; object-fit: contain; }
-    .ip-name { font-size: 18px; font-weight: 700; color: #f97316; margin-top: 8px; text-align: center; }
     .result-title-box { flex: 1; }
     .rare-badge-group { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
     .rare-badge {
@@ -186,11 +185,6 @@
       background-clip: text;
       color: transparent;
     }
-    .sub-effect {
-      font-size: 1rem;
-      color: #475569;
-      margin-top: 8px;
-    }
     .slogan-text {
       font-style: italic;
       color: #f97316;
@@ -198,6 +192,8 @@
       margin-top: 8px;
       font-size: 1rem;
     }
+    /* 隐藏原来的 "核心效应" 行 */
+    .sub-effect { display: none; }
 
     .dimension-item { margin-bottom: 22px; }
     .dimension-label { display: flex; justify-content: space-between; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem; }
@@ -293,7 +289,7 @@
       <div class="result-title-box">
         <div class="rare-badge-group"><span class="rare-badge" id="rareBadge">🌟 稀有度</span><span class="rare-badge rare-rank" id="rankBadge">🏆 排名</span></div>
         <div class="personality-tag-new" id="personalityTag">内耗型吗喽</div>
-        <div class="sub-effect" id="subEffect">核心效应：<strong id="topEffectName">--</strong></div>
+        <!-- 核心效应行已隐藏，只保留 slogan 行 -->
         <div class="slogan-text" id="sloganText">✨ 一起探索内心世界</div>
       </div>
     </div>
@@ -337,29 +333,23 @@ const CONFIG = {
   EXPIRE_HOURS: 24
 };
 
-// ==================== IP 图片映射（根据效应key） ====================
+// ==================== IP 图片映射 ====================
 const IP_IMG_MAP = {
   whitebear:   "images_compressed_1mb/whitebear.png",
   peoplepleaser:"images_compressed_1mb/peoplepleaser.png",
   spotlight:   "images_compressed_1mb/spotlight.png",
   internal:    "images_compressed_1mb/internal.png",
   ruminate:    "images_compressed_1mb/ruminate.png",
-  avoid:       "images_compressed_1mb/whitebear.png",   // 默认占位，可替换
+  avoid:       "images_compressed_1mb/whitebear.png",
   control:     "images_compressed_1mb/whitebear.png",
   sensitive:   "images_compressed_1mb/whitebear.png",
   imposter:    "images_compressed_1mb/whitebear.png",
   sunkcost:    "images_compressed_1mb/whitebear.png",
   default:     "images_compressed_1mb/whitebear.png"
 };
-// 效应名称对应的IP显示名（仅用于slogan）
-const IP_NAME_MAP = {
-  whitebear: "白熊宝", peoplepleaser: "讨好熊", spotlight: "聚光灯狐",
-  internal: "内耗兽", ruminate: "反刍猫", avoid: "躲藏兔",
-  control: "掌控鹰", sensitive: "敏感鹿", imposter: "冒充企鹅",
-  sunkcost: "不舍章鱼", default: "心理精灵"
-};
+// 不再需要IP_NAME_MAP因为slogan不显示名称前缀
 
-// 心理效应库（完整）
+// 心理效应库
 const EFFECT_LIB = {
   spotlight: { name: "聚光灯效应", short: "总觉得所有人都在关注自己", full: "VGhlIHBvc3RsaWdodCBmZWFjdCBlbmdpbmVlcmluZyB0aGF0IGJvZHkgb3RoZXJzIGFyZSBjb25zaWRlcmF0dXJlbHkgd2FpdGluZyB0byBzYXkgb3IgZG8gbm90IHNvbWUgdGhpbmcgdG8geW91Lg==", type: "main" },
   whitebear: { name: "白熊效应", short: "越想忘记，越挥之不去", full: "VGhlIHdoaXRlIGJlYXIgZmVhY3QgaXMgdGhlIGFic29sdXRlIG9mIHdoYXQgeW91IGFyZSB0cnlpbmcgdG8gZm9yZ2V0LiBZb3VyIGJyYWluIG1lYW5zIG91dCB0aGUgb3B0aW9ucyB5b3UgYWx3YXlzIGFyZSB0cnlpbmcgdG8gZm9yZ2V0LiA=", type: "main" },
@@ -377,17 +367,17 @@ const EFFECT_LIB = {
 const HIDDEN_BONUS = { name: "情绪钝感力", content: "【成因】天生敏感度低或后天习得技巧。\n【改善】①继续保持觉察 ②帮助身边敏感的人 ③做情绪稳定榜样。" };
 const ANTI_LIST = "🧾 反内耗行动清单：\n1. 微小完成事项（整理桌面）\n2. 焦虑笔记本（写下来就关闭）\n3. 5分钟身体扫描冥想\n4. 给情绪命名“我现在是______”\n5. 社交断舍离";
 
-// 题目（确保各效应权重合理，避免聚光灯总是第一）
+// 题目（降低聚光灯权重，增加白熊、讨好等权重）
 const QUESTIONS = [
-  { q: "别人对你的评价，你会反复琢磨很久吗？", opt: ["完全会","偶尔会","基本不会","完全不在意"], sbti: [4,3,2,1], effect: [{key:"spotlight",w:2},{key:"sensitive",w:1}] },
+  { q: "别人对你的评价，你会反复琢磨很久吗？", opt: ["完全会","偶尔会","基本不会","完全不在意"], sbti: [4,3,2,1], effect: [{key:"spotlight",w:1},{key:"sensitive",w:1}] },
   { q: "越想忘记一件小事，脑子里越挥之不去？", opt: ["经常这样","偶尔","很少","不会"], sbti: [4,3,2,1], effect: [{key:"whitebear",w:2},{key:"ruminate",w:1}] },
-  { q: "面对别人请求，很难开口拒绝？", opt: ["次次妥协","勉强答应","选择性拒绝","果断拒绝"], sbti: [4,3,2,1], effect: [{key:"peoplepleaser",w:2}] },
+  { q: "面对别人请求，很难开口拒绝？", opt: ["次次妥协","勉强答应","选择性拒绝","果断拒绝"], sbti: [4,3,2,1], effect: [{key:"peoplepleaser",w:3}] },
   { q: "睡前经常复盘白天、陷入内耗胡思乱想？", opt: ["每天","经常","偶尔","从不"], sbti: [4,3,2,1], effect: [{key:"internal",w:2},{key:"ruminate",w:1}] },
   { q: "遇到矛盾第一反应是逃避而不是解决？", opt: ["是的","一般","很少","不会"], sbti: [4,3,2,1], effect: [{key:"avoid",w:2}] },
   { q: "总想掌控身边的一切，否则会感到不安？", opt: ["是的","偶尔","很少","从不"], sbti: [4,3,2,1], effect: [{key:"control",w:2}] },
   { q: "情绪波动很大，很容易被小事影响心情？", opt: ["经常","偶尔","很少","从不"], sbti: [4,3,2,1], effect: [{key:"sensitive",w:2}] },
   { q: "总是不自觉地迎合别人，忽略自己的感受？", opt: ["总是","经常","偶尔","从不"], sbti: [4,3,2,1], effect: [{key:"peoplepleaser",w:2},{key:"internal",w:1}] },
-  { q: "在公众场合会特别在意自己的言行举止？", opt: ["非常在意","比较在意","不太在意","完全不在意"], sbti: [4,3,2,1], effect: [{key:"spotlight",w:2}] },
+  { q: "在公众场合会特别在意自己的言行举止？", opt: ["非常在意","比较在意","不太在意","完全不在意"], sbti: [4,3,2,1], effect: [{key:"spotlight",w:1}] },
   { q: "对于已经发生的事情，会反复思考如果当初...", opt: ["经常","偶尔","很少","不会"], sbti: [4,3,2,1], effect: [{key:"ruminate",w:2},{key:"whitebear",w:1}] }
 ];
 
@@ -441,7 +431,6 @@ function generateResult() {
   dims.forEach(d => { dimHtml += `<div class="dimension-item"><div class="dimension-label"><span>${d.name}</span><span>${d.score}%</span></div><div class="dimension-bar-bg"><div class="dimension-bar-fill" style="width:${d.score}%"></div></div></div>`; });
   document.getElementById("dimensionSection").innerHTML = dimHtml;
 
-  // 获取得分最高的主效应（真实切换）
   const mainSorted = Object.entries(effectScores).filter(([k])=>EFFECT_LIB[k]?.type==="main").sort((a,b)=>b[1]-a[1]);
   const topKey = mainSorted[0][0];
   const topData = EFFECT_LIB[topKey];
@@ -452,13 +441,10 @@ function generateResult() {
   for(let i=1; i<Math.min(5, mainSorted.length); i++) { const data = EFFECT_LIB[mainSorted[i][0]]; lockedHtml += `<div class="effect-locked"><div class="blur"><div class="effect-name">${data.name}</div><div class="effect-desc">${data.short} —— 解锁查看完整成因+改善步骤</div></div><div class="lock-overlay">🔒</div></div>`; }
   document.getElementById("effectLocked").innerHTML = lockedHtml;
   
-  // 切换IP图片和文字（无“聚光灯狐：xxx”字样）
+  // 更新IP图片和slogan（不显示IP名称前缀）
   const imgUrl = IP_IMG_MAP[topKey] || IP_IMG_MAP.default;
   document.getElementById("resultIpImg").src = imgUrl;
-  const ipSlogan = IP_NAME_MAP[topKey] || "心理精灵";
-  document.getElementById("sloganText").innerHTML = `✨ ${ipSlogan}：${topData.short}`;
-  document.getElementById("topEffectName").innerHTML = topData.name;
-  document.getElementById("subEffect").innerHTML = `核心效应：<strong>${topData.name}</strong>`;
+  document.getElementById("sloganText").innerHTML = `✨ ${topData.short}`;
   
   checkUnlock();
   switchPage("result");
@@ -476,7 +462,7 @@ function showFullContent() {
 function goPay() { window.open(CONFIG.PAY_URL, '_blank'); setTimeout(()=>{ if(confirm("支付已完成？点击确定自动解锁")) unlockFull(); },2000); }
 function unlockFull() { isPaid=true; localStorage.setItem('sbti_paid_expire', Date.now()+CONFIG.EXPIRE_HOURS*3600000); showFullContent(); }
 function checkUnlock() { if(new URLSearchParams(location.search).get('unlock')===CONFIG.UNLOCK_KEY){ unlockFull(); history.replaceState({},'',location.pathname); return; } let exp = localStorage.getItem('sbti_paid_expire'); if(exp && Date.now()<parseInt(exp)){ isPaid=true; showFullContent(); } }
-function getShareText() { const p=document.getElementById('personalityTag').innerText, e=document.getElementById('topEffectName').innerText, rank=document.getElementById('rankBadge').innerText; return `🔥 刚测出我是 ${p}！\n核心效应：${e}\n${rank}\n快来测测你的内耗根源 👉 ${location.origin}${location.pathname}?invite=${inviteId}`; }
+function getShareText() { const p=document.getElementById('personalityTag').innerText, rank=document.getElementById('rankBadge').innerText; return `🔥 刚测出我是 ${p}！\n${rank}\n快来测测你的内耗根源 👉 ${location.origin}${location.pathname}?invite=${inviteId}`; }
 function copyInviteLink() { const text=getShareText(); navigator.clipboard.writeText(text).then(()=>{ const t=document.getElementById("copyToast"); t.style.display="block"; setTimeout(()=>t.style.display="none",2000); }).catch(()=>alert("复制失败")); }
 async function generatePoster() { let header=document.querySelector(".result-header"); if(!header) return; let clone=header.cloneNode(true); clone.style.width="320px"; clone.style.padding="20px"; clone.style.background="white"; clone.style.borderRadius="48px"; if(CONFIG.QR_CODE_URL && CONFIG.QR_CODE_URL!=="https://example.com/qr.png") { let qrDiv=document.createElement("div"); qrDiv.style.textAlign="center"; qrDiv.style.marginTop="16px"; qrDiv.innerHTML=`<img src="${CONFIG.QR_CODE_URL}" width="80">`; clone.appendChild(qrDiv); } document.body.appendChild(clone); try{ let canvas=await html2canvas(clone,{scale:1.5,backgroundColor:"#fff"}); let a=document.createElement('a'); a.download="SBTI_poster.png"; a.href=canvas.toDataURL(); a.click(); }catch(e){ alert("生成失败"); } document.body.removeChild(clone); }
 function fakeShareUnlock() { if(extraUnlocked){ alert("福利已解锁！"); return; } extraUnlocked=true; localStorage.setItem('sbti_extra_unlocked','true'); alert("🎉 分享成功！已解锁「情绪钝感力」+ 反内耗清单\n\n"+ANTI_LIST); if(isPaid) showFullContent(); else { let extraHtml=`<div class="effect-free" style="border-left-color:#f97316;"><div class="effect-name">🎁 已解锁福利：${HIDDEN_BONUS.name}</div><div class="effect-desc">${HIDDEN_BONUS.content}</div></div>`; document.getElementById("effectFree").innerHTML += extraHtml; } }
