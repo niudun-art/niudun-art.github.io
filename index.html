@@ -9,33 +9,111 @@
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { background: radial-gradient(circle at 10% 20%, #1e293b, #0f172a); font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, sans-serif; padding: 20px; }
-    .container { max-width: 800px; margin: 0 auto; background: #ffffff; border-radius: 48px; box-shadow: 0 30px 60px rgba(0,0,0,0.3); overflow: hidden; }
-    .page { display: none; padding: 36px 32px; animation: fadeInUp 0.5s ease; }
+    body {
+      background: radial-gradient(circle at 10% 20%, #1e293b, #0f172a);
+      font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, sans-serif;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 48px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .page {
+      display: none;
+      padding: 36px 32px;
+      animation: fadeInUp 0.5s ease;
+    }
     .page.active { display: block; }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     /* 首页钩子 */
     .hero-section { text-align: center; margin-bottom: 30px; }
-    .fire-badge { background: linear-gradient(135deg, #ff5722, #ff9800); color: white; display: inline-block; padding: 10px 28px; border-radius: 60px; font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(255,87,34,0.3); }
+    .fire-badge {
+      background: linear-gradient(135deg, #ff5722, #ff9800);
+      color: white;
+      display: inline-block;
+      padding: 10px 28px;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(255,87,34,0.3);
+    }
     h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; color: #0f172a; margin-bottom: 12px; }
     .hero-sub { font-size: 1rem; color: #475569; margin-bottom: 20px; }
-    .big-hook { background: linear-gradient(120deg, #fff3e0, #ffe0b5); padding: 16px 20px; border-radius: 60px; margin: 20px 0; font-size: 1.4rem; font-weight: 900; color: #d9480f; text-align: center; border: 2px solid #ffaa33; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-    .hero-btn { background: linear-gradient(135deg, #ff5722, #ff9800); color: white; border: none; width: 100%; padding: 18px; border-radius: 60px; font-size: 1.3rem; font-weight: 800; cursor: pointer; margin: 20px 0; transition: 0.2s; }
-    .hero-btn:hover { transform: scale(1.02); }
+    .big-hook {
+      background: linear-gradient(120deg, #fff3e0, #ffe0b5);
+      padding: 16px 20px;
+      border-radius: 60px;
+      margin: 20px 0;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #d9480f;
+      text-align: center;
+      border: 2px solid #ffaa33;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .big-hook i { margin-right: 8px; }
+    .hero-btn {
+      background: linear-gradient(135deg, #ff5722, #ff9800); color: white; border: none; width: 100%;
+      padding: 18px; border-radius: 60px; font-size: 1.3rem; font-weight: 800; cursor: pointer; margin: 20px 0;
+      transition: 0.2s;
+    }
+    .hero-btn:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(255,87,34,0.4); }
 
     /* IP图片网格 */
-    .ip-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 24px; margin: 32px 0; }
-    .ip-card { background: white; border-radius: 36px; padding: 18px 12px; text-align: center; box-shadow: 0 8px 16px rgba(0,0,0,0.05); transition: 0.2s; }
+    .ip-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+    .ip-card {
+      background: white;
+      border-radius: 36px;
+      padding: 18px 12px;
+      text-align: center;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+      transition: 0.2s;
+    }
     .ip-card:hover { transform: translateY(-5px); background: #fefce8; }
-    .ip-card img { width: 80px; height: 80px; object-fit: contain; margin-bottom: 12px; }
+    .ip-card img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 12px;
+    }
     .ip-card .label { font-weight: 700; font-size: 0.9rem; color: #1e293b; }
 
     /* 其余效应文字列表 */
-    .effect-list { background: #f1f5f9; border-radius: 32px; padding: 24px; margin: 24px 0; }
+    .effect-list {
+      background: #f1f5f9;
+      border-radius: 32px;
+      padding: 24px;
+      margin: 24px 0;
+    }
     .effect-list h3 { font-size: 1.2rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-    .effect-tags { display: flex; flex-wrap: wrap; gap: 12px; }
-    .effect-tag { background: white; padding: 8px 18px; border-radius: 60px; font-size: 0.9rem; font-weight: 500; color: #1e293b; border: 1px solid #cbd5e1; }
+    .effect-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .effect-tag {
+      background: white;
+      padding: 8px 18px;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #1e293b;
+      border: 1px solid #cbd5e1;
+    }
 
     .effect-definition { background: #f8fafc; border-radius: 32px; padding: 24px; margin: 24px 0; }
     .effect-definition p { font-size: 0.95rem; line-height: 1.5; color: #334155; }
@@ -49,9 +127,16 @@
     .option:hover { background: #eef2ff; border-color: #3b82f6; transform: translateX(8px); }
 
     /* 结果页 */
-    .result-header { display: flex; align-items: center; gap: 24px; background: linear-gradient(135deg, #fff5eb, #ffe9f0); border-radius: 48px; padding: 28px; margin-bottom: 28px; }
-    .ip-card-large { background: white; width: 120px; height: 120px; border-radius: 60px; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 20px -8px rgba(0,0,0,0.15); }
-    .ip-card-large img { width: 90px; height: 90px; object-fit: contain; }
+    .result-header {
+      display: flex; align-items: center; gap: 24px;
+      background: linear-gradient(135deg, #fff5eb, #ffe9f0); border-radius: 48px; padding: 28px; margin-bottom: 28px;
+    }
+    .ip-card-large {
+      background: white; width: 120px; height: 120px; border-radius: 60px;
+      display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 20px -8px rgba(0,0,0,0.15);
+    }
+    .ip-card-large img { width: 100px; height: 100px; object-fit: contain; }
+    .ip-name { font-size: 16px; font-weight: 700; color: #f97316; margin-top: 8px; text-align: center; }
     .result-title-box { flex: 1; }
     .rare-badge-group { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
     .rare-badge { background: #ff5722; color: white; border-radius: 40px; padding: 8px 18px; font-size: 0.9rem; font-weight: 600; }
@@ -70,10 +155,17 @@
     .effect-locked .blur { filter: blur(4px); opacity: 0.6; }
     .lock-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.75); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; border-radius: 28px; }
     
-    .action-hook { background: linear-gradient(120deg, #fef9e3, #ffefc0); border-radius: 40px; padding: 24px; margin: 28px 0; text-align: center; border: 1px solid #ffd966; }
+    .action-hook {
+      background: linear-gradient(120deg, #fef9e3, #ffefc0);
+      border-radius: 40px;
+      padding: 24px;
+      margin: 28px 0;
+      text-align: center;
+      border: 1px solid #ffd966;
+    }
     .action-hook .title { font-size: 1.4rem; font-weight: 800; color: #d9480f; margin-bottom: 8px; }
     .action-hook .subtitle { font-size: 0.9rem; color: #6c757d; margin-bottom: 20px; }
-    .btn-pay { background: linear-gradient(135deg, #ef4444, #f97316); color: white; border: none; padding: 14px 28px; border-radius: 60px; font-weight: 800; font-size: 1.1rem; cursor: pointer; margin: 8px; }
+    .btn-pay { background: linear-gradient(135deg, #ef4444, #f97316); color: white; border: none; padding: 14px 28px; border-radius: 60px; font-weight: 800; font-size: 1.1rem; cursor: pointer; margin: 8px; transition: 0.2s; }
     .btn-share { background: white; border: 2px solid #f97316; color: #f97316; padding: 12px 24px; border-radius: 60px; font-weight: 700; font-size: 1rem; cursor: pointer; margin: 8px; }
     .benefits-list { margin: 16px 0 0 24px; list-style: none; text-align: left; }
     .benefits-list li { font-size: 0.9rem; margin-bottom: 10px; padding-left: 28px; position: relative; }
@@ -103,7 +195,11 @@
       <div class="fire-badge"><i class="fas fa-fire"></i> ✨ 全网爆火 · 100w+年轻人已测 ✨ <i class="fas fa-fire"></i></div>
       <h1>你总忍不住内耗？<br>1 分钟测出根源</h1>
       <div class="hero-sub">基于大五人格+认知行为理论 | 1分钟极速测评</div>
-      <div class="big-hook"><i class="fas fa-heart"></i> 停止精神内耗，先看懂你自己 <i class="fas fa-heart"></i></div>
+      
+      <div class="big-hook">
+        <i class="fas fa-heart"></i> 停止精神内耗，先看懂你自己 <i class="fas fa-heart"></i>
+      </div>
+
       <!-- 5个IP图片网格 -->
       <div class="ip-grid">
         <div class="ip-card"><img src="images_compressed_1mb/whitebear.png" alt="白熊效应" onerror="this.src='https://placehold.co/80x80?text=🐻'"><div class="label">白熊效应</div></div>
@@ -112,16 +208,25 @@
         <div class="ip-card"><img src="images_compressed_1mb/internal.png" alt="内耗效应" onerror="this.src='https://placehold.co/80x80?text=🌀'"><div class="label">内耗效应</div></div>
         <div class="ip-card"><img src="images_compressed_1mb/ruminate.png" alt="情绪反刍" onerror="this.src='https://placehold.co/80x80?text=🐱'"><div class="label">情绪反刍</div></div>
       </div>
+
       <!-- 其余效应文字列表 -->
       <div class="effect-list">
         <h3><i class="fas fa-list-ul"></i> 以及更多隐藏效应</h3>
         <div class="effect-tags">
-          <span class="effect-tag">回避型心理</span><span class="effect-tag">控制欲效应</span><span class="effect-tag">高敏感效应</span>
-          <span class="effect-tag">冒名顶替综合征</span><span class="effect-tag">沉没成本效应</span><span class="effect-tag">确认偏误</span>
+          <span class="effect-tag">回避型心理</span>
+          <span class="effect-tag">控制欲效应</span>
+          <span class="effect-tag">高敏感效应</span>
+          <span class="effect-tag">冒名顶替综合征</span>
+          <span class="effect-tag">沉没成本效应</span>
+          <span class="effect-tag">确认偏误</span>
           <span class="effect-tag">自我设限效应</span>
         </div>
       </div>
-      <div class="effect-definition"><p><strong>🎯 什么是心理效应？</strong><br>心理效应是我们在日常生活中不自觉表现出的思维、行为模式。本测试聚焦12种最常见的内耗型心理效应，帮你识别自己的心理倾向，并提供可落地的改善方案。</p></div>
+
+      <div class="effect-definition">
+        <p><strong>🎯 什么是心理效应？</strong><br>心理效应是我们在日常生活中不自觉表现出的思维、行为模式。本测试聚焦12种最常见的内耗型心理效应，帮你识别自己的心理倾向，并提供可落地的改善方案。</p>
+      </div>
+
       <button class="hero-btn" id="startBtn">🚀 测测你的内耗根源 →</button>
       <div style="font-size:0.8rem; color:#6c757d; text-align:center; margin-top:16px;">✔ 专属IP形象 ✔ 稀有度排名 ✔ 永久保存报告 ✔ 分享解锁福利</div>
     </div>
@@ -137,7 +242,9 @@
   <!-- 结果页 -->
   <div class="page" id="result">
     <div class="result-header">
-      <div class="ip-card-large"><img id="resultIpImg" src="images_compressed_1mb/whitebear.png" alt="IP形象"></div>
+      <div class="ip-card-large" id="ipCardLarge">
+        <img id="resultIpImg" src="images_compressed_1mb/whitebear.png" alt="IP形象" style="width:90px; height:90px; object-fit:contain;">
+      </div>
       <div class="result-title-box">
         <div class="rare-badge-group"><span class="rare-badge" id="rareBadge">🌟 稀有度</span><span class="rare-badge rare-rank" id="rankBadge">🏆 排名</span></div>
         <div class="personality-tag-new" id="personalityTag">内耗型吗喽</div>
@@ -151,12 +258,24 @@
     <div class="action-hook">
       <div class="title">内耗人必测！立即解锁你的专属报告</div>
       <div class="subtitle">1分钟免费测评，解锁你的内耗自救指南</div>
-      <div><button class="btn-pay" id="unlockBtn">💥 立即付费解锁 (¥9.9)</button><button class="btn-share" id="shareUnlockBtn">🎉 分享好友免费领福利</button></div>
-      <ul class="benefits-list"><li>全部12大心理效应完整解析（成因+日常改善）</li><li>24小时反内耗行动清单全文</li><li>情绪调节落地方法 & 人格身份卡</li><li>高清无水印个人结果海报</li><li>永久解锁后续题库更新 + 职场/恋爱参考</li></ul>
+      <div>
+        <button class="btn-pay" id="unlockBtn">💥 立即付费解锁 (¥9.9)</button>
+        <button class="btn-share" id="shareUnlockBtn">🎉 分享好友免费领福利</button>
+      </div>
+      <ul class="benefits-list">
+        <li>全部12大心理效应完整解析（成因+日常改善）</li>
+        <li>24小时反内耗行动清单全文</li>
+        <li>情绪调节落地方法 & 人格身份卡</li>
+        <li>高清无水印个人结果海报</li>
+        <li>永久解锁后续题库更新 + 职场/恋爱参考</li>
+      </ul>
     </div>
     <div class="share-module">
       <div class="share-title">📢 分享得福利</div>
-      <div class="btn-group"><button class="share-btn" id="copyInviteBtn">📋 复制邀请链接</button><button class="share-btn" id="genPosterBtn">📷 生成海报</button></div>
+      <div class="btn-group">
+        <button class="share-btn" id="copyInviteBtn">📋 复制邀请链接</button>
+        <button class="share-btn" id="genPosterBtn">📷 生成海报</button>
+      </div>
       <div style="font-size:0.85rem; color:#999; margin-top:16px;">截图分享朋友圈，好友扫码测出你的同款小动物</div>
     </div>
     <footer>分享给好友，双方皆可解锁反内耗清单+隐藏心理效应</footer>
@@ -173,19 +292,19 @@ const CONFIG = {
   EXPIRE_HOURS: 24
 };
 
-// ==================== IP 图片映射 ====================
+// ==================== IP 图片映射（结果页动态） ====================
 const IP_IMG_MAP = {
-  whitebear: "images_compressed_1mb/whitebear.png",
-  peoplepleaser: "images_compressed_1mb/peoplepleaser.png",
-  spotlight: "images_compressed_1mb/spotlight.png",
-  internal: "images_compressed_1mb/internal.png",
-  ruminate: "images_compressed_1mb/ruminate.png",
-  avoid: "images_compressed_1mb/avoid.png",
-  control: "images_compressed_1mb/control.png",
-  sensitive: "images_compressed_1mb/sensitive.png",
-  imposter: "images_compressed_1mb/imposter.png",
-  sunkcost: "images_compressed_1mb/sunkcost.png",
-  default: "images_compressed_1mb/default.png"
+  whitebear:   "images_compressed_1mb/whitebear.png",
+  peoplepleaser:"images_compressed_1mb/peoplepleaser.png",
+  spotlight:   "images_compressed_1mb/spotlight.png",
+  internal:    "images_compressed_1mb/internal.png",
+  ruminate:    "images_compressed_1mb/ruminate.png",
+  avoid:       "images_compressed_1mb/whitebear.png",   // 暂无则用白熊占位
+  control:     "images_compressed_1mb/whitebear.png",
+  sensitive:   "images_compressed_1mb/whitebear.png",
+  imposter:    "images_compressed_1mb/whitebear.png",
+  sunkcost:    "images_compressed_1mb/whitebear.png",
+  default:     "images_compressed_1mb/whitebear.png"
 };
 const IP_NAME_MAP = {
   whitebear: "白熊宝", peoplepleaser: "讨好熊", spotlight: "聚光灯狐",
@@ -194,7 +313,7 @@ const IP_NAME_MAP = {
   sunkcost: "不舍章鱼", default: "心理精灵"
 };
 
-// ==================== 心理效应库（精简版） ====================
+// ==================== 心理效应库（完整） ====================
 const EFFECT_LIB = {
   spotlight: { name: "聚光灯效应", short: "总觉得所有人都在关注自己", full: "VGhlIHBvc3RsaWdodCBmZWFjdCBlbmdpbmVlcmluZyB0aGF0IGJvZHkgb3RoZXJzIGFyZSBjb25zaWRlcmF0dXJlbHkgd2FpdGluZyB0byBzYXkgb3IgZG8gbm90IHNvbWUgdGhpbmcgdG8geW91Lg==", type: "main" },
   whitebear: { name: "白熊效应", short: "越想忘记，越挥之不去", full: "VGhlIHdoaXRlIGJlYXIgZmVhY3QgaXMgdGhlIGFic29sdXRlIG9mIHdoYXQgeW91IGFyZSB0cnlpbmcgdG8gZm9yZ2V0LiBZb3VyIGJyYWluIG1lYW5zIG91dCB0aGUgb3B0aW9ucyB5b3UgYWx3YXlzIGFyZSB0cnlpbmcgdG8gZm9yZ2V0LiA=", type: "main" },
@@ -268,11 +387,12 @@ function generateResult() {
   for(let i=1; i<Math.min(5, mainSorted.length); i++) { const data = EFFECT_LIB[mainSorted[i][0]]; lockedHtml += `<div class="effect-locked"><div class="blur"><div class="effect-name">${data.name}</div><div class="effect-desc">${data.short} —— 解锁查看完整成因+改善步骤</div></div><div class="lock-overlay">🔒</div></div>`; }
   document.getElementById("effectLocked").innerHTML = lockedHtml;
   
-  // 更新结果页IP图片
+  // 更新结果页IP图片和名称
   const ipImg = IP_IMG_MAP[topKey] || IP_IMG_MAP.default;
   document.getElementById("resultIpImg").src = ipImg;
   document.getElementById("resultIpImg").alt = topData.name;
-  document.getElementById("sloganText").innerHTML = `✨ ${IP_NAME_MAP[topKey] || "心理精灵"}：${topData.short}`;
+  const ipNameText = IP_NAME_MAP[topKey] || "心理精灵";
+  document.getElementById("sloganText").innerHTML = `✨ ${ipNameText}：${topData.short}`;
   document.getElementById("topEffectName").innerHTML = topData.name;
   document.getElementById("subEffect").innerHTML = `核心心理效应：<strong>${topData.name}</strong>`;
   
