@@ -15,6 +15,7 @@
     onerror="window.html2canvasLoadStatus = 'fail'"
   ></script>
   <style>
+    /* ========== 基础样式（与稳定版一致，仅微调色彩） ========== */
     * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
     :root {
       --bg-body: #FAFBFC;
@@ -136,11 +137,31 @@
 <body>
 <div class="container">
   <div class="header"><button id="themeToggle" class="theme-btn">🌙 夜间模式</button></div>
-  <!-- 首页、答题页、结果页结构完整，为节省篇幅此处省略详细HTML（实际已包含） -->
+  <!-- 首页 -->
   <div class="page active" id="home">
-    <div class="card"><div class="hero-section"><div class="fire-badge"><i class="fas fa-fire"></i> ✨ 全网爆火·100w+年轻人已测 ✨</div><h2>你不是想太多，<br>只是没读懂自己的内心</h2><div class="hero-sub">SBTI进阶人格测评 · 解码内耗真相，找到人生破局点</div><div class="big-hook"><i class="fas fa-heart"></i> 停止精神内耗，先看懂你自己</div><div class="ip-grid"><div class="ip-card"><img src="images_compressed_1mb/whitebear.png" alt="白熊"><div class="label">白熊效应</div></div><div class="ip-card"><img src="images_compressed_1mb/peoplepleaser.png" alt="讨好"><div class="label">讨好型效应</div></div><div class="ip-card"><img src="images_compressed_1mb/spotlight.png" alt="聚光灯"><div class="label">聚光灯效应</div></div><div class="ip-card"><img src="images_compressed_1mb/internal.png" alt="内耗"><div class="label">内耗效应</div></div><div class="ip-card"><img src="images_compressed_1mb/ruminate.png" alt="反刍"><div class="label">情绪反刍</div></div></div><div class="effect-list"><h3>以及更多隐藏效应</h3><div class="effect-tags"><span class="effect-tag">回避特质</span><span class="effect-tag">控制特质</span><span class="effect-tag">高敏感特质</span><span class="effect-tag">冒名特质</span><span class="effect-tag">沉没成本特质</span><span class="effect-tag">确认偏误特质</span><span class="effect-tag">自我设限特质</span></div></div><div class="effect-definition"><strong>🎯 什么是心理效应？</strong><br>心理效应是我们在日常生活中不自觉表现出的思维、行为模式。本测试聚焦12种最常见的内耗型心理效应，帮你识别自己的心理倾向，并提供可落地的改善方案。</div><button class="hero-btn" id="startBtn">🚀 测测你的内耗根源 →</button><footer>✨ 趣味人格测评 | 本内容仅为娱乐用途，非专业心理诊断</footer></div></div>
+    <div class="card">
+      <div class="hero-section">
+        <div class="fire-badge"><i class="fas fa-fire"></i> ✨ 全网爆火·100w+年轻人已测 ✨</div>
+        <h2>你不是想太多，<br>只是没读懂自己的内心</h2>
+        <div class="hero-sub">SBTI进阶人格测评 · 解码内耗真相，找到人生破局点</div>
+        <div class="big-hook"><i class="fas fa-heart"></i> 停止精神内耗，先看懂你自己</div>
+        <div class="ip-grid">
+          <div class="ip-card"><img src="images_compressed_1mb/whitebear.png" alt="白熊"><div class="label">白熊效应</div></div>
+          <div class="ip-card"><img src="images_compressed_1mb/peoplepleaser.png" alt="讨好"><div class="label">讨好型效应</div></div>
+          <div class="ip-card"><img src="images_compressed_1mb/spotlight.png" alt="聚光灯"><div class="label">聚光灯效应</div></div>
+          <div class="ip-card"><img src="images_compressed_1mb/internal.png" alt="内耗"><div class="label">内耗效应</div></div>
+          <div class="ip-card"><img src="images_compressed_1mb/ruminate.png" alt="反刍"><div class="label">情绪反刍</div></div>
+        </div>
+        <div class="effect-list"><h3>以及更多隐藏效应</h3><div class="effect-tags"><span class="effect-tag">回避特质</span><span class="effect-tag">控制特质</span><span class="effect-tag">高敏感特质</span><span class="effect-tag">冒名特质</span><span class="effect-tag">沉没成本特质</span><span class="effect-tag">确认偏误特质</span><span class="effect-tag">自我设限特质</span></div></div>
+        <div class="effect-definition"><strong>🎯 什么是心理效应？</strong><br>心理效应是我们在日常生活中不自觉表现出的思维、行为模式。本测试聚焦12种最常见的内耗型心理效应，帮你识别自己的心理倾向，并提供可落地的改善方案。</div>
+        <button class="hero-btn" id="startBtn">🚀 测测你的内耗根源 →</button>
+        <footer>✨ 趣味人格测评 | 本内容仅为娱乐用途，非专业心理诊断</footer>
+      </div>
+    </div>
   </div>
+  <!-- 答题页 -->
   <div class="page" id="test"><div id="infoTipContainer"></div><div class="card"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="question-text" id="questionText"></div><div id="optionsContainer"></div><footer>点击选项自动进入下一题</footer></div></div>
+  <!-- 结果页 -->
   <div class="page" id="result">
     <div class="card">
       <div class="result-top"><div class="ip-circle"><img id="resultIpImg" src="images_compressed_1mb/whitebear.png"></div><div class="personality-area"><div class="personality-big" id="personalityBig">外向理性者</div><div><span class="match-badge" id="matchBadge">匹配度77%</span><span class="match-badge" id="depthBadge">维度命中度较高</span></div><div class="main-type" id="mainType"></div></div></div>
@@ -182,7 +203,7 @@ const IP_IMG_MAP = {
   default: "images_compressed_1mb/whitebear.png"
 };
 
-// 心理效应库
+// 心理效应库（8种，含所有字段）
 const EFFECT_LIB = {
   whitebear: { name: "白熊特质", en: "WHITE BEAR", hook: "越想放下，记得越牢", decode: "恭喜你，测到了全网仅12%的【WHITE BEAR - 白熊特质】人格。别总怪自己放不下，能把情绪记得这么牢的人，骨子里都藏着极致的温柔与真诚。你总陷入“越想忘记越忘不掉”的循环，不是你太拧巴，是你对世界的感知力，比常人细腻一万倍。你在自己的心里建了一座回忆博物馆，哪怕是别人早已忘记的小事，你都好好收着。别人眼里的内耗，其实是你独有的温柔天赋，你只是…", prefix: "白熊", type: "main", short: "越想忘记，越挥之不去" },
   peoplepleaser: { name: "讨好特质", en: "PEOPLE PLEASER", hook: "你的善良，要有锋芒", decode: "恭喜你，测到了全网仅15%的【PEOPLE PLEASER - 讨好特质】人格。你不是懦弱，你只是太在乎别人的感受。你习惯性迁就，是因为你比谁都害怕关系破裂。你的内心住着一个渴望被认可的小孩，总是先满足别人，再委屈自己。但请记住，真正值得的关系，不需要你弯腰。你值得被无条件地珍惜，你只是…", prefix: "讨好", type: "main", short: "习惯性迁就，害怕拒绝" },
@@ -194,7 +215,7 @@ const EFFECT_LIB = {
   sensitive: { name: "高敏感特质", en: "SENSITIVE", hook: "你的柔软，是超能力", decode: "恭喜你，测到了全网仅8%的【SENSITIVE - 高敏感特质】人格。你像雷达一样捕捉外界情绪，容易受伤却也更懂得共情。这不是你矫情，是你天生的天赋。你能感受到别人忽略的美好，也能体会他人的痛苦。记得给自己留出充电的时间，你的柔软，是世界的一抹温柔。你只是…", prefix: "高敏感", type: "main", short: "情绪细腻，容易受伤" }
 };
 
-// 10道题库（与之前完全一致，略）
+// 10道题库（与之前完全相同）
 const QUESTIONS = [
   { text: "聚会里不小心说错一句话，散场后你的第一反应是？", options: [{text:"满脑子都是大家会不会因此对我有看法，反复回想", effects:[{key:"spotlight",val:3},{key:"ruminate",val:3}]},{text:"有点在意，但很快就安慰自己'没人会记得'", effects:[{key:"spotlight",val:1},{key:"ruminate",val:1}]},{text:"完全无所谓，谁还没说错过话", effects:[{key:"spotlight",val:-3},{key:"ruminate",val:-3}]}]},
   { text: "朋友找你帮忙做一件你很不想做的事，你会怎么做？", options: [{text:"哪怕委屈自己也硬着头皮答应，怕对方不高兴", effects:[{key:"peoplepleaser",val:3},{key:"internal",val:3}]},{text:"看情况，实在没法推脱才答应", effects:[{key:"peoplepleaser",val:1},{key:"internal",val:1}]},{text:"直接找借口推脱，尽量避开正面沟通", effects:[{key:"avoid",val:3},{key:"control",val:3}]}]},
@@ -208,7 +229,7 @@ const QUESTIONS = [
   { text: "遇到一件很难解决的麻烦事，你最常有的心态是？", options: [{text:"硬扛也要做完，怕别人觉得自己不靠谱", effects:[{key:"peoplepleaser",val:3},{key:"ruminate",val:3}]},{text:"尽力而为，但不会过度透支", effects:[{key:"peoplepleaser",val:1},{key:"ruminate",val:1}]},{text:"拖着不处理，能躲就躲", effects:[{key:"avoid",val:3},{key:"whitebear",val:3}]}]}
 ];
 
-// 全局变量与核心函数（与之前一致）
+// ========== 全局变量与核心函数 ==========
 let currentIdx=0, extraScore=0, rationalScore=0;
 let effectScores={}, effectStrongCount={}, effectReverseCount={};
 let inviteId=localStorage.getItem('inviteId')||('inv_'+Date.now()+'_'+Math.random().toString(36).substr(2,6));
@@ -259,6 +280,8 @@ function showDeepGuide(effectKey){
   document.getElementById("deepGuide").innerHTML=html;
   document.getElementById("deepGuide").style.display="block";
 }
+
+// ========== 修复后的 generateResult（核心：解锁状态持久化） ==========
 function generateResult(){
   let personality=getPersonality(extraScore,rationalScore);
   let topKey=getTopEffect();
@@ -274,20 +297,44 @@ function generateResult(){
   let rationalPercent=Math.min(100,Math.floor(((rationalScore+15)/30)*100));
   document.getElementById("dimensionGrid").innerHTML=`<div class="dim-item"><div class="dim-label">外向性</div><div class="dim-bar-bg"><div class="dim-bar-fill" style="width:${extraPercent}%"></div></div><div class="dim-value">${extraPercent}%</div></div><div class="dim-item"><div class="dim-label">理性</div><div class="dim-bar-bg"><div class="dim-bar-fill" style="width:${rationalPercent}%"></div></div><div class="dim-value">${rationalPercent}%</div></div>`;
   document.getElementById("effectFree").innerHTML=`<div class="effect-free"><div class="effect-name">${topData.name}</div><div class="effect-desc">${topData.short}<br>✨ 今日改善：${insightMap[topKey]?.split('。')[0] || "接纳自己，慢慢调整"}</div></div>`;
+
+  // 关键修复：根据 extraUnlocked 决定锁定卡片的渲染方式
   let lockedHtml="";
+  let unlockedCount=0;
   for(let i=0;i<Math.min(4, effectOrder.length); i++){
     let k=effectOrder[i];
     if(k===topKey) continue;
     const data=EFFECT_LIB[k];
+    // 如果已经解锁，并且还没解锁满2个，则直接渲染为解锁卡片
+    if(extraUnlocked && unlockedCount<2){
+      document.getElementById("effectFree").insertAdjacentHTML('afterend', `
+        <div class="effect-free" data-effect-key="${k}">
+          <div class="effect-name">${data.name}</div>
+          <div class="effect-desc">${data.short} —— 已通过分享解锁完整内容</div>
+        </div>
+      `);
+      unlockedCount++;
+      continue;
+    }
+    // 否则渲染为锁定卡片
     lockedHtml+=`<div class="effect-locked" data-effect-key="${k}"><div class="blur"><div class="effect-name">${data.name}</div><div class="effect-desc">${data.short} —— 解锁查看完整成因+改善步骤</div></div><div class="lock-overlay">🔒</div></div>`;
   }
   document.getElementById("effectLocked").innerHTML=lockedHtml;
+
+  // 如果已经解锁，且福利卡片还未添加，则追加
+  if(extraUnlocked && !document.querySelector(".effect-free[data-bonus='sensibility']")){
+    const extraHtml = `<div class="effect-free" style="border-left-color:#FF9F43;" data-bonus="sensibility"><div class="effect-name">🎁 已解锁福利：情绪钝感力</div><div class="effect-desc">【成因】天生敏感度低或后天习得技巧。\n【改善】①继续保持觉察 ②帮助身边敏感的人 ③做情绪稳定榜样。</div></div>`;
+    document.getElementById("effectFree").insertAdjacentHTML('afterend', extraHtml);
+  }
+
   document.getElementById("resultIpImg").src=IP_IMG_MAP[topKey]+"?t="+Date.now();
   localStorage.removeItem('sbti_progress');
   if(isPaid){ showDeepGuide(topKey); document.getElementById("premiumBanner").style.display="none"; }
   else { document.getElementById("premiumBanner").style.display="block"; document.getElementById("deepGuide").style.display="none"; }
-  checkUnlock(); switchPage("result");
+  checkUnlock(); 
+  switchPage("result");
 }
+
 function checkUnlock(){ if(new URLSearchParams(location.search).get('unlock')===CONFIG.UNLOCK_KEY){ unlockFull(); history.replaceState({},'',location.pathname); return; } let exp=localStorage.getItem('sbti_paid_expire'); if(exp && Date.now()<parseInt(exp)){ isPaid=true; showFullContent(); } }
 function showFullContent(){ const topKey=getTopEffect(); showDeepGuide(topKey); document.getElementById("effectLocked").innerHTML=""; document.getElementById("premiumBanner").style.display="none"; }
 function unlockFull(){ isPaid=true; localStorage.setItem('sbti_paid_expire', Date.now()+CONFIG.EXPIRE_HOURS*3600000); showFullContent(); }
@@ -295,39 +342,43 @@ function goPay(){ window.open(CONFIG.PAY_URL, '_blank'); setTimeout(()=>{ if(con
 function copyInviteLink(){ let link=location.origin+location.pathname+"?invite="+inviteId; navigator.clipboard.writeText(link).then(()=>showToast("✓ 邀请链接已复制！")).catch(()=>alert("复制失败")); }
 function copyResultText(){ let personality=document.getElementById("personalityBig").innerText; let mainType=document.getElementById("mainType").innerText; let insight=document.getElementById("insightText").innerText; let shareText=`【SBTI人格测试】\n我的结果：${personality}\n${mainType}\n${insight}\n—— 你也来测测你的内耗根源：${location.origin}${location.pathname}`; navigator.clipboard.writeText(shareText).then(()=>showToast("✓ 结果已复制，快去分享吧！")).catch(()=>alert("复制失败")); }
 
-// ========== 分享解锁：强制解锁前两个锁定效应（彻底修复） ==========
+// ========== 修复后的 fakeShareUnlock（容错 + 状态同步 + 按钮置灰） ==========
 function fakeShareUnlock(){
   if(extraUnlocked){
-    alert("福利已解锁！");
+    alert("福利已解锁！刷新页面也不会消失~");
     return;
   }
   extraUnlocked=true;
   localStorage.setItem('sbti_extra_unlocked','true');
-  // 查找所有锁定卡片
+  // 解锁现有锁定卡片的前两个
   const lockedCards = document.querySelectorAll(".effect-locked");
-  // 解锁前两个
   let unlocked = 0;
   for(let i=0; i<lockedCards.length && unlocked<2; i++){
     const card = lockedCards[i];
     const overlay = card.querySelector(".lock-overlay");
-    if(overlay){
-      overlay.remove();
-      card.classList.remove("effect-locked");
-      card.classList.add("effect-free");
-      const blurDiv = card.querySelector(".blur");
-      if(blurDiv) blurDiv.style.filter = "none";
-      unlocked++;
-    }
+    const blurDiv = card.querySelector(".blur");
+    if(overlay) overlay.remove();
+    if(blurDiv) blurDiv.style.filter = "none";
+    card.classList.remove("effect-locked");
+    card.classList.add("effect-free");
+    unlocked++;
   }
-  // 添加情绪钝感力福利
+  // 添加情绪钝感力福利（防止重复添加）
   if(!document.querySelector(".effect-free[data-bonus='sensibility']")){
     const extraHtml = `<div class="effect-free" style="border-left-color:#FF9F43;" data-bonus="sensibility"><div class="effect-name">🎁 已解锁福利：情绪钝感力</div><div class="effect-desc">【成因】天生敏感度低或后天习得技巧。\n【改善】①继续保持觉察 ②帮助身边敏感的人 ③做情绪稳定榜样。</div></div>`;
     document.getElementById("effectFree").insertAdjacentHTML('afterend', extraHtml);
   }
-  alert("🎉 分享成功！已解锁两个隐藏效应 + 情绪钝感力福利");
+  // 分享按钮置灰，防止重复点击
+  const shareBtn = document.getElementById('shareUnlockBtn');
+  if(shareBtn){
+    shareBtn.style.color = '#8E92A8';
+    shareBtn.style.cursor = 'not-allowed';
+    shareBtn.onclick = () => alert("福利已解锁，无需重复操作");
+  }
+  alert("🎉 分享成功！已永久解锁2个隐藏效应 + 情绪钝感力福利，刷新页面也不会消失");
 }
 
-// ========== 爆款海报生成（文字深色，无边框IP） ==========
+// ========== 爆款海报生成（IP 圆圈边框减半 + 英文加大 + 文字深色） ==========
 async function generatePoster(){
   if(window.html2canvasLoadStatus !== 'success' || typeof html2canvas === 'undefined'){ alert("海报渲染库未加载，请刷新页面重试"); return; }
   const topKey = getTopEffect();
@@ -348,9 +399,10 @@ async function generatePoster(){
           <div style="font-size:48px; font-weight:800; color:#2A2C35; margin-bottom:8px;">${escapeHtml(effect.name)}</div>
           <div style="font-size:26px; font-weight:600; color:${accentColor}; letter-spacing:3px; margin-top:4px;">${escapeHtml(effect.en)}</div>
         </div>
+        <!-- IP 圆圈：边框厚度减半（图片 205px / 容器 220px），背景变浅 -->
         <div style="display:flex; justify-content:center; margin:36px 0;">
-          <div style="width:220px; height:220px; background:#F0F3FF; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow: none; border: none;">
-            <img src="${ipImgUrl}" style="width:190px; height:190px; object-fit:contain; border-radius:50%;">
+          <div style="width:220px; height:220px; background:#F8FAFF; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow: none; border: none;">
+            <img src="${ipImgUrl}" style="width:205px; height:205px; object-fit:contain; border-radius:50%;">
           </div>
         </div>
         <div style="text-align:center; margin-bottom:32px;">
@@ -397,19 +449,19 @@ function switchPage(id){
   }
 }
 function initTheme(){
-  let saved = localStorage.getItem('theme');
-  if(saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-  else document.documentElement.setAttribute('data-theme', 'light');
-  let btn = document.getElementById('themeToggle');
-  btn.innerHTML = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️ 白天模式' : '🌙 夜间模式';
+  let saved=localStorage.getItem('theme');
+  if(saved==='dark') document.documentElement.setAttribute('data-theme','dark');
+  else document.documentElement.setAttribute('data-theme','light');
+  let btn=document.getElementById('themeToggle');
+  btn.innerHTML=document.documentElement.getAttribute('data-theme')==='dark'?'☀️ 白天模式':'🌙 夜间模式';
 }
 function toggleTheme(){
-  let current = document.documentElement.getAttribute('data-theme');
-  let newTheme = current === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', newTheme);
-  localStorage.setItem('theme', newTheme);
-  let btn = document.getElementById('themeToggle');
-  btn.innerHTML = newTheme === 'dark' ? '☀️ 白天模式' : '🌙 夜间模式';
+  let current=document.documentElement.getAttribute('data-theme');
+  let newTheme=current==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',newTheme);
+  localStorage.setItem('theme',newTheme);
+  let btn=document.getElementById('themeToggle');
+  btn.innerHTML=newTheme==='dark'?'☀️ 白天模式':'🌙 夜间模式';
 }
 document.addEventListener('DOMContentLoaded',()=>{
   initTheme();
@@ -422,7 +474,17 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('genPosterBtn').onclick = generatePoster;
   document.getElementById('shareUnlockBtn').onclick = fakeShareUnlock;
   document.getElementById('themeToggle').onclick = toggleTheme;
+  // 新增：页面加载时同步分享解锁状态
   extraUnlocked = localStorage.getItem('sbti_extra_unlocked') === 'true';
+  // 如果已经解锁，则把分享按钮置灰（视觉反馈）
+  if(extraUnlocked){
+    const shareBtn = document.getElementById('shareUnlockBtn');
+    if(shareBtn){
+      shareBtn.style.color = '#8E92A8';
+      shareBtn.style.cursor = 'not-allowed';
+      shareBtn.onclick = () => alert("福利已解锁，无需重复操作");
+    }
+  }
   checkUnlock();
 });
 </script>
