@@ -226,7 +226,17 @@ const QUESTIONS = [
 let currentIdx=0, extraScore=0, rationalScore=0;
 let effectScores={}, effectStrongCount={}, effectReverseCount={};
 let inviteId=localStorage.getItem('inviteId')||('inv_'+Date.now()+'_'+Math.random().toString(36).substr(2,6));
-let isPaid=false, extraUnlocked=false;
+let isPaid=false;
+let extraUnlocked=false;  // 初始为 false，不会自动解锁
+
+// 从 localStorage 读取之前的解锁状态（仅当用户已经手动操作过后才会为 true）
+if(localStorage.getItem('sbti_extra_unlocked') === 'true') {
+  extraUnlocked = true;
+}
+if(localStorage.getItem('sbti_paid_expire') && Date.now() < parseInt(localStorage.getItem('sbti_paid_expire'))) {
+  isPaid = true;
+}
+
 localStorage.setItem('inviteId', inviteId);
 Object.keys(EFFECT_LIB).forEach(k=>{ effectScores[k]=0; effectStrongCount[k]=0; effectReverseCount[k]=0; });
 
@@ -279,14 +289,37 @@ function showFullContent(){ const topKey=getTopEffect(); showDeepGuide(topKey); 
 function goPay(){ window.open(CONFIG.PAY_URL, '_blank'); setTimeout(()=>{ if(confirm("支付已完成？点击确定自动解锁")) unlockFull(); },2000); }
 function copyInviteLink(){ let link=location.origin+location.pathname+"?invite="+inviteId; navigator.clipboard.writeText(link).then(()=>showToast("✓ 邀请链接已复制！")).catch(()=>alert("复制失败")); }
 function copyResultText(){ let personality=document.getElementById("personalityBig").innerText; let mainType=document.getElementById("mainType").innerText; let insight=document.getElementById("insightText").innerText; let shareText=`【SBTI 32型人格测试】\n我的结果：${personality}\n${mainType}\n${insight}\n—— 你也来测测你的内耗根源：${location.origin}${location.pathname}`; navigator.clipboard.writeText(shareText).then(()=>showToast("✓ 结果已复制，快去分享！")).catch(()=>alert("复制失败")); }
-function fakeShareUnlock(){ if(extraUnlocked){ alert("福利已解锁！刷新页面也不会消失~"); return; } extraUnlocked=true; localStorage.setItem('sbti_extra_unlocked','true'); const lockedCards = document.querySelectorAll(".effect-locked"); let unlocked=0; for(let i=0;i<lockedCards.length&&unlocked<2;i++){ const card=lockedCards[i]; const overlay=card.querySelector(".lock-overlay"); const blurDiv=card.querySelector(".blur"); if(overlay) overlay.remove(); if(blurDiv) blurDiv.style.filter="none"; card.classList.remove("effect-locked"); card.classList.add("effect-free"); unlocked++; } if(!document.querySelector(".effect-free[data-bonus='sensibility']")){ const extraHtml = `<div class="effect-free" style="border-left-color:#FF9F43;" data-bonus="sensibility"><div class="effect-name">🎁 已解锁福利：情绪钝感力</div><div class="effect-desc">【成因】天生敏感度低或后天习得技巧。\n【改善】①继续保持觉察 ②帮助身边敏感的人 ③做情绪稳定榜样。</div></div>`; document.getElementById("effectFree").insertAdjacentHTML('afterend', extraHtml); } const shareBtn = document.getElementById('shareUnlockBtn'); if(shareBtn){ shareBtn.style.color = '#8E92A8'; shareBtn.style.cursor = 'not-allowed'; shareBtn.onclick = () => alert("福利已解锁，无需重复操作"); } alert("🎉 分享成功！已永久解锁2个隐藏效应 + 情绪钝感力福利，刷新页面也不会消失"); }
+function fakeShareUnlock(){ 
+  if(extraUnlocked){ alert("福利已解锁！刷新页面也不会消失~"); return; } 
+  extraUnlocked=true; 
+  localStorage.setItem('sbti_extra_unlocked','true'); 
+  const lockedCards = document.querySelectorAll(".effect-locked"); 
+  let unlocked=0; 
+  for(let i=0;i<lockedCards.length&&unlocked<2;i++){ 
+    const card=lockedCards[i]; 
+    const overlay=card.querySelector(".lock-overlay"); 
+    const blurDiv=card.querySelector(".blur"); 
+    if(overlay) overlay.remove(); 
+    if(blurDiv) blurDiv.style.filter="none"; 
+    card.classList.remove("effect-locked"); 
+    card.classList.add("effect-free"); 
+    unlocked++; 
+  } 
+  if(!document.querySelector(".effect-free[data-bonus='sensibility']")){ 
+    const extraHtml = `<div class="effect-free" style="border-left-color:#FF9F43;" data-bonus="sensibility"><div class="effect-name">🎁 已解锁福利：情绪钝感力</div><div class="effect-desc">【成因】天生敏感度低或后天习得技巧。\n【改善】①继续保持觉察 ②帮助身边敏感的人 ③做情绪稳定榜样。</div></div>`; 
+    document.getElementById("effectFree").insertAdjacentHTML('afterend', extraHtml); 
+  } 
+  const shareBtn = document.getElementById('shareUnlockBtn'); 
+  if(shareBtn){ shareBtn.style.color = '#8E92A8'; shareBtn.style.cursor = 'not-allowed'; shareBtn.onclick = () => alert("福利已解锁，无需重复操作"); } 
+  alert("🎉 分享成功！已永久解锁2个隐藏效应 + 情绪钝感力福利，刷新页面也不会消失"); 
+}
 async function generatePoster(){ if(window.html2canvasLoadStatus !== 'success' || typeof html2canvas === 'undefined'){ alert("海报渲染库未加载，请刷新页面重试"); return; } const topKey=getTopEffect(); const effect=EFFECT_LIB[topKey]; const combination=getCombinationName(topKey); const matchPercent=getEffectMatchPercent(); const hitCount=calcHitCount(); const extraPercent=Math.min(100,Math.floor(((extraScore+15)/30)*100)); const rationalPercent=Math.min(100,Math.floor(((rationalScore+15)/30)*100)); const ipImgUrl=IP_IMG_MAP[topKey]+"?t="+Date.now(); const loadImage = (src) => new Promise((resolve, reject) => { const img = new Image(); img.crossOrigin = "anonymous"; img.onload = () => resolve(img); img.onerror = reject; img.src = src; }); try { await loadImage(ipImgUrl); const posterDiv = document.createElement("div"); posterDiv.style.cssText = `width:600px;background:#FFFFFF;border-radius:0;font-family:system-ui;position:absolute;left:-9999px;top:0;z-index:-999;padding:0;margin:0;`; const accentColor = "#6B8EFB"; posterDiv.innerHTML = `<div style="padding:32px 24px 24px;"><div style="text-align:center;"><div style="font-size:14px; color:#8E92A8; letter-spacing:1px; margin-bottom:8px;">你的32型人格代码</div><div style="font-size:42px; font-weight:800; color:#2A2C35; margin-bottom:6px;">${escapeHtml(combination)}</div><div style="font-size:28px; font-weight:700; color:${accentColor}; letter-spacing:2px; margin:8px 0;">${escapeHtml(effect.en)}</div></div><div style="display:flex; justify-content:center; margin:36px 0;"><div style="width:220px; height:220px; background:#EBF0FF; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border: 1px solid #DDE3F0;"><img src="${ipImgUrl}" style="width:205px; height:205px; object-fit:contain; border-radius:50%;"></div></div><div style="text-align:center; margin-bottom:32px;"><div style="font-size:18px; font-weight:500; color:#585B6E; font-style:italic;">“${escapeHtml(effect.hook)}”</div></div><div style="background:#F8FAFF; border-radius:24px; padding:20px; margin-bottom:20px;"><div style="font-size:16px; font-weight:600; color:#585B6E;">${escapeHtml(combination)}</div><div style="margin-top:12px;"><span style="background:${accentColor}; color:white; padding:4px 12px; border-radius:40px; font-size:13px;">主导效应匹配度 ${matchPercent}% · 命中${hitCount}种心理特质</span></div><div style="margin-top:10px; font-size:13px; color:#8E92A8;">外向性 ${extraPercent}% &nbsp;&nbsp;|&nbsp;&nbsp; 理性 ${rationalPercent}%</div></div><div style="background:#F0F2F8; border-radius:24px; padding:20px;"><div style="font-size:16px; font-weight:700; margin-bottom:12px; color:#1F2937;">该人格的简单解读</div><div style="font-size:14px; color:#1F2937; line-height:1.5;">${escapeHtml(effect.decode)}</div></div><div style="margin-top:24px; text-align:center; font-size:11px; color:#C7C9D1;">心理灯塔 · 看见真实的自己</div></div>`; document.body.appendChild(posterDiv); const canvas = await html2canvas(posterDiv, { scale: 2, backgroundColor: "#FFFFFF", useCORS: true, allowTaint: false, scrollX: 0, scrollY: 0 }); const link = document.createElement("a"); link.download = `SBTI_32_${topKey}.png`; link.href = canvas.toDataURL("image/png"); link.click(); showToast("✓ 海报已生成，请长按保存分享"); } catch(e) { console.error(e); alert("生成失败，可截图保存"); } finally { const el = document.querySelector('div[style*="left: -9999px"]'); if(el && el.parentNode) el.parentNode.removeChild(el); } }
 function escapeHtml(str){ return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m; }); }
 function showToast(msg){ let t=document.getElementById("copyToast"); t.innerText=msg; t.style.display="block"; setTimeout(()=>t.style.display="none",2000); }
 function switchPage(id){ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active")); document.getElementById(id).classList.add("active"); window.scrollTo(0,0); if(id === "test" && !document.querySelector(".info-tip")){ const container = document.getElementById("infoTipContainer"); if(container){ const tipDiv = document.createElement("div"); tipDiv.className = "info-tip"; tipDiv.innerHTML = `<i class="fas fa-info-circle"></i><span>SBTI 32型人格测试，基于8种心理效应 × 外向/内向 + 理性/感性 = 32种精确组合。不只给你标签，更给成长方案。</span><i class="fas fa-times close-tip"></i>`; container.appendChild(tipDiv); tipDiv.querySelector(".close-tip").addEventListener("click", () => tipDiv.remove()); setTimeout(() => { if(tipDiv.parentNode) tipDiv.remove(); }, 6000); } } }
 function initTheme(){ let saved=localStorage.getItem('theme'); if(saved==='dark') document.documentElement.setAttribute('data-theme','dark'); else document.documentElement.setAttribute('data-theme','light'); let btn=document.getElementById('themeToggle'); btn.innerHTML=document.documentElement.getAttribute('data-theme')==='dark'?'☀️ 白天模式':'🌙 夜间模式'; }
 function toggleTheme(){ let current=document.documentElement.getAttribute('data-theme'); let newTheme=current==='dark'?'light':'dark'; document.documentElement.setAttribute('data-theme',newTheme); localStorage.setItem('theme',newTheme); let btn=document.getElementById('themeToggle'); btn.innerHTML=newTheme==='dark'?'☀️ 白天模式':'🌙 夜间模式'; }
-document.addEventListener('DOMContentLoaded',()=>{ initTheme(); if(loadProgress() && currentIdx>0 && currentIdx<QUESTIONS.length){ renderQuestion(); switchPage("test"); } else resetProgress(); document.getElementById('startBtn').onclick = startTest; document.getElementById('unlockBtn').onclick = goPay; document.getElementById('copyInviteBtn').onclick = copyInviteLink; document.getElementById('copyResultBtn').onclick = copyResultText; document.getElementById('genPosterBtn').onclick = generatePoster; document.getElementById('shareUnlockBtn').onclick = fakeShareUnlock; document.getElementById('themeToggle').onclick = toggleTheme; extraUnlocked = localStorage.getItem('sbti_extra_unlocked') === 'true'; if(extraUnlocked){ const shareBtn = document.getElementById('shareUnlockBtn'); if(shareBtn){ shareBtn.style.color = '#8E92A8'; shareBtn.style.cursor = 'not-allowed'; shareBtn.onclick = () => alert("福利已解锁，无需重复操作"); } } function checkUnlock(){ if(new URLSearchParams(location.search).get('unlock')===CONFIG.UNLOCK_KEY){ unlockFull(); history.replaceState({},'',location.pathname); return; } let exp=localStorage.getItem('sbti_paid_expire'); if(exp && Date.now()<parseInt(exp)){ isPaid=true; showFullContent(); } } checkUnlock(); });
+document.addEventListener('DOMContentLoaded',()=>{ initTheme(); if(loadProgress() && currentIdx>0 && currentIdx<QUESTIONS.length){ renderQuestion(); switchPage("test"); } else resetProgress(); document.getElementById('startBtn').onclick = startTest; document.getElementById('unlockBtn').onclick = goPay; document.getElementById('copyInviteBtn').onclick = copyInviteLink; document.getElementById('copyResultBtn').onclick = copyResultText; document.getElementById('genPosterBtn').onclick = generatePoster; document.getElementById('shareUnlockBtn').onclick = fakeShareUnlock; document.getElementById('themeToggle').onclick = toggleTheme; // 不再自动调用任何解锁函数，保持初始未解锁状态 // 但需要检查付费解锁是否过期 if(localStorage.getItem('sbti_paid_expire') && Date.now() < parseInt(localStorage.getItem('sbti_paid_expire'))){ isPaid = true; if(document.getElementById("result").classList.contains("active")) showFullContent(); } });
 </script>
 </body>
 </html>
