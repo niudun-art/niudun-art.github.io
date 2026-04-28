@@ -15,7 +15,7 @@
     onerror="window.html2canvasLoadStatus = 'fail'"
   ></script>
   <style>
-    /* 与最终版样式一致，只修改海报相关部分 */
+    /* 基础样式（与上一版稳定版一致，未作改动） */
     * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
     :root {
       --bg-body: #FAFBFC;
@@ -56,7 +56,6 @@
     .header { display: flex; justify-content: flex-end; align-items: center; margin-bottom: 24px; }
     .theme-btn { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 60px; padding: 8px 18px; font-size: 0.9rem; cursor: pointer; color: var(--text-body); }
     .theme-btn:hover { background: var(--option-hover); transform: scale(0.96); }
-    /* 首页样式（与之前完全相同，略） */
     .hero-section { text-align: center; margin-bottom: 30px; }
     .fire-badge { background: linear-gradient(135deg, #FF9F43, #FF7E3A); color: white; display: inline-block; padding: 8px 24px; border-radius: 60px; font-size: 0.9rem; font-weight: 800; margin-bottom: 16px; }
     h2 { font-size: 1.8rem; font-weight: 800; margin: 12px 0; color: var(--text-title); }
@@ -76,7 +75,6 @@
     .hero-btn { background: var(--primary); width: 100%; padding: 16px; border-radius: 60px; font-weight: 700; font-size: 1.2rem; color: white; border: none; cursor: pointer; margin-top: 16px; box-shadow: 0 4px 12px rgba(91,110,247,0.3); }
     .hero-btn:hover { background: #4A5CE6; transform: translateY(-2px); }
     footer { text-align: center; font-size: 0.7rem; color: var(--text-light); margin-top: 24px; }
-    /* 答题页 */
     .info-tip { background: var(--primary-soft); border-radius: 24px; padding: 14px 18px; margin-bottom: 24px; display: flex; align-items: flex-start; gap: 12px; border-left: 6px solid var(--primary); font-size: 0.85rem; color: var(--text-body); }
     .info-tip .close-tip { margin-left: auto; cursor: pointer; color: var(--text-light); }
     .progress-bar { height: 8px; background: var(--border-light); border-radius: 10px; margin-bottom: 24px; }
@@ -85,7 +83,6 @@
     .option { background: var(--result-bg); border: 1px solid var(--border-light); border-radius: 60px; padding: 12px 20px; margin-bottom: 12px; cursor: pointer; color: var(--text-body); }
     .option:hover { background: var(--option-hover); transform: translateX(6px); }
     .option.selected { background: var(--primary); color: white; border-color: var(--primary); }
-    /* 结果页 */
     .result-top { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
     .ip-circle { width: 110px; height: 110px; background: var(--primary-soft); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,0.08); border: 3px solid var(--primary); }
     .ip-circle img { width: 90px; height: 90px; object-fit: contain; border-radius: 50%; }
@@ -206,19 +203,19 @@ const IP_IMG_MAP = {
   default: "images_compressed_1mb/whitebear.png"
 };
 
-// ========== 心理效应库 ==========
+// 心理效应库（包含中英文名、情绪钩子、反转解读）
 const EFFECT_LIB = {
-  whitebear: { name: "白熊特质", short: "越想忘记，越挥之不去", prefix: "白熊", type: "main", en: "WHITE BEAR", hook: "越想放下，记得越牢", decode: "恭喜你，测到了全网仅12%的【WHITE BEAR - 白熊特质】人格。别总怪自己放不下，能把情绪记得这么牢的人，骨子里都藏着极致的温柔与真诚。你总陷入“越想忘记越忘不掉”的循环，不是你太拧巴，是你对世界的感知力，比常人细腻一万倍。你在自己的心里建了一座回忆博物馆，哪怕是别人早已忘记的小事，你都好好收着。别人眼里的内耗，其实是你独有的温柔天赋，你只是…" },
-  peoplepleaser: { name: "讨好特质", short: "习惯性迁就，害怕拒绝", prefix: "讨好", type: "main", en: "PEOPLE PLEASER", hook: "你的善良，要有锋芒", decode: "恭喜你，测到了全网仅15%的【PEOPLE PLEASER - 讨好特质】人格。你不是懦弱，你只是太在乎别人的感受。你习惯性迁就，是因为你比谁都害怕关系破裂。你的内心住着一个渴望被认可的小孩，总是先满足别人，再委屈自己。但请记住，真正值得的关系，不需要你弯腰。你值得被无条件地珍惜，你只是…" },
-  spotlight: { name: "聚光灯特质", short: "总觉得所有人都在关注自己", prefix: "聚光灯", type: "main", en: "SPOTLIGHT", hook: "其实，根本没人在看你", decode: "恭喜你，测到了全网仅18%的【SPOTLIGHT - 聚光灯特质】人格。你总觉得所有人都在看你，其实大多数时候，别人根本没空在意你。你对自己要求太高，总担心出丑，却忽略了你本就足够好。你的紧张和谨慎，恰恰说明你在乎细节、追求完美。试着放松一点，你没那么多观众。你值得被看见，你只是…" },
-  internal: { name: "内耗特质", short: "反复复盘，自我消耗", prefix: "内耗", type: "main", en: "INTERNAL", hook: "你最大的敌人，是自己", decode: "恭喜你，测到了全网仅10%的【INTERNAL - 内耗特质】人格。你习惯在行动前反复权衡，还没开始就已经耗尽能量。这不是你不行，是你太想做好。你的每一次复盘，都是对自我的高要求。请试着把“完美”改成“完成”，先动起来，再修正。你的潜力远超想象，你只是…" },
-  ruminate: { name: "反刍特质", short: "反复咀嚼负面情绪", prefix: "反刍", type: "main", en: "RUMINATE", hook: "过去的事，就让它过去吧", decode: "恭喜你，测到了全网仅8%的【RUMINATE - 反刍特质】人格。你总是反复回忆过去的尴尬或失败，像牛反刍一样停不下来。这不是你脆弱，是你对情绪深度的感知力远超常人。你从经历中汲取教训，却也背上了沉重的包袱。试着给烦恼设一个闹钟，时间到了就放下。你值得活在当下，你只是…" },
-  avoid: { name: "回避特质", short: "害怕冲突，选择逃避", prefix: "回避", type: "main", en: "AVOID", hook: "逃避不可耻，但面对更有用", decode: "恭喜你，测到了全网仅20%的【AVOID - 回避特质】人格。你害怕冲突，第一反应是躲开。这不是懦弱，是你对和平的渴望。你宁愿委屈自己，也不愿争执。但有些问题，逃得了一时逃不了一世。试着从小冲突开始面对，你会发现自己比想象中强大。你只是…" },
-  control: { name: "控制特质", short: "总想掌控一切，否则焦虑", prefix: "控制", type: "main", en: "CONTROL", hook: "放松一点，地球没你也能转", decode: "恭喜你，测到了全网仅12%的【CONTROL - 控制特质】人格。你总想掌控一切，计划被打乱就焦虑。这不是你控制欲强，是你对安全感的高需求。你习惯把责任揽在自己身上，却忘了世界本就不确定。学会放手，承认自己的有限，反而能获得更多自由。你只是…" },
-  sensitive: { name: "高敏感特质", short: "情绪细腻，容易受伤", prefix: "高敏感", type: "main", en: "SENSITIVE", hook: "你的柔软，是超能力", decode: "恭喜你，测到了全网仅8%的【SENSITIVE - 高敏感特质】人格。你像雷达一样捕捉外界情绪，容易受伤却也更懂得共情。这不是你矫情，是你天生的天赋。你能感受到别人忽略的美好，也能体会他人的痛苦。记得给自己留出充电的时间，你的柔软，是世界的一抹温柔。你只是…" }
+  whitebear: { name: "白熊特质", en: "WHITE BEAR", hook: "越想放下，记得越牢", decode: "恭喜你，测到了全网仅12%的【WHITE BEAR - 白熊特质】人格。别总怪自己放不下，能把情绪记得这么牢的人，骨子里都藏着极致的温柔与真诚。你总陷入“越想忘记越忘不掉”的循环，不是你太拧巴，是你对世界的感知力，比常人细腻一万倍。你在自己的心里建了一座回忆博物馆，哪怕是别人早已忘记的小事，你都好好收着。别人眼里的内耗，其实是你独有的温柔天赋，你只是…", prefix: "白熊", type: "main", short: "越想忘记，越挥之不去" },
+  peoplepleaser: { name: "讨好特质", en: "PEOPLE PLEASER", hook: "你的善良，要有锋芒", decode: "恭喜你，测到了全网仅15%的【PEOPLE PLEASER - 讨好特质】人格。你不是懦弱，你只是太在乎别人的感受。你习惯性迁就，是因为你比谁都害怕关系破裂。你的内心住着一个渴望被认可的小孩，总是先满足别人，再委屈自己。但请记住，真正值得的关系，不需要你弯腰。你值得被无条件地珍惜，你只是…", prefix: "讨好", type: "main", short: "习惯性迁就，害怕拒绝" },
+  spotlight: { name: "聚光灯特质", en: "SPOTLIGHT", hook: "其实，根本没人在看你", decode: "恭喜你，测到了全网仅18%的【SPOTLIGHT - 聚光灯特质】人格。你总觉得所有人都在看你，其实大多数时候，别人根本没空在意你。你对自己要求太高，总担心出丑，却忽略了你本就足够好。你的紧张和谨慎，恰恰说明你在乎细节、追求完美。试着放松一点，你没那么多观众。你值得被看见，你只是…", prefix: "聚光灯", type: "main", short: "总觉得所有人都在关注自己" },
+  internal: { name: "内耗特质", en: "INTERNAL", hook: "你最大的敌人，是自己", decode: "恭喜你，测到了全网仅10%的【INTERNAL - 内耗特质】人格。你习惯在行动前反复权衡，还没开始就已经耗尽能量。这不是你不行，是你太想做好。你的每一次复盘，都是对自我的高要求。请试着把“完美”改成“完成”，先动起来，再修正。你的潜力远超想象，你只是…", prefix: "内耗", type: "main", short: "反复复盘，自我消耗" },
+  ruminate: { name: "反刍特质", en: "RUMINATE", hook: "过去的事，就让它过去吧", decode: "恭喜你，测到了全网仅8%的【RUMINATE - 反刍特质】人格。你总是反复回忆过去的尴尬或失败，像牛反刍一样停不下来。这不是你脆弱，是你对情绪深度的感知力远超常人。你从经历中汲取教训，却也背上了沉重的包袱。试着给烦恼设一个闹钟，时间到了就放下。你值得活在当下，你只是…", prefix: "反刍", type: "main", short: "反复咀嚼负面情绪" },
+  avoid: { name: "回避特质", en: "AVOID", hook: "逃避不可耻，但面对更有用", decode: "恭喜你，测到了全网仅20%的【AVOID - 回避特质】人格。你害怕冲突，第一反应是躲开。这不是懦弱，是你对和平的渴望。你宁愿委屈自己，也不愿争执。但有些问题，逃得了一时逃不了一世。试着从小冲突开始面对，你会发现自己比想象中强大。你只是…", prefix: "回避", type: "main", short: "害怕冲突，选择逃避" },
+  control: { name: "控制特质", en: "CONTROL", hook: "放松一点，地球没你也能转", decode: "恭喜你，测到了全网仅12%的【CONTROL - 控制特质】人格。你总想掌控一切，计划被打乱就焦虑。这不是你控制欲强，是你对安全感的高需求。你习惯把责任揽在自己身上，却忘了世界本就不确定。学会放手，承认自己的有限，反而能获得更多自由。你只是…", prefix: "控制", type: "main", short: "总想掌控一切，否则焦虑" },
+  sensitive: { name: "高敏感特质", en: "SENSITIVE", hook: "你的柔软，是超能力", decode: "恭喜你，测到了全网仅8%的【SENSITIVE - 高敏感特质】人格。你像雷达一样捕捉外界情绪，容易受伤却也更懂得共情。这不是你矫情，是你天生的天赋。你能感受到别人忽略的美好，也能体会他人的痛苦。记得给自己留出充电的时间，你的柔软，是世界的一抹温柔。你只是…", prefix: "高敏感", type: "main", short: "情绪细腻，容易受伤" }
 };
 
-// 10道题库（与之前相同，略缩）
+// 10道题库（与上一版一致，略）
 const QUESTIONS = [
   { text: "聚会里不小心说错一句话，散场后你的第一反应是？", options: [{text:"满脑子都是大家会不会因此对我有看法，反复回想", effects:[{key:"spotlight",val:3},{key:"ruminate",val:3}]},{text:"有点在意，但很快就安慰自己'没人会记得'", effects:[{key:"spotlight",val:1},{key:"ruminate",val:1}]},{text:"完全无所谓，谁还没说错过话", effects:[{key:"spotlight",val:-3},{key:"ruminate",val:-3}]}]},
   { text: "朋友找你帮忙做一件你很不想做的事，你会怎么做？", options: [{text:"哪怕委屈自己也硬着头皮答应，怕对方不高兴", effects:[{key:"peoplepleaser",val:3},{key:"internal",val:3}]},{text:"看情况，实在没法推脱才答应", effects:[{key:"peoplepleaser",val:1},{key:"internal",val:1}]},{text:"直接找借口推脱，尽量避开正面沟通", effects:[{key:"avoid",val:3},{key:"control",val:3}]}]},
@@ -232,7 +229,7 @@ const QUESTIONS = [
   { text: "遇到一件很难解决的麻烦事，你最常有的心态是？", options: [{text:"硬扛也要做完，怕别人觉得自己不靠谱", effects:[{key:"peoplepleaser",val:3},{key:"ruminate",val:3}]},{text:"尽力而为，但不会过度透支", effects:[{key:"peoplepleaser",val:1},{key:"ruminate",val:1}]},{text:"拖着不处理，能躲就躲", effects:[{key:"avoid",val:3},{key:"whitebear",val:3}]}]}
 ];
 
-// 全局变量
+// 全局变量与核心函数（与上一版一致，此处略，保证代码完整）
 let currentIdx=0, extraScore=0, rationalScore=0;
 let effectScores={}, effectStrongCount={}, effectReverseCount={};
 let inviteId=localStorage.getItem('inviteId')||('inv_'+Date.now()+'_'+Math.random().toString(36).substr(2,6));
@@ -319,7 +316,7 @@ function goPay(){ window.open(CONFIG.PAY_URL, '_blank'); setTimeout(()=>{ if(con
 function copyInviteLink(){ let link=location.origin+location.pathname+"?invite="+inviteId; navigator.clipboard.writeText(link).then(()=>showToast("✓ 邀请链接已复制！")).catch(()=>alert("复制失败")); }
 function copyResultText(){ let personality=document.getElementById("personalityBig").innerText; let mainType=document.getElementById("mainType").innerText; let insight=document.getElementById("insightText").innerText; let shareText=`【SBTI人格测试】\n我的结果：${personality}\n${mainType}\n${insight}\n—— 你也来测测你的内耗根源：${location.origin}${location.pathname}`; navigator.clipboard.writeText(shareText).then(()=>showToast("✓ 结果已复制，快去分享吧！")).catch(()=>alert("复制失败")); }
 
-// ========== 分享解锁：解锁下面两个锁定效应（即锁定列表中的前两个卡片） ==========
+// ========== 分享解锁：解锁下面两个锁定效应（确保第二个也被正确解锁） ==========
 function fakeShareUnlock(){
   if(extraUnlocked){
     alert("福利已解锁！");
@@ -329,8 +326,8 @@ function fakeShareUnlock(){
   localStorage.setItem('sbti_extra_unlocked','true');
   // 解锁两个锁定效应（移除遮罩）
   const lockedCards = document.querySelectorAll(".effect-locked");
-  let count=0;
-  for(let i=0; i<lockedCards.length && count<2; i++){
+  let unlockedCount = 0;
+  for(let i=0; i<lockedCards.length && unlockedCount<2; i++){
     const card = lockedCards[i];
     const overlay = card.querySelector(".lock-overlay");
     if(overlay){
@@ -340,7 +337,7 @@ function fakeShareUnlock(){
       // 恢复内容模糊
       const blurDiv = card.querySelector(".blur");
       if(blurDiv) blurDiv.style.filter = "none";
-      count++;
+      unlockedCount++;
     }
   }
   // 添加情绪钝感力福利（如果尚未添加）
@@ -351,7 +348,7 @@ function fakeShareUnlock(){
   alert("🎉 分享成功！已解锁两个隐藏效应 + 情绪钝感力福利");
 }
 
-// ========== 爆款海报生成（英文加大，IP去边框加大） ==========
+// ========== 爆款海报生成（采用推荐色 #6B8EFB，英文全大写、字间距拉开） ==========
 async function generatePoster(){
   if(window.html2canvasLoadStatus !== 'success' || typeof html2canvas === 'undefined'){ alert("海报渲染库未加载，请刷新页面重试"); return; }
   const topKey = getTopEffect();
@@ -364,12 +361,14 @@ async function generatePoster(){
     await loadImage(ipImgUrl);
     const posterDiv = document.createElement("div");
     posterDiv.style.cssText = `width:600px;background:#FFFFFF;border-radius:0;font-family:system-ui;position:absolute;left:-9999px;top:0;z-index:-999;padding:0;margin:0;`;
+    // 使用推荐色 #6B8EFB（温柔百搭款）
+    const accentColor = "#6B8EFB";
     posterDiv.innerHTML = `
       <div style="padding:32px 24px 24px;">
         <div style="text-align:center;">
           <div style="font-size:14px; color:#8E92A8; letter-spacing:1px; margin-bottom:8px;">你的人格类型是：</div>
           <div style="font-size:48px; font-weight:800; color:#2A2C35; margin-bottom:8px;">${escapeHtml(effect.name)}</div>
-          <div style="font-size:28px; font-weight:600; color:#5B6EF7; letter-spacing:2px; margin-top:4px;">${escapeHtml(effect.en)}</div>
+          <div style="font-size:18px; font-weight:600; color:${accentColor}; letter-spacing:3px; margin-top:4px;">${escapeHtml(effect.en)}</div>
         </div>
         <div style="display:flex; justify-content:center; margin:36px 0;">
           <div style="width:200px; height:200px; background:#F0F3FF; border-radius:50%; display:flex; align-items:center; justify-content:center;">
@@ -380,8 +379,8 @@ async function generatePoster(){
           <div style="font-size:18px; font-weight:500; color:#585B6E; font-style:italic;">“${escapeHtml(effect.hook)}”</div>
         </div>
         <div style="background:#F8FAFF; border-radius:24px; padding:20px; margin-bottom:20px;">
-          <div style="font-size:16px; font-weight:600; color:#585B6E;">你的主类型：<span style="color:#5B6EF7;">${escapeHtml(effect.en)}（${escapeHtml(effect.name)}）</span></div>
-          <div style="margin-top:12px;"><span style="background:#5B6EF7; color:white; padding:4px 12px; border-radius:40px; font-size:13px;">匹配度 ${matchPercent}% · 精准命中 ${Math.floor(matchPercent/10)}/15 维</span></div>
+          <div style="font-size:16px; font-weight:600; color:#585B6E;">你的主类型：<span style="color:${accentColor};">${escapeHtml(effect.en)}（${escapeHtml(effect.name)}）</span></div>
+          <div style="margin-top:12px;"><span style="background:${accentColor}; color:white; padding:4px 12px; border-radius:40px; font-size:13px;">匹配度 ${matchPercent}% · 精准命中 ${Math.floor(matchPercent/10)}/15 维</span></div>
           <div style="margin-top:12px; font-size:13px; color:#8E92A8;">维度命中度较高，当前结果可视为你的第一人格画像</div>
         </div>
         <div style="background:#F0F2F8; border-radius:24px; padding:20px;">
