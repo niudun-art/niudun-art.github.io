@@ -15,17 +15,36 @@
     onerror="window.html2canvasLoadStatus = 'fail'"
   ></script>
   <style>
-    /* 完整样式与最终稳定版一致，此处省略（实际已包含所有样式） */
     * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
     :root {
-      --bg-body: #FAFBFC; --bg-card: #FFFFFF; --text-title: #2A2C35; --text-body: #585B6E; --text-light: #8E92A8;
-      --border-light: #F0F2F8; --primary: #5B6EF7; --primary-light: #8A94F0; --primary-soft: #E8EBFF;
-      --accent-warm: #FF9F43; --shadow-sm: 0 4px 20px rgba(91,110,247,0.06); --result-bg: #F8FAFF; --option-hover: #F0F3FF;
+      --bg-body: #FAFBFC;
+      --bg-card: #FFFFFF;
+      --text-title: #2A2C35;
+      --text-body: #585B6E;
+      --text-light: #8E92A8;
+      --border-light: #F0F2F8;
+      --primary: #5B6EF7;
+      --primary-light: #8A94F0;
+      --primary-soft: #E8EBFF;
+      --accent-warm: #FF9F43;
+      --shadow-sm: 0 4px 20px rgba(91, 110, 247, 0.06);
+      --result-bg: #F8FAFF;
+      --option-hover: #F0F3FF;
     }
     [data-theme="dark"] {
-      --bg-body: #0F1222; --bg-card: #1A1F3A; --text-title: #F1F5F9; --text-body: #CBD5E1; --text-light: #94A3B8;
-      --border-light: #2D3348; --primary: #8A94F0; --primary-light: #A5B4FC; --primary-soft: #2D3A5E;
-      --accent-warm: #FFB347; --shadow-sm: 0 4px 20px rgba(0,0,0,0.25); --result-bg: #1E243D; --option-hover: #2D3A5E;
+      --bg-body: #0F1222;
+      --bg-card: #1A1F3A;
+      --text-title: #F1F5F9;
+      --text-body: #CBD5E1;
+      --text-light: #94A3B8;
+      --border-light: #2D3348;
+      --primary: #8A94F0;
+      --primary-light: #A5B4FC;
+      --primary-soft: #2D3A5E;
+      --accent-warm: #FFB347;
+      --shadow-sm: 0 4px 20px rgba(0,0,0,0.25);
+      --result-bg: #1E243D;
+      --option-hover: #2D3A5E;
     }
     body { background: var(--bg-body); font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, sans-serif; padding: 20px; }
     .container { max-width: 800px; margin: 0 auto; }
@@ -64,7 +83,7 @@
     .option:hover { background: var(--option-hover); transform: translateX(6px); }
     .option.selected { background: var(--primary); color: white; border-color: var(--primary); }
     .result-top { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
-    .ip-circle { width: 110px; height: 110px; background: var(--primary-soft); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,0.08); border: 3px solid var(--primary); }
+    .ip-circle { width: 110px; height: 110px; background: var(--primary-soft); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: none; border: none; }
     .ip-circle img { width: 90px; height: 90px; object-fit: contain; border-radius: 50%; }
     .personality-area { flex: 1; }
     .personality-big { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--primary-light)); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
@@ -117,28 +136,9 @@
 <body>
 <div class="container">
   <div class="header"><button id="themeToggle" class="theme-btn">🌙 夜间模式</button></div>
-  <!-- 首页、答题页、结果页结构因篇幅原因省略，实际已完整复制稳定版 -->
-  <!-- 此处为保证代码可运行，保留完整内容（实际是完整复制上一版） -->
+  <!-- 首页、答题页、结果页结构完整，为节省篇幅此处省略详细HTML（实际已包含） -->
   <div class="page active" id="home">
-    <div class="card">
-      <div class="hero-section">
-        <div class="fire-badge"><i class="fas fa-fire"></i> ✨ 全网爆火·100w+年轻人已测 ✨</div>
-        <h2>你不是想太多，<br>只是没读懂自己的内心</h2>
-        <div class="hero-sub">SBTI进阶人格测评 · 解码内耗真相，找到人生破局点</div>
-        <div class="big-hook"><i class="fas fa-heart"></i> 停止精神内耗，先看懂你自己</div>
-        <div class="ip-grid">
-          <div class="ip-card"><img src="images_compressed_1mb/whitebear.png" alt="白熊"><div class="label">白熊效应</div></div>
-          <div class="ip-card"><img src="images_compressed_1mb/peoplepleaser.png" alt="讨好"><div class="label">讨好型效应</div></div>
-          <div class="ip-card"><img src="images_compressed_1mb/spotlight.png" alt="聚光灯"><div class="label">聚光灯效应</div></div>
-          <div class="ip-card"><img src="images_compressed_1mb/internal.png" alt="内耗"><div class="label">内耗效应</div></div>
-          <div class="ip-card"><img src="images_compressed_1mb/ruminate.png" alt="反刍"><div class="label">情绪反刍</div></div>
-        </div>
-        <div class="effect-list"><h3>以及更多隐藏效应</h3><div class="effect-tags"><span class="effect-tag">回避特质</span><span class="effect-tag">控制特质</span><span class="effect-tag">高敏感特质</span><span class="effect-tag">冒名特质</span><span class="effect-tag">沉没成本特质</span><span class="effect-tag">确认偏误特质</span><span class="effect-tag">自我设限特质</span></div></div>
-        <div class="effect-definition"><strong>🎯 什么是心理效应？</strong><br>心理效应是我们在日常生活中不自觉表现出的思维、行为模式。本测试聚焦12种最常见的内耗型心理效应，帮你识别自己的心理倾向，并提供可落地的改善方案。</div>
-        <button class="hero-btn" id="startBtn">🚀 测测你的内耗根源 →</button>
-        <footer>✨ 趣味人格测评 | 本内容仅为娱乐用途，非专业心理诊断</footer>
-      </div>
-    </div>
+    <div class="card"><div class="hero-section"><div class="fire-badge"><i class="fas fa-fire"></i> ✨ 全网爆火·100w+年轻人已测 ✨</div><h2>你不是想太多，<br>只是没读懂自己的内心</h2><div class="hero-sub">SBTI进阶人格测评 · 解码内耗真相，找到人生破局点</div><div class="big-hook"><i class="fas fa-heart"></i> 停止精神内耗，先看懂你自己</div><div class="ip-grid"><div class="ip-card"><img src="images_compressed_1mb/whitebear.png" alt="白熊"><div class="label">白熊效应</div></div><div class="ip-card"><img src="images_compressed_1mb/peoplepleaser.png" alt="讨好"><div class="label">讨好型效应</div></div><div class="ip-card"><img src="images_compressed_1mb/spotlight.png" alt="聚光灯"><div class="label">聚光灯效应</div></div><div class="ip-card"><img src="images_compressed_1mb/internal.png" alt="内耗"><div class="label">内耗效应</div></div><div class="ip-card"><img src="images_compressed_1mb/ruminate.png" alt="反刍"><div class="label">情绪反刍</div></div></div><div class="effect-list"><h3>以及更多隐藏效应</h3><div class="effect-tags"><span class="effect-tag">回避特质</span><span class="effect-tag">控制特质</span><span class="effect-tag">高敏感特质</span><span class="effect-tag">冒名特质</span><span class="effect-tag">沉没成本特质</span><span class="effect-tag">确认偏误特质</span><span class="effect-tag">自我设限特质</span></div></div><div class="effect-definition"><strong>🎯 什么是心理效应？</strong><br>心理效应是我们在日常生活中不自觉表现出的思维、行为模式。本测试聚焦12种最常见的内耗型心理效应，帮你识别自己的心理倾向，并提供可落地的改善方案。</div><button class="hero-btn" id="startBtn">🚀 测测你的内耗根源 →</button><footer>✨ 趣味人格测评 | 本内容仅为娱乐用途，非专业心理诊断</footer></div></div>
   </div>
   <div class="page" id="test"><div id="infoTipContainer"></div><div class="card"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="question-text" id="questionText"></div><div id="optionsContainer"></div><footer>点击选项自动进入下一题</footer></div></div>
   <div class="page" id="result">
@@ -194,7 +194,7 @@ const EFFECT_LIB = {
   sensitive: { name: "高敏感特质", en: "SENSITIVE", hook: "你的柔软，是超能力", decode: "恭喜你，测到了全网仅8%的【SENSITIVE - 高敏感特质】人格。你像雷达一样捕捉外界情绪，容易受伤却也更懂得共情。这不是你矫情，是你天生的天赋。你能感受到别人忽略的美好，也能体会他人的痛苦。记得给自己留出充电的时间，你的柔软，是世界的一抹温柔。你只是…", prefix: "高敏感", type: "main", short: "情绪细腻，容易受伤" }
 };
 
-// 10道题库（与之前一致，略）
+// 10道题库（与之前完全一致，略）
 const QUESTIONS = [
   { text: "聚会里不小心说错一句话，散场后你的第一反应是？", options: [{text:"满脑子都是大家会不会因此对我有看法，反复回想", effects:[{key:"spotlight",val:3},{key:"ruminate",val:3}]},{text:"有点在意，但很快就安慰自己'没人会记得'", effects:[{key:"spotlight",val:1},{key:"ruminate",val:1}]},{text:"完全无所谓，谁还没说错过话", effects:[{key:"spotlight",val:-3},{key:"ruminate",val:-3}]}]},
   { text: "朋友找你帮忙做一件你很不想做的事，你会怎么做？", options: [{text:"哪怕委屈自己也硬着头皮答应，怕对方不高兴", effects:[{key:"peoplepleaser",val:3},{key:"internal",val:3}]},{text:"看情况，实在没法推脱才答应", effects:[{key:"peoplepleaser",val:1},{key:"internal",val:1}]},{text:"直接找借口推脱，尽量避开正面沟通", effects:[{key:"avoid",val:3},{key:"control",val:3}]}]},
@@ -208,7 +208,7 @@ const QUESTIONS = [
   { text: "遇到一件很难解决的麻烦事，你最常有的心态是？", options: [{text:"硬扛也要做完，怕别人觉得自己不靠谱", effects:[{key:"peoplepleaser",val:3},{key:"ruminate",val:3}]},{text:"尽力而为，但不会过度透支", effects:[{key:"peoplepleaser",val:1},{key:"ruminate",val:1}]},{text:"拖着不处理，能躲就躲", effects:[{key:"avoid",val:3},{key:"whitebear",val:3}]}]}
 ];
 
-// 全局变量与核心函数（与上一版一致，略）
+// 全局变量与核心函数（与之前一致）
 let currentIdx=0, extraScore=0, rationalScore=0;
 let effectScores={}, effectStrongCount={}, effectReverseCount={};
 let inviteId=localStorage.getItem('inviteId')||('inv_'+Date.now()+'_'+Math.random().toString(36).substr(2,6));
@@ -295,7 +295,7 @@ function goPay(){ window.open(CONFIG.PAY_URL, '_blank'); setTimeout(()=>{ if(con
 function copyInviteLink(){ let link=location.origin+location.pathname+"?invite="+inviteId; navigator.clipboard.writeText(link).then(()=>showToast("✓ 邀请链接已复制！")).catch(()=>alert("复制失败")); }
 function copyResultText(){ let personality=document.getElementById("personalityBig").innerText; let mainType=document.getElementById("mainType").innerText; let insight=document.getElementById("insightText").innerText; let shareText=`【SBTI人格测试】\n我的结果：${personality}\n${mainType}\n${insight}\n—— 你也来测测你的内耗根源：${location.origin}${location.pathname}`; navigator.clipboard.writeText(shareText).then(()=>showToast("✓ 结果已复制，快去分享吧！")).catch(()=>alert("复制失败")); }
 
-// ========== 分享解锁：解锁前两个锁定效应（确保第二个小锁也打开） ==========
+// ========== 分享解锁：强制解锁前两个锁定效应（彻底修复） ==========
 function fakeShareUnlock(){
   if(extraUnlocked){
     alert("福利已解锁！");
@@ -303,22 +303,23 @@ function fakeShareUnlock(){
   }
   extraUnlocked=true;
   localStorage.setItem('sbti_extra_unlocked','true');
-  // 获取所有锁定卡片
+  // 查找所有锁定卡片
   const lockedCards = document.querySelectorAll(".effect-locked");
-  // 解锁前两个（索引0和1）
-  for(let i=0; i<Math.min(2, lockedCards.length); i++){
+  // 解锁前两个
+  let unlocked = 0;
+  for(let i=0; i<lockedCards.length && unlocked<2; i++){
     const card = lockedCards[i];
     const overlay = card.querySelector(".lock-overlay");
     if(overlay){
-      overlay.remove();          // 移除遮罩
+      overlay.remove();
       card.classList.remove("effect-locked");
       card.classList.add("effect-free");
-      // 恢复内容模糊
       const blurDiv = card.querySelector(".blur");
       if(blurDiv) blurDiv.style.filter = "none";
+      unlocked++;
     }
   }
-  // 添加情绪钝感力福利（如果尚未添加）
+  // 添加情绪钝感力福利
   if(!document.querySelector(".effect-free[data-bonus='sensibility']")){
     const extraHtml = `<div class="effect-free" style="border-left-color:#FF9F43;" data-bonus="sensibility"><div class="effect-name">🎁 已解锁福利：情绪钝感力</div><div class="effect-desc">【成因】天生敏感度低或后天习得技巧。\n【改善】①继续保持觉察 ②帮助身边敏感的人 ③做情绪稳定榜样。</div></div>`;
     document.getElementById("effectFree").insertAdjacentHTML('afterend', extraHtml);
@@ -326,7 +327,7 @@ function fakeShareUnlock(){
   alert("🎉 分享成功！已解锁两个隐藏效应 + 情绪钝感力福利");
 }
 
-// ========== 爆款海报生成（英文字母加大，IP去边框并放大） ==========
+// ========== 爆款海报生成（文字深色，无边框IP） ==========
 async function generatePoster(){
   if(window.html2canvasLoadStatus !== 'success' || typeof html2canvas === 'undefined'){ alert("海报渲染库未加载，请刷新页面重试"); return; }
   const topKey = getTopEffect();
@@ -348,7 +349,7 @@ async function generatePoster(){
           <div style="font-size:26px; font-weight:600; color:${accentColor}; letter-spacing:3px; margin-top:4px;">${escapeHtml(effect.en)}</div>
         </div>
         <div style="display:flex; justify-content:center; margin:36px 0;">
-          <div style="width:220px; height:220px; background:#F0F3FF; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow: none;">
+          <div style="width:220px; height:220px; background:#F0F3FF; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow: none; border: none;">
             <img src="${ipImgUrl}" style="width:190px; height:190px; object-fit:contain; border-radius:50%;">
           </div>
         </div>
@@ -362,7 +363,7 @@ async function generatePoster(){
         </div>
         <div style="background:#F0F2F8; border-radius:24px; padding:20px;">
           <div style="font-size:16px; font-weight:700; margin-bottom:12px;">该人格的简单解读</div>
-          <div style="font-size:14px; color:#585B6E; line-height:1.5;">${escapeHtml(effect.decode)}</div>
+          <div style="font-size:14px; color:#2D2C3A; line-height:1.5;">${escapeHtml(effect.decode)}</div>
         </div>
         <div style="margin-top:24px; text-align:center; font-size:11px; color:#C7C9D1;">心理灯塔 · 看见真实的自己</div>
       </div>
