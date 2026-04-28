@@ -25,11 +25,12 @@
       --border-light: #F0F2F8;
       --primary: #5B6EF7;
       --primary-light: #8A94F0;
-      --primary-soft: #DFE7FC;
+      --primary-soft: #D9E6FF;    /* 加深后的圆圈底色，降低透明度感 */
       --accent-warm: #FF9F43;
       --shadow-sm: 0 4px 20px rgba(91, 110, 247, 0.06);
       --result-bg: #F8FAFF;
       --option-hover: #F0F3FF;
+      --circle-bg: #D2E0FA;       /* 更扎实的IP圆圈背景 */
     }
     [data-theme="dark"] {
       --bg-body: #0F1222;
@@ -40,11 +41,12 @@
       --border-light: #2D3348;
       --primary: #8A94F0;
       --primary-light: #A5B4FC;
-      --primary-soft: #353F62;
+      --primary-soft: #3A4570;
       --accent-warm: #FFB347;
       --shadow-sm: 0 4px 20px rgba(0,0,0,0.25);
       --result-bg: #1E243D;
       --option-hover: #2D3A5E;
+      --circle-bg: #2F3A60;
     }
     body { background: var(--bg-body); font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', Roboto, sans-serif; padding: 20px; }
     .container { max-width: 800px; margin: 0 auto; }
@@ -83,11 +85,12 @@
     .option:hover { background: var(--option-hover); transform: translateX(6px); }
     .option.selected { background: var(--primary); color: white; border-color: var(--primary); }
     .result-top { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
-    .ip-circle { width: 110px; height: 110px; background: var(--primary-soft); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid var(--border-light); }
+    .ip-circle { width: 110px; height: 110px; background: var(--circle-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid var(--border-light); }
     .ip-circle img { width: 90px; height: 90px; object-fit: contain; border-radius: 50%; }
     .personality-area { flex: 1; }
     .personality-big { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--primary-light)); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 4px; }
-    .personality-sub { font-size: 0.85rem; color: var(--text-light); letter-spacing: 1px; margin-bottom: 12px; }
+    .personality-sub { font-size: 0.85rem; color: var(--text-light); letter-spacing: 1px; margin-bottom: 8px; }
+    .effect-en-large { font-size: 1.9rem; font-weight: 700; letter-spacing: 2px; color: var(--primary); margin: 8px 0 6px 0; line-height: 1.2; text-transform: uppercase; }
     .match-badge { background: var(--primary-soft); padding: 4px 12px; border-radius: 60px; font-size: 0.75rem; color: var(--primary); display: inline-block; margin-right: 8px; font-weight: 600; }
     .main-type { margin-top: 8px; font-weight: 500; color: var(--text-body); font-size: 0.85rem; }
     .insight-text { background: var(--result-bg); border-radius: 24px; padding: 18px; margin: 20px 0; border-left: 4px solid var(--primary); font-size: 0.9rem; color: var(--text-body); }
@@ -125,7 +128,7 @@
     .share-btn { background: var(--bg-card); border: 1px solid var(--border-light); color: var(--text-body); padding: 8px 16px; border-radius: 60px; font-weight: 600; cursor: pointer; margin: 0 6px; }
     .share-btn:hover { background: var(--option-hover); color: var(--primary); border-color: var(--primary); }
     .copy-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--bg-card); color: var(--text-title); padding: 8px 20px; border-radius: 60px; font-size: 0.8rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 1px solid var(--border-light); z-index: 2000; display: none; }
-    @media (max-width: 700px) { .card { padding: 20px; } .personality-big { font-size: 1.4rem; } .ip-circle { width: 80px; height: 80px; } .ip-circle img { width: 65px; height: 65px; } .premium-title { font-size: 1.3rem; } }
+    @media (max-width: 700px) { .card { padding: 20px; } .personality-big { font-size: 1.4rem; } .effect-en-large { font-size: 1.5rem; } .ip-circle { width: 80px; height: 80px; } .ip-circle img { width: 65px; height: 65px; } .premium-title { font-size: 1.3rem; } }
   </style>
 </head>
 <body>
@@ -158,7 +161,7 @@
   <!-- 结果页 -->
   <div class="page" id="result">
     <div class="card">
-      <div class="result-top"><div class="ip-circle"><img id="resultIpImg" src="images_compressed_1mb/whitebear.png"></div><div class="personality-area"><div class="personality-big" id="personalityBig">加载中...</div><div class="personality-sub" id="personalitySub">⚡ 你的32型人格组合结果</div><div><span class="match-badge" id="matchBadge">匹配度--%</span><span class="match-badge" id="depthBadge">命中特质数 --/8</span></div><div class="main-type" id="mainType"></div></div></div>
+      <div class="result-top"><div class="ip-circle"><img id="resultIpImg" src="images_compressed_1mb/whitebear.png"></div><div class="personality-area"><div class="personality-big" id="personalityBig">加载中...</div><div class="effect-en-large" id="effectEnLarge">——</div><div class="personality-sub" id="personalitySub">⚡ 你的32型人格代码</div><div><span class="match-badge" id="matchBadge">匹配度--%</span><span class="match-badge" id="depthBadge">命中特质数 --/8</span></div><div class="main-type" id="mainType"></div></div></div>
       <div class="insight-text" id="insightText"></div>
       <div class="dimension-grid" id="dimensionGrid"></div>
       <div class="effect-section"><div id="effectFree"></div><div id="effectLocked"></div></div>
@@ -250,10 +253,11 @@ function generateResult(){
   let hitCount=calcHitCount();
   let combination = getCombinationName(topKey);
   document.getElementById("personalityBig").innerHTML=combination;
+  document.getElementById("effectEnLarge").innerHTML=topData.en;
   document.getElementById("personalitySub").innerHTML="✨ 基于8种效应 × 4种倾向 · 你的32型人格代码";
   document.getElementById("matchBadge").innerHTML=`主导效应匹配度 ${matchPercent}%`;
   document.getElementById("depthBadge").innerHTML=`精准命中 ${hitCount}种心理特质`;
-  document.getElementById("mainType").innerHTML=`主效应：${topData.name}（${topData.en}）`;
+  document.getElementById("mainType").innerHTML=`核心效应：${topData.name}`;
   let insightMap={ whitebear:"你常常陷入“越想忘记越忘不掉”的循环。", peoplepleaser:"你习惯性迁就他人，害怕拒绝带来的冲突。", spotlight:"你总觉得所有人都在关注你的一举一动。", internal:"你是一个自我要求很高的人，反复复盘、自我消耗。", ruminate:"你倾向于反复咀嚼负面情绪，像牛反刍一样停不下来。", avoid:"你害怕冲突，常常选择逃避而不是面对。", control:"你渴望掌控一切，否则就会焦虑。", sensitive:"你像雷达一样捕捉外界情绪，容易受伤却也更懂共情。" };
   document.getElementById("insightText").innerHTML=`✨ 洞察解析：${insightMap[topKey] || "你是一个不断探索内心世界的人。"}`;
   let extraPercent=Math.min(100,Math.floor(((extraScore+15)/30)*100));
@@ -276,7 +280,7 @@ function goPay(){ window.open(CONFIG.PAY_URL, '_blank'); setTimeout(()=>{ if(con
 function copyInviteLink(){ let link=location.origin+location.pathname+"?invite="+inviteId; navigator.clipboard.writeText(link).then(()=>showToast("✓ 邀请链接已复制！")).catch(()=>alert("复制失败")); }
 function copyResultText(){ let personality=document.getElementById("personalityBig").innerText; let mainType=document.getElementById("mainType").innerText; let insight=document.getElementById("insightText").innerText; let shareText=`【SBTI 32型人格测试】\n我的结果：${personality}\n${mainType}\n${insight}\n—— 你也来测测你的内耗根源：${location.origin}${location.pathname}`; navigator.clipboard.writeText(shareText).then(()=>showToast("✓ 结果已复制，快去分享！")).catch(()=>alert("复制失败")); }
 function fakeShareUnlock(){ if(extraUnlocked){ alert("福利已解锁！刷新页面也不会消失~"); return; } extraUnlocked=true; localStorage.setItem('sbti_extra_unlocked','true'); const lockedCards = document.querySelectorAll(".effect-locked"); let unlocked=0; for(let i=0;i<lockedCards.length&&unlocked<2;i++){ const card=lockedCards[i]; const overlay=card.querySelector(".lock-overlay"); const blurDiv=card.querySelector(".blur"); if(overlay) overlay.remove(); if(blurDiv) blurDiv.style.filter="none"; card.classList.remove("effect-locked"); card.classList.add("effect-free"); unlocked++; } if(!document.querySelector(".effect-free[data-bonus='sensibility']")){ const extraHtml = `<div class="effect-free" style="border-left-color:#FF9F43;" data-bonus="sensibility"><div class="effect-name">🎁 已解锁福利：情绪钝感力</div><div class="effect-desc">【成因】天生敏感度低或后天习得技巧。\n【改善】①继续保持觉察 ②帮助身边敏感的人 ③做情绪稳定榜样。</div></div>`; document.getElementById("effectFree").insertAdjacentHTML('afterend', extraHtml); } const shareBtn = document.getElementById('shareUnlockBtn'); if(shareBtn){ shareBtn.style.color = '#8E92A8'; shareBtn.style.cursor = 'not-allowed'; shareBtn.onclick = () => alert("福利已解锁，无需重复操作"); } alert("🎉 分享成功！已永久解锁2个隐藏效应 + 情绪钝感力福利，刷新页面也不会消失"); }
-async function generatePoster(){ if(window.html2canvasLoadStatus !== 'success' || typeof html2canvas === 'undefined'){ alert("海报渲染库未加载，请刷新页面重试"); return; } const topKey=getTopEffect(); const effect=EFFECT_LIB[topKey]; const combination=getCombinationName(topKey); const matchPercent=getEffectMatchPercent(); const hitCount=calcHitCount(); const extraPercent=Math.min(100,Math.floor(((extraScore+15)/30)*100)); const rationalPercent=Math.min(100,Math.floor(((rationalScore+15)/30)*100)); const ipImgUrl=IP_IMG_MAP[topKey]+"?t="+Date.now(); const loadImage = (src) => new Promise((resolve, reject) => { const img = new Image(); img.crossOrigin = "anonymous"; img.onload = () => resolve(img); img.onerror = reject; img.src = src; }); try { await loadImage(ipImgUrl); const posterDiv = document.createElement("div"); posterDiv.style.cssText = `width:600px;background:#FFFFFF;border-radius:0;font-family:system-ui;position:absolute;left:-9999px;top:0;z-index:-999;padding:0;margin:0;`; const accentColor = "#6B8EFB"; posterDiv.innerHTML = `<div style="padding:32px 24px 24px;"><div style="text-align:center;"><div style="font-size:14px; color:#8E92A8; letter-spacing:1px; margin-bottom:8px;">你的32型人格代码</div><div style="font-size:42px; font-weight:800; color:#2A2C35; margin-bottom:6px;">${escapeHtml(combination)}</div><div style="font-size:16px; font-weight:500; color:${accentColor};">${escapeHtml(effect.en)} · 主导效应</div></div><div style="display:flex; justify-content:center; margin:36px 0;"><div style="width:220px; height:220px; background:#EAF0FF; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border: 1px solid #DCE3F5;"><img src="${ipImgUrl}" style="width:205px; height:205px; object-fit:contain; border-radius:50%;"></div></div><div style="text-align:center; margin-bottom:32px;"><div style="font-size:18px; font-weight:500; color:#585B6E; font-style:italic;">“${escapeHtml(effect.hook)}”</div></div><div style="background:#F8FAFF; border-radius:24px; padding:20px; margin-bottom:20px;"><div style="font-size:16px; font-weight:600; color:#585B6E;">${escapeHtml(combination)}</div><div style="margin-top:12px;"><span style="background:${accentColor}; color:white; padding:4px 12px; border-radius:40px; font-size:13px;">主导效应匹配度 ${matchPercent}% · 命中${hitCount}种心理特质</span></div><div style="margin-top:10px; font-size:13px; color:#8E92A8;">外向性 ${extraPercent}% &nbsp;&nbsp;|&nbsp;&nbsp; 理性 ${rationalPercent}%</div></div><div style="background:#F0F2F8; border-radius:24px; padding:20px;"><div style="font-size:16px; font-weight:700; margin-bottom:12px;">该人格的简单解读</div><div style="font-size:14px; color:#2D2C3A; line-height:1.5;">${escapeHtml(effect.decode)}</div></div><div style="margin-top:24px; text-align:center; font-size:11px; color:#C7C9D1;">心理灯塔 · 看见真实的自己</div></div>`; document.body.appendChild(posterDiv); const canvas = await html2canvas(posterDiv, { scale: 2, backgroundColor: "#FFFFFF", useCORS: true, allowTaint: false, scrollX: 0, scrollY: 0 }); const link = document.createElement("a"); link.download = `SBTI_32_${topKey}.png`; link.href = canvas.toDataURL("image/png"); link.click(); showToast("✓ 海报已生成，请长按保存分享"); } catch(e) { console.error(e); alert("生成失败，可截图保存"); } finally { const el = document.querySelector('div[style*="left: -9999px"]'); if(el && el.parentNode) el.parentNode.removeChild(el); } }
+async function generatePoster(){ if(window.html2canvasLoadStatus !== 'success' || typeof html2canvas === 'undefined'){ alert("海报渲染库未加载，请刷新页面重试"); return; } const topKey=getTopEffect(); const effect=EFFECT_LIB[topKey]; const combination=getCombinationName(topKey); const matchPercent=getEffectMatchPercent(); const hitCount=calcHitCount(); const extraPercent=Math.min(100,Math.floor(((extraScore+15)/30)*100)); const rationalPercent=Math.min(100,Math.floor(((rationalScore+15)/30)*100)); const ipImgUrl=IP_IMG_MAP[topKey]+"?t="+Date.now(); const loadImage = (src) => new Promise((resolve, reject) => { const img = new Image(); img.crossOrigin = "anonymous"; img.onload = () => resolve(img); img.onerror = reject; img.src = src; }); try { await loadImage(ipImgUrl); const posterDiv = document.createElement("div"); posterDiv.style.cssText = `width:600px;background:#FFFFFF;border-radius:0;font-family:system-ui;position:absolute;left:-9999px;top:0;z-index:-999;padding:0;margin:0;`; const accentColor = "#6B8EFB"; posterDiv.innerHTML = `<div style="padding:32px 24px 24px;"><div style="text-align:center;"><div style="font-size:14px; color:#8E92A8; letter-spacing:1px; margin-bottom:8px;">你的32型人格代码</div><div style="font-size:42px; font-weight:800; color:#2A2C35; margin-bottom:6px;">${escapeHtml(combination)}</div><div style="font-size:28px; font-weight:700; color:${accentColor}; letter-spacing:2px; margin:8px 0;">${escapeHtml(effect.en)}</div></div><div style="display:flex; justify-content:center; margin:36px 0;"><div style="width:220px; height:220px; background:#D2E0FA; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border: 1px solid #BECDE6;"><img src="${ipImgUrl}" style="width:205px; height:205px; object-fit:contain; border-radius:50%;"></div></div><div style="text-align:center; margin-bottom:32px;"><div style="font-size:18px; font-weight:500; color:#585B6E; font-style:italic;">“${escapeHtml(effect.hook)}”</div></div><div style="background:#F8FAFF; border-radius:24px; padding:20px; margin-bottom:20px;"><div style="font-size:16px; font-weight:600; color:#585B6E;">${escapeHtml(combination)}</div><div style="margin-top:12px;"><span style="background:${accentColor}; color:white; padding:4px 12px; border-radius:40px; font-size:13px;">主导效应匹配度 ${matchPercent}% · 命中${hitCount}种心理特质</span></div><div style="margin-top:10px; font-size:13px; color:#8E92A8;">外向性 ${extraPercent}% &nbsp;&nbsp;|&nbsp;&nbsp; 理性 ${rationalPercent}%</div></div><div style="background:#F0F2F8; border-radius:24px; padding:20px;"><div style="font-size:16px; font-weight:700; margin-bottom:12px;">该人格的简单解读</div><div style="font-size:14px; color:#2D2C3A; line-height:1.5;">${escapeHtml(effect.decode)}</div></div><div style="margin-top:24px; text-align:center; font-size:11px; color:#C7C9D1;">心理灯塔 · 看见真实的自己</div></div>`; document.body.appendChild(posterDiv); const canvas = await html2canvas(posterDiv, { scale: 2, backgroundColor: "#FFFFFF", useCORS: true, allowTaint: false, scrollX: 0, scrollY: 0 }); const link = document.createElement("a"); link.download = `SBTI_32_${topKey}.png`; link.href = canvas.toDataURL("image/png"); link.click(); showToast("✓ 海报已生成，请长按保存分享"); } catch(e) { console.error(e); alert("生成失败，可截图保存"); } finally { const el = document.querySelector('div[style*="left: -9999px"]'); if(el && el.parentNode) el.parentNode.removeChild(el); } }
 function escapeHtml(str){ return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m; }); }
 function showToast(msg){ let t=document.getElementById("copyToast"); t.innerText=msg; t.style.display="block"; setTimeout(()=>t.style.display="none",2000); }
 function switchPage(id){ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active")); document.getElementById(id).classList.add("active"); window.scrollTo(0,0); if(id === "test" && !document.querySelector(".info-tip")){ const container = document.getElementById("infoTipContainer"); if(container){ const tipDiv = document.createElement("div"); tipDiv.className = "info-tip"; tipDiv.innerHTML = `<i class="fas fa-info-circle"></i><span>SBTI 32型人格测试，基于8种心理效应 × 外向/内向 + 理性/感性 = 32种精确组合。不只给你标签，更给成长方案。</span><i class="fas fa-times close-tip"></i>`; container.appendChild(tipDiv); tipDiv.querySelector(".close-tip").addEventListener("click", () => tipDiv.remove()); setTimeout(() => { if(tipDiv.parentNode) tipDiv.remove(); }, 6000); } } }
