@@ -48,7 +48,13 @@
     .ip-card:hover { transform:translateY(-6px) scale(1.02); box-shadow:var(--shadow-sm); background:var(--bg-card); }
     .ip-card img { width:90px; height:90px; object-fit:contain; margin-bottom:10px; }
     .ip-card .label { font-weight:600; font-size:0.9rem; color:var(--text-title); }
-    @media (max-width:620px) { .ip-grid { gap:12px; } .ip-card img { width:65px; height:65px; } .ip-card .label { font-size:0.75rem; } }
+    /* 手机端首页卡片居中修复 */
+    @media (max-width:620px) {
+      .ip-grid { gap:8px; justify-items: center; }
+      .ip-card { padding: 10px 4px; }
+      .ip-card img { width:60px; height:60px; }
+      .ip-card .label { font-size:0.7rem; white-space: nowrap; margin-top: 4px; }
+    }
     .effect-list { background:var(--result-bg); border-radius:28px; padding:20px; margin:24px 0; }
     .effect-list h3 { font-size:1.1rem; margin-bottom:12px; color:var(--primary); }
     .effect-tags { display:flex; flex-wrap:wrap; gap:10px; }
@@ -155,8 +161,6 @@
 <body>
 <div class="container">
   <div class="header"><button id="themeToggle" class="theme-btn">🌙 夜间模式</button></div>
-
-  <!-- 首页 -->
   <div class="page active" id="home">
     <div class="card">
       <div class="hero-section">
@@ -193,7 +197,6 @@
       </div>
     </div>
   </div>
-
   <!-- 答题页 -->
   <div class="page" id="test">
     <div id="infoTipContainer"></div>
@@ -209,7 +212,6 @@
       <footer>点击选项自动进入下一题，亦可使用下方按钮回退</footer>
     </div>
   </div>
-
   <!-- 结果页 -->
   <div class="page" id="result">
     <div class="card">
@@ -320,7 +322,6 @@ function saveToken(tokenStr, expiresIn = 86400000) {
   localStorage.setItem('psych_token', JSON.stringify({ token: tokenStr, expires: Date.now() + expiresIn }));
 }
 
-/* ======== 趣味昵称映射 ======== */
 const NICKNAME_MAP = {
   whitebear: '执念艺术家', peoplepleaser: '孤勇裁缝', spotlight: '海鸥诗人',
   internal: '深度导演', ruminate: '时光漫步者', avoid: '和平鸽哨',
@@ -762,7 +763,6 @@ function copyResultText(){
   navigator.clipboard.writeText(shareText).then(()=>showToast('结果已复制！'));
 }
 
-/* ======== 海报生成与弹窗预览（二维码API + 保留英文 + 尺寸优化） ======== */
 let posterDataURL = '';
 async function generatePoster() {
   if (typeof html2canvas === 'undefined') {
