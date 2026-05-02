@@ -13,7 +13,6 @@
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <!-- 不再需要 qrcodejs CDN，二维码改用 API 生成 -->
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     :root {
@@ -285,7 +284,7 @@
   </div>
 </div>
 
-<!-- 海报预览弹窗（优化尺寸 + 二维码） -->
+<!-- 海报预览弹窗 -->
 <div id="posterPreviewModal" class="modal-overlay hidden" role="dialog" aria-modal="true">
   <div class="modal-card" style="text-align:center; max-width:500px; background:white;">
     <span class="modal-close" id="closePosterPreview">&times;</span>
@@ -302,7 +301,6 @@
 const API_BASE = 'https://xinlidengta.com';
 const AFDIAN_ITEM_URL = 'https://afdian.com/item/xxxx';
 
-/* ======== Token 管理（带过期） ======== */
 let token = (() => {
   const raw = localStorage.getItem('psych_token');
   if (!raw) return '';
@@ -337,7 +335,6 @@ const IP_IMG_MAP = {
   default: "images_compressed_1mb/whitebear.png"
 };
 
-/* ======== 心理效应库 ======== */
 const EFFECT_LIB = {
   whitebear: { name:"白熊特质", en:"WHITE BEAR", hook:"越想放下，记得越牢", short:"越想忘记，越挥之不去", prefix:"白熊",
     decode:"你常陷入“越想忘记越忘不掉”的循环，不是你太拧巴，是你对世界的感知细腻。✨ 试着把“不要想”换成“我可以想其他事”，用新念头替代压制，能帮你慢慢走出思维反刍。" },
@@ -357,7 +354,6 @@ const EFFECT_LIB = {
     decode:"你像雷达捕捉情绪，容易受伤却也更懂共情。你的柔软，是世界的一抹温柔。✨ 记得给自己留出每天30分钟的“安静充电”时间，减少过度刺激，你的敏感会成为天赋而不是负担。" }
 };
 
-/* ======== 14道题库 ======== */
 const QUESTIONS = [
   { text:"聚会里说错一句话，你散场后第一反应是？", options:[
     {text:"满脑子都是大家会不会因此对我有看法，反复回想", effects:{spotlight:3,ruminate:3}},
@@ -431,7 +427,6 @@ const QUESTIONS = [
   ]}
 ];
 
-/* ======== 答题状态 ======== */
 let currentIdx = 0;
 let extraScore = 0, rationalScore = 0;
 let effectScores = {}, effectStrongCount = {}, effectReverseCount = {};
@@ -441,7 +436,6 @@ Object.keys(EFFECT_LIB).forEach(k=>{ effectScores[k]=0; effectStrongCount[k]=0; 
 const MAX_SCORE={ whitebear:12, peoplepleaser:12, spotlight:12, internal:12, ruminate:12, avoid:12, control:12, sensitive:12 };
 const effectOrder=["whitebear","peoplepleaser","spotlight","internal","ruminate","avoid","control","sensitive"];
 
-/* ======== 核心计算函数 ======== */
 function normalize(score,key){ let s=Math.max(0,score); if(s>MAX_SCORE[key]) s=MAX_SCORE[key]; return (s/MAX_SCORE[key])*100; }
 function getTopEffect(){ let entries=effectOrder.map(k=>({key:k, norm:normalize(effectScores[k],k), strong:effectStrongCount[k], reverse:effectReverseCount[k]})); entries.sort((a,b)=>b.norm-a.norm || b.strong-a.strong || a.reverse-b.reverse); return entries[0].key; }
 function getSecondTopEffect(){ let entries=effectOrder.map(k=>({key:k, norm:normalize(effectScores[k],k), strong:effectStrongCount[k], reverse:effectReverseCount[k]})); entries.sort((a,b)=>b.norm-a.norm || b.strong-a.strong || a.reverse-b.reverse); return entries.length>1 ? entries[1].key : null; }
@@ -450,7 +444,6 @@ function getEffectMatchPercent(){ let top=getTopEffect(); let score=effectScores
 function getPersonality(){ return extraScore>=0 ? (rationalScore>=0 ? "外向理性者" : "外向感性者") : (rationalScore>=0 ? "内向理性者" : "内向感性者"); }
 function getCombinationName(effectKey){ const effect=EFFECT_LIB[effectKey]; const personality=getPersonality(); return `${effect.prefix}型 · ${personality}`; }
 
-/* ======== 进度管理 ======== */
 function saveProgress(){
   localStorage.setItem('psych_progress', JSON.stringify({
     currentIdx, extraScore, rationalScore, effectScores, effectStrongCount, effectReverseCount, userAnswers
@@ -489,14 +482,12 @@ function recalcScores() {
   });
 }
 
-/* ======== 页面切换 ======== */
 function switchPage(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
   window.scrollTo(0,0);
 }
 
-/* ======== 图片预加载 ======== */
 function preloadImages() {
   Object.values(IP_IMG_MAP).forEach(src => {
     const img = new Image();
@@ -506,7 +497,6 @@ function preloadImages() {
 }
 window.addEventListener('DOMContentLoaded', preloadImages);
 
-/* ======== 答题相关 ======== */
 function startTest(){ resetProgress(); renderQuestion(); switchPage("test"); }
 
 function renderQuestion(){
@@ -551,7 +541,6 @@ function goPrev(){
   renderQuestion();
 }
 
-/* ======== 雷达图 ======== */
 function renderRadarChart(radarData) {
   const chartDom = document.getElementById('radarChart');
   if (!chartDom) return;
@@ -577,7 +566,6 @@ function renderRadarChart(radarData) {
   window.addEventListener('resize', () => myChart.resize());
 }
 
-/* ======== 结果生成 ======== */
 function generateResult(){
   let topKey = getTopEffect();
   let topData = EFFECT_LIB[topKey];
@@ -643,7 +631,6 @@ function generateResult(){
   switchPage("result");
 }
 
-/* ======== 按钮加载状态 ======== */
 function setButtonLoading(btn, isLoading) {
   if (isLoading) {
     btn.disabled = true;
@@ -658,7 +645,6 @@ function setButtonLoading(btn, isLoading) {
   }
 }
 
-/* ======== 登录与支付 ======== */
 function showLoginModal(){ document.getElementById('loginModal').classList.remove('hidden'); }
 function hideLoginModal(){ document.getElementById('loginModal').classList.add('hidden'); }
 
@@ -757,7 +743,6 @@ function startCountdown(){
   }, 1000);
 }
 
-/* ======== 社交功能 ======== */
 document.getElementById('friendMatchBtn').onclick = () => document.getElementById('friendModal').classList.remove('hidden');
 document.getElementById('closeFriendModal').onclick = () => document.getElementById('friendModal').classList.add('hidden');
 document.getElementById('sendInviteBtn').onclick = () => {
@@ -845,7 +830,6 @@ function escapeHtml(str){
   return div.innerHTML;
 }
 
-/* ======== 海报弹窗关闭和下载 ======== */
 document.getElementById('closePosterPreview').onclick = () => {
   document.getElementById('posterPreviewModal').classList.add('hidden');
 };
@@ -857,10 +841,8 @@ document.getElementById('downloadPosterBtn').onclick = () => {
   a.click();
 };
 
-/* ======== 工具函数 ======== */
 function showToast(msg){ let t=document.getElementById("copyToast"); t.innerText=msg; t.style.display="block"; setTimeout(()=>t.style.display="none",2000); }
 
-/* ======== 主题切换（深色模式自动跟随系统） ======== */
 function initTheme(){
   const saved = localStorage.getItem('theme');
   if (saved) {
@@ -889,7 +871,6 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
   }
 });
 
-/* ======== 初始化 ======== */
 document.addEventListener('DOMContentLoaded',()=>{
   initTheme();
   if(loadProgress() && currentIdx>0 && currentIdx<QUESTIONS.length){ renderQuestion(); switchPage("test"); } else resetProgress();
