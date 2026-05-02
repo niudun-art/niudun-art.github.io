@@ -33,7 +33,7 @@
     .card { background:var(--bg-card); border-radius:32px; padding:28px 24px; margin-bottom:24px; box-shadow:var(--shadow-sm); border:1px solid var(--border-light); }
     .header { display:flex; justify-content:flex-end; align-items:center; margin-bottom:24px; }
     .theme-btn { background:var(--bg-card); border:1px solid var(--border-light); border-radius:60px; padding:8px 18px; font-size:0.9rem; cursor:pointer; color:var(--text-body); }
-    .theme-btn:hover { background:var(--option-hover); transform:scale(0.96); }
+    .theme-btn:hover { background:var(--option-hover); }
     .hero-section { text-align:center; margin-bottom:30px; }
     .fire-badge { background:linear-gradient(135deg, #FF9F43, #FF7E3A); color:white; display:inline-block; padding:10px 28px; border-radius:60px; font-size:1.1rem; font-weight:800; margin-bottom:16px; letter-spacing:1px; }
     h2 { font-size:1.8rem; font-weight:800; margin:12px 0; color:var(--text-title); }
@@ -52,9 +52,6 @@
     .effect-definition { background:var(--result-bg); border-radius:28px; padding:18px; margin:24px 0; font-size:0.9rem; color:var(--text-body); line-height:1.5; }
     .hero-btn { background:var(--primary); width:100%; padding:16px; border-radius:60px; font-weight:700; font-size:1.2rem; color:white; border:none; cursor:pointer; margin-top:16px; box-shadow:0 4px 12px rgba(91,110,247,0.3); position:relative; overflow:hidden; }
     .hero-btn:hover { background:#4A5CE6; transform:translateY(-2px); }
-    .hero-btn::after { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation:shimmer 2s infinite; }
-    @keyframes shimmer { 100% { left:100%; } }
-    .hero-btn.fixed-bottom { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:calc(100% - 40px); max-width:760px; z-index:100; box-shadow:0 8px 24px rgba(91,110,247,0.4); }
     footer { text-align:center; font-size:0.7rem; color:var(--text-light); margin-top:24px; }
     .beta-notice {
       background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
@@ -70,11 +67,6 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-    }
-    [data-theme="dark"] .beta-notice {
-      background: linear-gradient(135deg, #3E2723, #4E342E);
-      border-color: #FF8A65;
-      color: #FFAB91;
     }
     .progress-bar { height:8px; background:var(--border-light); border-radius:10px; margin-bottom:24px; }
     .progress-fill { height:100%; background:var(--primary); border-radius:10px; width:0%; }
@@ -97,14 +89,31 @@
     .dim-bar-fill { height:100%; background:var(--primary); width:0%; }
     .dim-value { font-size:0.75rem; margin-top:6px; color:var(--text-body); }
     .effect-section { margin:24px 0; display:grid; grid-template-columns:repeat(5,1fr); gap:16px; }
-    .effect-card { background:var(--result-bg); border-radius:20px; padding:12px; border:1px solid var(--border-light); text-align:center; }
-    .effect-card .effect-name { font-weight:700; color:var(--primary); margin-bottom:6px; font-size:0.85rem; }
-    .effect-card .effect-desc { font-size:0.7rem; color:var(--text-body); margin-bottom:6px; }
-    .effect-card.locked { position:relative; cursor:pointer; }
-    .effect-card.locked .blur { filter:blur(3px); opacity:0.6; }
-    .effect-card.locked .lock-overlay { position:absolute; top:0;left:0;right:0;bottom:0; display:flex; align-items:center; justify-content:center; font-size:0.8rem; background:rgba(232,235,255,0.85); backdrop-filter:blur(3px); border-radius:20px; color:var(--primary); flex-direction:column; }
-    [data-theme="dark"] .lock-overlay { background:rgba(45,51,72,0.85); }
+    .effect-card {
+      background:var(--result-bg); border-radius:20px; padding:12px 8px; border:1px solid var(--border-light);
+      text-align:center; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      gap:6px; min-height:90px; transition:transform 0.2s;
+    }
+    .effect-card .effect-name { font-weight:700; color:var(--primary); margin-bottom:2px; font-size:0.9rem; }
+    .effect-card .effect-desc { font-size:0.75rem; color:var(--text-body); line-height:1.3; text-align:center; }
+    .effect-card.locked {
+      background:var(--bg-card); border:1px dashed var(--primary); cursor:pointer;
+    }
+    .effect-card.locked .effect-name { color:var(--text-light); }
+    .effect-cta {
+      margin-top:6px; padding:4px 12px; background:var(--primary); color:#fff;
+      border-radius:20px; font-size:0.7rem; font-weight:600; letter-spacing:0.5px;
+      box-shadow:0 2px 6px rgba(91,110,247,0.25);
+    }
+    @media (max-width:700px) {
+      .effect-card { padding:8px 4px; min-height:100px; }
+      .effect-card .effect-name { font-size:0.85rem; }
+      .effect-card .effect-desc { font-size:0.8rem; line-height:1.4; }
+      .effect-cta { font-size:0.65rem; padding:3px 10px; }
+    }
     .radar-container { margin:24px 0; background:var(--result-bg); border-radius:24px; padding:16px; }
+    #radarChart { width:100%; min-height:360px; }
+    @media (max-width:700px) { #radarChart { height:280px; min-height:280px; } }
     .report-body { background:var(--result-bg); border-radius:24px; padding:20px; margin:20px 0; line-height:1.6; }
     .premium-banner { background:var(--bg-card); border-radius:32px; padding:28px 24px; margin:28px 0; text-align:center; }
     .premium-title { font-size:1.5rem; font-weight:800; margin-bottom:16px; }
@@ -128,7 +137,6 @@
     .btn-wechat { background:#07C160; color:white; border:none; padding:12px 24px; border-radius:60px; font-weight:700; cursor:pointer; margin-top:12px; width:100%; }
     .hidden { display:none; }
     .copy-toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:var(--bg-card); color:var(--text-title); padding:8px 20px; border-radius:60px; font-size:0.8rem; box-shadow:0 4px 12px rgba(0,0,0,0.15); border:1px solid var(--border-light); z-index:2000; display:none; }
-    @media (max-width:700px) { .card { padding:20px; } .personality-big { font-size:1.4rem; } .effect-en-large { font-size:1.5rem; } }
   </style>
 </head>
 <body>
@@ -157,17 +165,15 @@
             <span class="effect-tag">冒名特质</span><span class="effect-tag">沉没成本特质</span><span class="effect-tag">确认偏误特质</span><span class="effect-tag">自我设限特质</span>
           </div>
         </div>
-        <!-- 测试版声明 -->
         <div class="beta-notice">
-          <i class="fas fa-flask"></i> 测试版 · 完整版将于5月5日上线，敬请期待！
+          <i class="fas fa-flask"></i> 内测中 · 完整版将于近期上线，敬请期待！
         </div>
         <div class="effect-definition">
           <strong>🎯 什么是心理灯塔？</strong><br>
           心理灯塔是一个基于心理学理论的趣味人格分析工具。它不贴标签，而是从自我认知、感情投入、行动方式和社交边界出发，帮你看见内心的真实模样。
         </div>
         <button class="hero-btn" id="startBtn">🚀 测测你的内耗根源 →</button>
-        <footer>✨ 趣味人格测评 | 本测试仅供娱乐参考，不构成医疗诊断、心理咨询建议，不替代专业心理服务 | 心理灯塔——看见真实的自己
-        </footer>
+        <footer>✨ 趣味人格测评 | 本测试基于心理学理论独立原创，与MBTI等第三方品牌无关，仅供娱乐与自我认知参考，不构成专业医疗诊断、心理咨询及治疗建议，不替代任何专业心理与医疗服务 | 心理灯塔 · 看见真实的自己</footer>
       </div>
     </div>
   </div>
@@ -198,7 +204,7 @@
       </div>
       <div class="insight-text" id="insightText"></div>
       <div class="dimension-grid" id="dimensionGrid"></div>
-      <div class="radar-container"><div id="radarChart" style="width:100%; height:400px;"></div></div>
+      <div class="radar-container"><div id="radarChart"></div></div>
       <div class="effect-section" id="effectGrid"></div>
       <div id="reportBody" class="report-body hidden"></div>
       <div id="deepGuide" style="display:none;"></div>
@@ -216,7 +222,6 @@
         <div style="margin-top:12px; display:flex; align-items:center; justify-content:center; gap:8px;">
           <span id="countdownTimer" style="color:var(--accent-warm); font-weight:700;"></span>
         </div>
-        <div id="previewQuote" style="margin-top:16px; padding:12px; background:var(--result-bg); border-radius:16px; font-style:italic; color:var(--text-body); display:none;"></div>
       </div>
       <div id="friendMatchBanner" style="margin:20px 0; text-align:center;">
         <button class="share-btn" id="friendMatchBtn">👥 测测你和好友的匹配度</button>
@@ -262,27 +267,22 @@
 <div class="copy-toast" id="copyToast">✓ 复制成功！快去分享吧</div>
 
 <script>
-// ========== 配置 ==========
-const API_BASE = 'https://你的后端域名.com';  // ← 替换
-const AFDIAN_ITEM_URL = 'https://afdian.com/item/xxxx'; // ← 替换
+const API_BASE = 'http://39.105.107.143';
+const AFDIAN_ITEM_URL = 'https://afdian.com/item/xxxx';
 
-// 全局状态
 let token = localStorage.getItem('psych_token') || '';
 let userId = localStorage.getItem('psych_user_id') || '';
 let currentOrderTradeNo = '';
-let pendingPayData = null;
 let isPaid = false;
 let inviteId = localStorage.getItem('inviteId') || ('inv_'+Date.now()+'_'+Math.random().toString(36).substr(2,6));
 localStorage.setItem('inviteId', inviteId);
 
-// 趣味昵称
 const NICKNAME_MAP = {
   whitebear: '执念艺术家', peoplepleaser: '孤勇裁缝', spotlight: '海鸥诗人',
   internal: '深度导演', ruminate: '时光漫步者', avoid: '和平鸽哨',
   control: '秩序之光', sensitive: '灵动水母'
 };
 
-// IP图片映射
 const IP_IMG_MAP = {
   whitebear: "images_compressed_1mb/whitebear.png", peoplepleaser: "images_compressed_1mb/peoplepleaser.png",
   spotlight: "images_compressed_1mb/spotlight.png", internal: "images_compressed_1mb/internal.png",
@@ -291,27 +291,25 @@ const IP_IMG_MAP = {
   default: "images_compressed_1mb/whitebear.png"
 };
 
-// 心理效应库（已修正）
 const EFFECT_LIB = {
   whitebear: { name:"白熊特质", en:"WHITE BEAR", hook:"越想放下，记得越牢", short:"越想忘记，越挥之不去", prefix:"白熊",
-    decode:"你常陷入“越想忘记越忘不掉”的循环，不是你太拧巴，是你对世界的感知细腻。✨ 小建议：试着把“不要想”换成“我可以想其他事”，用新念头替代压制，能帮你慢慢走出思维反刍。" },
+    decode:"你常陷入“越想忘记越忘不掉”的循环，不是你太拧巴，是你对世界的感知细腻。✨ 试着把“不要想”换成“我可以想其他事”，用新念头替代压制，能帮你慢慢走出思维反刍。" },
   peoplepleaser: { name:"讨好特质", en:"PEOPLE PLEASER", hook:"你的善良，要有锋芒", short:"习惯性迁就，害怕拒绝", prefix:"讨好",
-    decode:"你习惯性迁就他人，害怕拒绝。这不是懦弱，是你在乎关系的证明。✨ 小建议：每天练习一次“小拒绝”，从最小的事情开始建立边界，你会发现自己值得被尊重。" },
+    decode:"你习惯性迁就他人，害怕拒绝。这不是懦弱，是你在乎关系的证明。✨ 每天练习一次“小拒绝”，从最小的事情开始建立边界，你会发现自己值得被尊重。" },
   spotlight: { name:"聚光灯特质", en:"SPOTLIGHT", hook:"其实，根本没人在看你", short:"总觉得所有人都在关注自己", prefix:"聚光灯",
-    decode:"你总觉得所有人都在关注你，其实根本没人在意。你对自己要求太高，却忽略了你本就足够好。✨ 小建议：下次紧张时默念“我没那么多观众”，把注意力转移到你的呼吸或周围环境中。" },
+    decode:"你总觉得所有人都在关注你，其实根本没人在意。你对自己要求太高，却忽略了你本就足够好。✨ 下次紧张时默念“我没那么多观众”，把注意力转移到你的呼吸或周围环境中。" },
   internal: { name:"内耗特质", en:"INTERNAL", hook:"你最大的敌人，是自己", short:"反复复盘，自我消耗", prefix:"内耗",
-    decode:"你习惯在行动前反复权衡，还没开始就已耗尽能量。这不是你不行，是你太想做好。✨ 小建议：先用“5分钟行动法则”打破僵局——无论多小的事，先做5分钟，行动会带来新的动量。" },
+    decode:"你习惯在行动前反复权衡，还没开始就已耗尽能量。这不是你不行，是你太想做好。✨ 先用“5分钟行动法则”打破僵局——无论多小的事，先做5分钟，行动会带来新的动量。" },
   ruminate: { name:"反刍特质", en:"RUMINATE", hook:"过去的事，就让它过去吧", short:"反复咀嚼负面情绪", prefix:"反刍",
-    decode:"你总是反复回忆过去的尴尬或失败，像牛反刍一样停不下来。这不是你脆弱，是你对情绪深度的感知力远超常人。✨ 小建议：给烦恼设一个10分钟“反刍闹钟”，时间一到立刻转移注意力到具体的事情上，慢慢训练大脑停止循环思考。" },
+    decode:"你总是反复回忆过去的尴尬或失败，像牛反刍一样停不下来。这不是你脆弱，是你对情绪深度的感知力远超常人。✨ 给烦恼设一个10分钟“反刍闹钟”，时间一到立刻转移注意力到具体的事情上，慢慢训练大脑停止循环思考。" },
   avoid: { name:"回避特质", en:"AVOID", hook:"逃避不可耻，但面对更有用", short:"害怕冲突，选择逃避", prefix:"回避",
-    decode:"你害怕冲突，第一反应是躲开。你对和平渴望，但有些问题需要面对。✨ 小建议：从低风险的小冲突开始练习面对，比如礼貌地表达不同意见，你会发现结果没有想象中可怕。" },
+    decode:"你害怕冲突，第一反应是躲开。你对和平渴望，但有些问题需要面对。✨ 从低风险的小冲突开始练习面对，比如礼貌地表达不同意见，你会发现结果没有想象中可怕。" },
   control: { name:"控制特质", en:"CONTROL", hook:"放松一点，地球没你也能转", short:"总想掌控一切，否则焦虑", prefix:"控制",
-    decode:"总想掌控一切，计划被打乱就焦虑，这是你对安全感的追求。✨ 小建议：每天故意做一件“小失控”的事（比如换条路回家），练习接纳不确定性，慢慢获得真正的自由。" },
+    decode:"总想掌控一切，计划被打乱就焦虑，这是你对安全感的追求。✨ 每天故意做一件“小失控”的事（比如换条路回家），练习接纳不确定性，慢慢获得真正的自由。" },
   sensitive: { name:"高敏感特质", en:"SENSITIVE", hook:"你的柔软，是超能力", short:"情绪细腻，容易受伤", prefix:"高敏感",
-    decode:"你像雷达捕捉情绪，容易受伤却也更懂共情。你的柔软，是世界的一抹温柔。✨ 小建议：记得给自己留出每天30分钟的“安静充电”时间，减少过度刺激，你的敏感会成为天赋而不是负担。" }
+    decode:"你像雷达捕捉情绪，容易受伤却也更懂共情。你的柔软，是世界的一抹温柔。✨ 记得给自己留出每天30分钟的“安静充电”时间，减少过度刺激，你的敏感会成为天赋而不是负担。" }
 };
 
-// 14道题库
 const QUESTIONS = [
   { text:"聚会里说错一句话，你散场后第一反应是？", options:[
     {text:"满脑子都是大家会不会因此对我有看法，反复回想", effects:{spotlight:3,ruminate:3}},
@@ -455,14 +453,12 @@ function generateResult(){
   let rationalPercent=Math.min(100,Math.floor(((rationalScore+15)/30)*100));
   document.getElementById("dimensionGrid").innerHTML=`<div class="dim-item"><div class="dim-label">外向性</div><div class="dim-bar-bg"><div class="dim-bar-fill" style="width:${extraPercent}%"></div></div><div class="dim-value">${extraPercent}%</div></div><div class="dim-item"><div class="dim-label">理性</div><div class="dim-bar-bg"><div class="dim-bar-fill" style="width:${rationalPercent}%"></div></div><div class="dim-value">${rationalPercent}%</div></div>`;
 
-  // 雷达图
   const radarData = {
     dimensions: effectOrder.map(k => EFFECT_LIB[k].name),
     scores: effectOrder.map(k => Math.round(normalize(effectScores[k],k) / 100 * 12))
   };
-  renderRadarChart(radarData);
+  setTimeout(() => renderRadarChart(radarData), 150);
 
-  // 效应卡片
   let gridHtml = '';
   for(let k of effectOrder){
     const eff = EFFECT_LIB[k];
@@ -470,11 +466,15 @@ function generateResult(){
     const isSecond = (secondKey && k === secondKey);
     const isUnlocked = isPaid || isTop || isSecond;
     if(isUnlocked){
-      gridHtml += `<div class="effect-card"><div class="effect-name">${eff.name}</div><div class="effect-desc">${eff.short}<br>✨ ${eff.decode.split('✨')[1] || "接纳自己"}</div></div>`;
+      gridHtml += `<div class="effect-card">
+        <div class="effect-name">${eff.name}</div>
+        <div class="effect-desc">${eff.short}</div>
+        <div class="effect-desc">✨ ${eff.decode.split('✨')[1]?.trim() || "接纳自己"}</div>
+      </div>`;
     } else {
       gridHtml += `<div class="effect-card locked" onclick="handleLockedClick('${k}')">
-        <div class="blur"><div class="effect-name">${eff.name}</div><div class="effect-desc">${eff.short}</div></div>
-        <div class="lock-overlay"><span>你的${eff.name}得分很高<br>这意味着什么？</span><small style="font-size:0.6rem;">点击查看</small></div>
+        <div class="effect-name">${eff.name}</div>
+        <div class="effect-cta">🔒 点击解锁</div>
       </div>`;
     }
   }
@@ -504,13 +504,16 @@ function handleLockedClick(key){
 function renderRadarChart(radarData) {
   const chartDom = document.getElementById('radarChart');
   if (!chartDom) return;
+  const isMobile = window.innerWidth < 700;
+  chartDom.style.width = '100%';
+  chartDom.style.height = isMobile ? '280px' : '400px';
   const myChart = echarts.init(chartDom);
   const option = {
     radar: {
       indicator: radarData.dimensions.map(name => ({ name, max: 12 })),
       center: ['50%', '50%'],
-      radius: '75%',
-      axisName: { color: '#585B6E', fontSize: 12 }
+      radius: isMobile ? '60%' : '75%',
+      axisName: { color: '#585B6E', fontSize: isMobile ? 10 : 12 }
     },
     series: [{
       type: 'radar',
@@ -526,7 +529,6 @@ function renderRadarChart(radarData) {
 function showLoginModal(){ document.getElementById('loginModal').classList.remove('hidden'); }
 function hideLoginModal(){ document.getElementById('loginModal').classList.add('hidden'); }
 document.getElementById('closeLoginModal').onclick = hideLoginModal;
-
 document.getElementById('sendCodeBtn').onclick = async () => {
   const phone = document.getElementById('phoneInput').value.trim();
   if (!phone) return alert('请输入手机号');
@@ -535,7 +537,6 @@ document.getElementById('sendCodeBtn').onclick = async () => {
     showToast('验证码已发送');
   } catch(e) { alert('发送失败'); }
 };
-
 document.getElementById('loginBtn').onclick = async () => {
   const phone = document.getElementById('phoneInput').value.trim();
   const code = document.getElementById('codeInput').value.trim();
@@ -549,14 +550,12 @@ document.getElementById('loginBtn').onclick = async () => {
       localStorage.setItem('psych_token', token);
       localStorage.setItem('psych_user_id', userId);
       hideLoginModal();
-      handlePostLogin();
     } else alert(data.error || '登录失败');
   } catch(e) { alert('网络错误'); }
 };
 
 function goPay() {
   if (!token) {
-    pendingPayData = { effectScores: {...effectScores}, extraScore, rationalScore };
     showLoginModal();
   } else {
     createOrderAndPay();
@@ -619,11 +618,13 @@ function copyInviteLink(){
   let link=location.origin+location.pathname+"?invite="+inviteId;
   navigator.clipboard.writeText(link).then(()=>showToast("✓ 邀请链接已复制！")).catch(()=>alert("复制失败"));
 }
+
 function copyResultText(){
   const nickname = document.getElementById('nicknameDisplay').innerText;
   const shareText = `【心理灯塔】我的心理昵称：${nickname}\n—— 你也来测测：${location.origin}${location.pathname}`;
   navigator.clipboard.writeText(shareText).then(()=>showToast('结果已复制！'));
 }
+
 async function generatePoster() {
   if (typeof html2canvas === 'undefined') {
     showToast("海报组件加载中，请刷新页面后重试");
@@ -655,7 +656,7 @@ async function generatePoster() {
   posterDiv.innerHTML = `
     <div style="text-align:center;">
       <div style="font-size:28px;font-weight:800;color:#2A2C35;margin-bottom:6px;">${escapeHtml(combination)}</div>
-      <div style="font-size:20px;color:#FF9F43;margin-bottom:12px;">✨ ${escapeHtml(nickname)}</div>
+      <div style="font-size:20px;color:#FF9F43;margin-bottom:8px;">✨ ${escapeHtml(nickname)}</div>
       <div style="font-size:22px;font-weight:700;color:#5B6EF7;">${escapeHtml(effect.en)}</div>
     </div>
     <div style="display:flex;justify-content:center;margin:24px 0;">
@@ -703,10 +704,10 @@ function initTheme(){
 }
 function toggleTheme(){
   let current=document.documentElement.getAttribute('data-theme');
-  let newTheme=current==='dark'?'light':'dark';
+  let newTheme=current=='dark'?'light':'dark';
   document.documentElement.setAttribute('data-theme',newTheme);
   localStorage.setItem('theme',newTheme);
-  document.getElementById('themeToggle').innerHTML=newTheme==='dark'?'☀️ 白天模式':'🌙 夜间模式';
+  document.getElementById('themeToggle').innerHTML=newTheme=='dark'?'☀️ 白天模式':'🌙 夜间模式';
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
