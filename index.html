@@ -127,7 +127,7 @@
       margin: 20px auto; max-width: 720px; line-height: 1.85;
       font-size: 1.05rem; color: var(--text-body); word-wrap: break-word; overflow-wrap: break-word;
     }
-    .report-body h2 { font-size:1.8rem; font-weight:800; margin-bottom:18px; color:#2A2C35; border-bottom: 2px solid var(--primary-soft); padding-bottom: 12px; }
+    .report-body h2 { font-size:1.8rem; font-weight:800; margin-bottom:18px; color:var(--text-title); border-bottom: 2px solid var(--primary-soft); padding-bottom: 12px; }
     .report-body h3 { font-size:1.3rem; font-weight:700; margin-top: 24px; margin-bottom: 12px; color:var(--text-title); }
     .report-body p { margin-bottom: 14px; }
     .report-body blockquote {
@@ -337,6 +337,23 @@ let isPaid = false;
 let inviteId = localStorage.getItem('inviteId') || ('inv_'+Date.now()+'_'+Math.random().toString(36).substr(2,6));
 localStorage.setItem('inviteId', inviteId);
 let pendingPayData = null;
+
+// 轮询/流式清理
+let currentStreamReader = null;
+let currentPollingTimer = null;
+
+function cleanupStreamAndPolling() {
+  if (currentStreamReader) {
+    currentStreamReader.cancel().catch(() => {});
+    currentStreamReader = null;
+  }
+  if (currentPollingTimer) {
+    clearInterval(currentPollingTimer);
+    currentPollingTimer = null;
+  }
+}
+
+window.addEventListener('beforeunload', cleanupStreamAndPolling);
 
 function saveToken(tokenStr, expiresIn = 86400000) {
   localStorage.setItem('psych_token', JSON.stringify({ token: tokenStr, expires: Date.now() + expiresIn }));
@@ -580,52 +597,60 @@ async function createOrderAndPay() {
   } catch(e) { showToast('网络错误'); } finally { setButtonLoading(unlockBtn, false); }
 }
 
-// ========== 核心优化：流式渲染 + 兜底轮询 ==========
+// ========== 增强版报告获取：流式优先 + 兜底轮询 + 资源清理 ==========
 function startPollingReport(tradeNo) {
+  cleanupStreamAndPolling(); // 确保之前的请求清理干净
   const reportBody = document.getElementById('reportBody');
   reportBody.classList.remove('hidden');
   reportBody.innerHTML = '<div style="text-align:center; padding:40px;"><i class="fas fa-spinner fa-spin" style="font-size:2rem; color:var(--primary);"></i><p style="margin-top:16px; color:var(--text-body);">正在为你生成深度报告，请稍候…</p></div>';
 
-  // 优先尝试流式接口
   const streamUrl = `${API_BASE}/api/report_stream/${tradeNo}`;
-  let streamFailed = false;
-
+  
   fetch(streamUrl, { headers: { 'Authorization': `Bearer ${token}` } })
     .then(response => {
-      if (!response.ok) { throw new Error('流式接口不可用'); }
+      if (!response.ok || !response.body) {
+        throw new Error('流式接口不可用');
+      }
       const reader = response.body.getReader();
+      currentStreamReader = reader;
       const decoder = new TextDecoder();
       let accumulatedText = '';
 
       function readStream() {
         reader.read().then(({ done, value }) => {
           if (done) {
-            // 流式传输结束，最终渲染
+            // 流式结束，最终渲染
+            currentStreamReader = null;
             finalizeReport(accumulatedText);
             return;
           }
+          // 处理收到的数据块
           const chunk = decoder.decode(value, { stream: true });
-          // 过滤掉不是JSON的纯文本片段（千问在思考时的废话）
           accumulatedText += chunk;
-          // 实时更新页面（显示当前已生成的内容）
+          // 实时更新报告区域（保留生成中标识）
           reportBody.innerHTML = marked.parse(accumulatedText) + 
             '<div style="text-align:center; color:var(--text-light); margin-top:16px;"><i class="fas fa-pen"></i> 生成中…</div>';
           readStream();
+        }).catch(err => {
+          console.warn('流式读取错误，回退轮询', err);
+          cleanupStreamAndPolling();
+          fallbackPolling(tradeNo);
         });
       }
       readStream();
     })
-    .catch(() => {
-      // 流式接口失败，退回轮询模式
-      streamFailed = true;
+    .catch(err => {
+      console.warn('流式接口连接失败，回退轮询', err);
+      cleanupStreamAndPolling();
       fallbackPolling(tradeNo);
     });
 }
 
 function fallbackPolling(tradeNo) {
+  cleanupStreamAndPolling(); // 确保没有残留定时器
   const reportBody = document.getElementById('reportBody');
   let attempts = 0;
-  const interval = setInterval(async () => {
+  currentPollingTimer = setInterval(async () => {
     try {
       attempts++;
       const res = await fetch(`${API_BASE}/api/get_report?trade_no=${tradeNo}`, { 
@@ -633,23 +658,31 @@ function fallbackPolling(tradeNo) {
       });
       const data = await res.json();
       if (data.status === 'completed') {
-        clearInterval(interval);
+        clearInterval(currentPollingTimer);
+        currentPollingTimer = null;
         isPaid = true;
         localStorage.setItem('psych_paid_trade', tradeNo);
         let rawText = JSON.parse(data.report_content).report_text;
         finalizeReport(rawText);
         document.getElementById('premiumBanner').style.display = 'none';
       } else if (attempts >= 30) {
-        // 超过60秒还未生成，提示超时
-        clearInterval(interval);
+        clearInterval(currentPollingTimer);
+        currentPollingTimer = null;
         reportBody.innerHTML = '<div style="text-align:center; padding:40px;"><p style="color:var(--text-body);">报告生成超时，请刷新页面后重试</p></div>';
       }
-    } catch(e) {}
+    } catch(e) {
+      if (attempts >= 30) {
+        clearInterval(currentPollingTimer);
+        currentPollingTimer = null;
+        reportBody.innerHTML = '<div style="text-align:center; padding:40px;"><p style="color:var(--text-body);">报告生成超时，请刷新页面后重试</p></div>';
+      }
+    }
   }, 2000);
 }
 
 function finalizeReport(rawText) {
   const reportBody = document.getElementById('reportBody');
+  // 替换自定义标记
   rawText = rawText.replace(/\[EFFECT_IMAGE\]/g, 
     `<div style="text-align:center; margin:16px 0;">
       <img src="${IP_IMG_MAP[getTopEffect()] || IP_IMG_MAP.default}" 
@@ -657,7 +690,7 @@ function finalizeReport(rawText) {
            style="width:120px;height:120px;object-fit:contain;border-radius:50%;background:var(--circle-bg);padding:12px;">
     </div>`
   );
-  // 过滤掉可能的检查清单文本
+  // 过滤掉可能的强制检查清单文本
   rawText = rawText.replace(/\n#{1,3} 强制检查清单[\s\S]*?(?=\n#{1,3} |$)/g, '');
   reportBody.innerHTML = marked.parse(rawText);
 }
@@ -714,7 +747,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('copyResultBtn').onclick = copyResultText; document.getElementById('genPosterBtn').onclick = generatePoster;
   document.getElementById('themeToggle').onclick = toggleTheme;
   const paidTrade = localStorage.getItem('psych_paid_trade');
-  if(paidTrade && document.getElementById("result").classList.contains("active")){ /* 尝试拉取报告 */ }
+  if(paidTrade && document.getElementById("result").classList.contains("active")){ /* 可扩展：主动拉取已购报告 */ }
 });
 </script>
 </body>
