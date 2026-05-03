@@ -1,4 +1,3 @@
-sudo cat > /var/www/html/index.html << 'INDEXEOF'
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -211,11 +210,11 @@ sudo cat > /var/www/html/index.html << 'INDEXEOF'
         <div class="trust-note">🧭 基于8种经典心理学效应 · 为你定制深度成长报告</div>
         <div class="back-note">※ 本测试基于韦格纳白熊效应（1987）、吉尔伯特聚光灯效应（2000）等经典心理学研究设计</div>
         <button class="hero-btn" id="startBtn">🚀 测测你的内耗根源 →</button>
-        <footer>✨ 趣味人格测评 | 仅供娱乐与自我认知参考，不构成专业医疗诊断<br>心理灯塔 · 看见真实的自己</footer>
+        <footer>✨ 趣味人格测评 | 本测试基于心理学理论独立原创，与MBTI等第三方品牌无关，仅供娱乐与自我认知参考，不构成专业医疗诊断、心理咨询及治疗建议，不替代任何专业心理与医疗服务 | 心理灯塔 · 看见真实的自己</footer>
+        <div class="footer-short">✨ 趣味人格测评 | 仅供娱乐与自我认知参考，不构成专业医疗诊断<br>心理灯塔 · 看见真实的自己</div>
       </div>
     </div>
   </div>
-  <!-- 答题页 -->
   <div class="page" id="test">
     <div class="card">
       <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -229,7 +228,6 @@ sudo cat > /var/www/html/index.html << 'INDEXEOF'
       <footer>点击选项自动进入下一题，亦可使用下方按钮回退</footer>
     </div>
   </div>
-  <!-- 结果页 -->
   <div class="page" id="result">
     <div class="card">
       <div class="result-top">
@@ -279,7 +277,40 @@ sudo cat > /var/www/html/index.html << 'INDEXEOF'
   </div>
 </div>
 
-<!-- 弹窗保持不变 -->
+<div id="loginModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+  <div class="modal-card">
+    <span class="modal-close" id="closeLoginModal">&times;</span>
+    <h2 id="loginModalTitle" class="modal-title">登录 / 注册</h2>
+    <div class="input-group"><label>手机号</label><input type="tel" id="phoneInput" placeholder="请输入手机号" autocomplete="tel"></div>
+    <div class="input-group"><label>验证码</label><input type="text" id="codeInput" placeholder="短信验证码"><button id="sendCodeBtn" style="margin-top:8px; padding:8px 16px; border-radius:60px; border:1px solid var(--primary); background:transparent; color:var(--primary); cursor:pointer;">获取验证码</button></div>
+    <button class="btn-primary" id="loginBtn">登录 / 注册</button>
+    <div style="text-align:center; margin:16px 0; color:var(--text-light);">或</div>
+    <button class="btn-wechat" id="wechatLoginBtn"><i class="fab fa-weixin"></i> 微信一键登录</button>
+  </div>
+</div>
+
+<div id="friendModal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <span class="modal-close" id="closeFriendModal">&times;</span>
+    <div class="modal-title">好友匹配度测试</div>
+    <p style="margin-bottom:16px; color:var(--text-body);">邀请一位好友完成测试，即可查看你们的关系兼容性分析。</p>
+    <input type="text" id="friendPhoneInput" placeholder="输入好友手机号（选填）" style="width:100%; padding:12px; border-radius:60px; border:1px solid var(--border-light); margin-bottom:12px; background:var(--bg-body); color:var(--text-title);">
+    <button class="btn-primary" id="sendInviteBtn">📩 发送邀请链接给好友</button>
+    <div id="inviteLinkDisplay" style="margin-top:12px; word-break:break-all; font-size:0.8rem; color:var(--primary);"></div>
+  </div>
+</div>
+
+<div id="posterPreviewModal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+  <div class="modal-card" style="text-align:center; max-width:500px; background:white;">
+    <span class="modal-close" id="closePosterPreview">&times;</span>
+    <div class="modal-title" style="color:#2A2C35;">你的专属海报</div>
+    <img id="posterPreviewImage" alt="海报预览">
+    <p style="font-size:0.8rem; color:#8E92A8; margin-bottom:12px;">长按图片保存，或点击下方按钮下载</p>
+    <button class="btn-primary" id="downloadPosterBtn" style="background:linear-gradient(135deg, #FF9F43, #FF7E3A);">📥 下载图片</button>
+  </div>
+</div>
+
+<div class="copy-toast" id="copyToast">✓ 复制成功！快去分享吧</div>
 
 <script>
 const API_BASE = 'https://xinlidengta.com';
@@ -585,7 +616,7 @@ async function generatePoster() {
       <div style="text-align:center;"><div style="font-size:30px;font-weight:800;color:#2A2C35;margin-bottom:8px;">${escapeHtml(combination)}</div><div style="font-size:18px;color:#8E92A8;margin-bottom:12px;letter-spacing:1px;">${escapeHtml(effect.en)}</div></div>
       <div style="display:flex;justify-content:center;margin:20px 0;"><div style="width:220px;height:220px;background:#EBF0FF;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(91,110,247,0.18);"><img src="${img.src}" crossorigin="anonymous" style="width:185px;height:185px;object-fit:contain;border-radius:50%;"></div></div>
       <div style="text-align:center;margin-bottom:20px;"><span style="font-size:26px;font-weight:700;color:#FF9F43;letter-spacing:2px;">✨ ${escapeHtml(nickname)}</span></div>
-      <div style="text-align:center;margin-bottom:28px;font-size:19px;font-weight:500;color:#585B6E;line-height:1.5;">"${escapeHtml(effect.hook)}"</div>
+      <div style="text-align:center;margin-bottom:28px;font-size:19px;font-weight:500;color:#585B6E;line-height:1.5;">“${escapeHtml(effect.hook)}”</div>
       <div style="background:#F8FAFF;border-radius:24px;padding:18px;text-align:center;margin-bottom:24px;"><span style="background:#5B6EF7;color:white;padding:8px 20px;border-radius:40px;font-size:15px;">匹配度 ${matchPercent}% · 命中${hitCount}种心理特质</span></div>
       <div style="text-align:center;margin-bottom:8px;"><img src="${qrApiUrl}" alt="扫码测试" style="width:90px;height:90px;border-radius:10px;display:block;margin:0 auto;"><p style="font-size:11px;color:#C7C9D1;margin-top:6px;">扫码立即测试</p></div>
       <div style="text-align:center;margin-top:20px;font-size:13px;color:#C7C9D1;">心理灯塔 · 看见真实的自己</div>
@@ -620,5 +651,3 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 </body>
 </html>
-INDEXEOF
-sudo systemctl reload nginx
