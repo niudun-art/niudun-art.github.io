@@ -576,15 +576,6 @@ function startPollingReport(tradeNo) {
         clearInterval(interval); isPaid = true; localStorage.setItem('psych_paid_trade', tradeNo);
         let rawText = JSON.parse(data.report_content).report_text;
         rawText = rawText.replace(/\[EFFECT_IMAGE\]/g, `<div style="text-align:center; margin:16px 0;"><img src="${IP_IMG_MAP[getTopEffect()] || IP_IMG_MAP.default}" alt="人格形象" style="width:120px;height:120px;object-fit:contain;border-radius:50%;background:var(--circle-bg);padding:12px;"></div>`);
-        rawText = rawText.replace(/[\s\S]*?这份报告是一面镜子[\s\S]*?心理灯塔，与你一同成长。[\s\S]*/g, (match) => {
-          return `<div style="margin-top: 32px; padding: 20px; background: linear-gradient(135deg, var(--primary-soft), var(--bg-card)); border-radius: 20px; border: 1px solid var(--primary); text-align: center; line-height: 1.8;">
-            <p style="font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px;">📌 重要提示</p>
-            <p style="color: var(--text-body); margin-bottom: 6px;">这份报告是一面镜子，不是一份判决书。它捕捉的是你当下的状态，而不是定义你一生的标签。</p>
-            <p style="color: var(--text-body); margin-bottom: 12px;">未来的你，拥有全部的选择权和改变权。请不要让任何测评结果限制你对自我的认知。</p>
-            <p style="color: var(--text-light); font-size: 0.85rem;">心理灯塔，与你一同成长。</p>
-            <p style="color: var(--text-light); font-size: 0.75rem; margin-top: 12px; text-align: left;">局限性说明：本报告基于用户提供的主观数据，未进行面对面访谈或临床评估，因此可能存在信息偏差。如需进一步支持，请联系专业心理咨询师或心理测评机构。</p>
-          </div>`;
-        });
         const cleanedHtml = rawText.replace(/\n#{1,3} 强制检查清单[\s\S]*?(?=\n#{1,3} |$)/g, '');
         reportBody.innerHTML = marked.parse(cleanedHtml);
         document.getElementById('premiumBanner').style.display = 'none';
@@ -616,7 +607,7 @@ async function generatePoster() {
       <div style="text-align:center;"><div style="font-size:30px;font-weight:800;color:#2A2C35;margin-bottom:8px;">${escapeHtml(combination)}</div><div style="font-size:18px;color:#8E92A8;margin-bottom:12px;letter-spacing:1px;">${escapeHtml(effect.en)}</div></div>
       <div style="display:flex;justify-content:center;margin:20px 0;"><div style="width:220px;height:220px;background:#EBF0FF;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(91,110,247,0.18);"><img src="${img.src}" crossorigin="anonymous" style="width:185px;height:185px;object-fit:contain;border-radius:50%;"></div></div>
       <div style="text-align:center;margin-bottom:20px;"><span style="font-size:26px;font-weight:700;color:#FF9F43;letter-spacing:2px;">✨ ${escapeHtml(nickname)}</span></div>
-      <div style="text-align:center;margin-bottom:28px;font-size:19px;font-weight:500;color:#585B6E;line-height:1.5;">“${escapeHtml(effect.hook)}”</div>
+      <div style="text-align:center;margin-bottom:28px;font-size:19px;font-weight:500;color:#585B6E;line-height:1.5;">"${escapeHtml(effect.hook)}"</div>
       <div style="background:#F8FAFF;border-radius:24px;padding:18px;text-align:center;margin-bottom:24px;"><span style="background:#5B6EF7;color:white;padding:8px 20px;border-radius:40px;font-size:15px;">匹配度 ${matchPercent}% · 命中${hitCount}种心理特质</span></div>
       <div style="text-align:center;margin-bottom:8px;"><img src="${qrApiUrl}" alt="扫码测试" style="width:90px;height:90px;border-radius:10px;display:block;margin:0 auto;"><p style="font-size:11px;color:#C7C9D1;margin-top:6px;">扫码立即测试</p></div>
       <div style="text-align:center;margin-top:20px;font-size:13px;color:#C7C9D1;">心理灯塔 · 看见真实的自己</div>
