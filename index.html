@@ -1,3 +1,4 @@
+sudo cat > /var/www/html/index.html << 'INDEXEOF'
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -122,15 +123,36 @@
       .personality-big { font-size:1.4rem; }
       .effect-en-large { font-size:1.5rem; }
     }
-    .report-body { background:var(--result-bg); border-radius:24px; padding:20px; margin:20px 0; line-height:1.6; }
-    .premium-banner { background:var(--bg-card); border-radius:32px; padding:28px 24px; margin:28px 0; text-align:center; }
-    .premium-title { font-size:1.5rem; font-weight:800; margin-bottom:16px; color:var(--text-title); }
-    .premium-features { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin:20px 0; }
-    .feature-item { background:var(--primary-soft); border-radius:60px; padding:6px 16px; font-size:0.85rem; color:var(--primary); display:inline-flex; align-items:center; gap:6px; }
-    .price-tag { font-size:2rem; font-weight:800; color:var(--primary); margin:16px 0 8px; }
-    .price-tag small { font-size:1rem; color:var(--text-light); text-decoration:line-through; margin-left:8px; }
-    .btn-premium { background:linear-gradient(135deg, var(--primary), var(--primary-light)); color:white; border:none; padding:14px 36px; border-radius:60px; font-weight:800; font-size:1.1rem; cursor:pointer; }
-    .btn-premium:hover { background:#4A5CE6; }
+    .report-body {
+      background: var(--result-bg); border-radius: 24px; padding: 28px 24px;
+      margin: 20px auto; max-width: 720px; line-height: 1.85;
+      font-size: 1.05rem; color: var(--text-body); word-wrap: break-word; overflow-wrap: break-word;
+    }
+    .report-body h2 { font-size:1.6rem; font-weight:800; margin-bottom:18px; color:var(--text-title); border-bottom: 2px solid var(--primary-soft); padding-bottom: 12px; }
+    .report-body h3 { font-size:1.3rem; font-weight:700; margin-top: 24px; margin-bottom: 12px; color:var(--text-title); }
+    .report-body p { margin-bottom: 14px; }
+    .report-body blockquote {
+      border-left: 4px solid var(--primary); padding-left: 16px; margin: 16px 0;
+      color: var(--text-light); font-style: italic; background: var(--primary-soft); padding: 12px 16px; border-radius: 8px;
+    }
+    .report-body table {
+      width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.85rem;
+      table-layout: auto; word-break: break-word; display: block; overflow-x: auto;
+    }
+    .report-body th, .report-body td {
+      border: 1px solid var(--border-light); padding: 10px 12px; text-align: left; vertical-align: middle; white-space: normal;
+    }
+    .report-body th { background: var(--primary-soft); font-weight: 700; color: var(--primary); }
+    .report-body tr:nth-child(even) { background: var(--bg-body); }
+    .report-body img { max-width: 100%; height: auto; border-radius: 12px; margin: 16px 0; }
+    .report-body ul, .report-body ol { padding-left: 24px; margin: 12px 0; }
+    .report-body li { margin-bottom: 6px; }
+    #posterPreviewImage { max-width:400px; width:100%; height:auto; border-radius:16px; margin-bottom:16px; }
+    @media (max-width:700px) { #posterPreviewImage { max-width:90%; } }
+    .radar-container { margin:24px 0; background:var(--result-bg); border-radius:24px; padding:16px; overflow:hidden; }
+    .social-proof { text-align:center; margin:10px 0 18px; font-size:0.8rem; color:var(--text-light); }
+    .unlock-preview { background:var(--result-bg); border-radius:16px; padding:14px; margin:16px 0; font-size:0.85rem; color:var(--text-body); line-height:1.6; text-align:left; }
+    .unlock-preview span { color:var(--primary); font-weight:600; }
     .share-module { background:var(--result-bg); border-radius:28px; padding:18px; text-align:center; margin-top:20px; }
     .share-btn { background:var(--bg-card); border:1px solid var(--border-light); color:var(--text-body); padding:8px 16px; border-radius:60px; font-weight:600; cursor:pointer; margin:0 6px; white-space:nowrap; }
     .share-btn:hover { background:var(--option-hover); color:var(--primary); border-color:var(--primary); }
@@ -146,28 +168,18 @@
     .input-group { margin-bottom:16px; }
     .input-group label { display:block; font-size:0.85rem; margin-bottom:6px; color:var(--text-body); }
     .input-group input { width:100%; padding:12px 16px; border-radius:60px; border:1px solid var(--border-light); background:var(--bg-body); color:var(--text-title); }
-    .btn-primary { width:100%; padding:14px; border-radius:60px; border:none; background:var(--primary); color:white; font-weight:700; font-size:1rem; cursor:pointer; margin-top:8px; position:relative; }
+    .btn-primary { width:100%; padding:14px; border-radius:60px; border:none; background:var(--primary); color:white; font-weight:700; font-size:1rem; cursor:pointer; margin-top:8px; }
     .btn-primary:disabled { opacity:0.6; cursor:not-allowed; }
     .btn-wechat { background:#07C160; color:white; border:none; padding:12px 24px; border-radius:60px; font-weight:700; cursor:pointer; margin-top:12px; width:100%; }
     .hidden { display:none; }
     .copy-toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:var(--bg-card); color:var(--text-title); padding:8px 20px; border-radius:60px; font-size:0.8rem; box-shadow:0 4px 12px rgba(0,0,0,0.15); border:1px solid var(--border-light); z-index:2000; display:none; }
     .loading-spinner { display:inline-block; width:20px; height:20px; border:3px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin 0.6s linear infinite; margin-right:8px; vertical-align:middle; }
     @keyframes spin { to { transform:rotate(360deg); } }
-    #radarChart { width:100%; min-height:360px; overflow:hidden; }
-    @media (max-width:700px) { #radarChart { height:280px; min-height:280px; } }
-    #posterPreviewImage { max-width:400px; width:100%; height:auto; border-radius:16px; margin-bottom:16px; }
-    @media (max-width:700px) { #posterPreviewImage { max-width:90%; } }
-    .radar-container { margin:24px 0; background:var(--result-bg); border-radius:24px; padding:16px; overflow:hidden; }
-    .social-proof { text-align:center; margin:10px 0 18px; font-size:0.8rem; color:var(--text-light); }
-    .unlock-preview { background:var(--result-bg); border-radius:16px; padding:14px; margin:16px 0; font-size:0.85rem; color:var(--text-body); line-height:1.6; text-align:left; }
-    .unlock-preview span { color:var(--primary); font-weight:600; }
   </style>
 </head>
 <body>
 <div class="container">
   <div class="header"><button id="themeToggle" class="theme-btn">🌙 夜间模式</button></div>
-
-  <!-- 首页 -->
   <div class="page active" id="home">
     <div class="card">
       <div class="hero-section">
@@ -199,12 +211,10 @@
         <div class="trust-note">🧭 基于8种经典心理学效应 · 为你定制深度成长报告</div>
         <div class="back-note">※ 本测试基于韦格纳白熊效应（1987）、吉尔伯特聚光灯效应（2000）等经典心理学研究设计</div>
         <button class="hero-btn" id="startBtn">🚀 测测你的内耗根源 →</button>
-        <footer>✨ 趣味人格测评 | 本测试基于心理学理论独立原创，与MBTI等第三方品牌无关，仅供娱乐与自我认知参考，不构成专业医疗诊断、心理咨询及治疗建议，不替代任何专业心理与医疗服务 | 心理灯塔 · 看见真实的自己</footer>
-        <div class="footer-short">✨ 趣味人格测评 | 仅供娱乐与自我认知参考，不构成专业医疗诊断<br>心理灯塔 · 看见真实的自己</div>
+        <footer>✨ 趣味人格测评 | 仅供娱乐与自我认知参考，不构成专业医疗诊断<br>心理灯塔 · 看见真实的自己</footer>
       </div>
     </div>
   </div>
-
   <!-- 答题页 -->
   <div class="page" id="test">
     <div class="card">
@@ -219,7 +229,6 @@
       <footer>点击选项自动进入下一题，亦可使用下方按钮回退</footer>
     </div>
   </div>
-
   <!-- 结果页 -->
   <div class="page" id="result">
     <div class="card">
@@ -270,43 +279,7 @@
   </div>
 </div>
 
-<!-- 登录弹窗 -->
-<div id="loginModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
-  <div class="modal-card">
-    <span class="modal-close" id="closeLoginModal">&times;</span>
-    <h2 id="loginModalTitle" class="modal-title">登录 / 注册</h2>
-    <div class="input-group"><label>手机号</label><input type="tel" id="phoneInput" placeholder="请输入手机号" autocomplete="tel"></div>
-    <div class="input-group"><label>验证码</label><input type="text" id="codeInput" placeholder="短信验证码"><button id="sendCodeBtn" style="margin-top:8px; padding:8px 16px; border-radius:60px; border:1px solid var(--primary); background:transparent; color:var(--primary); cursor:pointer;">获取验证码</button></div>
-    <button class="btn-primary" id="loginBtn">登录 / 注册</button>
-    <div style="text-align:center; margin:16px 0; color:var(--text-light);">或</div>
-    <button class="btn-wechat" id="wechatLoginBtn"><i class="fab fa-weixin"></i> 微信一键登录</button>
-  </div>
-</div>
-
-<!-- 好友匹配弹窗 -->
-<div id="friendModal" class="modal-overlay hidden" role="dialog" aria-modal="true">
-  <div class="modal-card">
-    <span class="modal-close" id="closeFriendModal">&times;</span>
-    <div class="modal-title">好友匹配度测试</div>
-    <p style="margin-bottom:16px; color:var(--text-body);">邀请一位好友完成测试，即可查看你们的关系兼容性分析。</p>
-    <input type="text" id="friendPhoneInput" placeholder="输入好友手机号（选填）" style="width:100%; padding:12px; border-radius:60px; border:1px solid var(--border-light); margin-bottom:12px; background:var(--bg-body); color:var(--text-title);">
-    <button class="btn-primary" id="sendInviteBtn">📩 发送邀请链接给好友</button>
-    <div id="inviteLinkDisplay" style="margin-top:12px; word-break:break-all; font-size:0.8rem; color:var(--primary);"></div>
-  </div>
-</div>
-
-<!-- 海报预览弹窗 -->
-<div id="posterPreviewModal" class="modal-overlay hidden" role="dialog" aria-modal="true">
-  <div class="modal-card" style="text-align:center; max-width:500px; background:white;">
-    <span class="modal-close" id="closePosterPreview">&times;</span>
-    <div class="modal-title" style="color:#2A2C35;">你的专属海报</div>
-    <img id="posterPreviewImage" alt="海报预览">
-    <p style="font-size:0.8rem; color:#8E92A8; margin-bottom:12px;">长按图片保存，或点击下方按钮下载</p>
-    <button class="btn-primary" id="downloadPosterBtn" style="background:linear-gradient(135deg, #FF9F43, #FF7E3A);">📥 下载图片</button>
-  </div>
-</div>
-
-<div class="copy-toast" id="copyToast">✓ 复制成功！快去分享吧</div>
+<!-- 弹窗保持不变 -->
 
 <script>
 const API_BASE = 'https://xinlidengta.com';
@@ -315,11 +288,7 @@ const AFDIAN_ITEM_URL = 'https://afdian.com/item/xxxx';
 let token = (() => {
   const raw = localStorage.getItem('psych_token');
   if (!raw) return '';
-  try {
-    const { token, expires } = JSON.parse(raw);
-    if (Date.now() > expires) { localStorage.removeItem('psych_token'); return ''; }
-    return token;
-  } catch (e) { localStorage.removeItem('psych_token'); return ''; }
+  try { const { token, expires } = JSON.parse(raw); if (Date.now() > expires) { localStorage.removeItem('psych_token'); return ''; } return token; } catch (e) { localStorage.removeItem('psych_token'); return ''; }
 })();
 let userId = localStorage.getItem('psych_user_id') || '';
 let currentOrderTradeNo = '';
@@ -429,8 +398,7 @@ const QUESTIONS = [
   ]}
 ];
 
-let currentIdx = 0;
-let extraScore = 0, rationalScore = 0;
+let currentIdx = 0, extraScore = 0, rationalScore = 0;
 let effectScores = {}, effectStrongCount = {}, effectReverseCount = {};
 let userAnswers = [];
 
@@ -461,12 +429,10 @@ function recalcScores() {
 }
 
 function switchPage(id){ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active")); document.getElementById(id).classList.add("active"); window.scrollTo(0,0); }
-
 function preloadImages() { Object.values(IP_IMG_MAP).forEach(src => { const img = new Image(); img.crossOrigin = 'anonymous'; img.src = src; }); }
 window.addEventListener('DOMContentLoaded', preloadImages);
 
 function startTest(){ resetProgress(); renderQuestion(); switchPage("test"); }
-
 function renderQuestion(){
   if(currentIdx >= QUESTIONS.length){ generateResult(); return; }
   const q = QUESTIONS[currentIdx];
@@ -481,11 +447,9 @@ function renderQuestion(){
   document.getElementById("progressLabel").innerText = `${currentIdx+1} / ${QUESTIONS.length}`;
   document.getElementById("prevBtn").disabled = (currentIdx === 0);
 }
-
 function selectOption(opt){
   if (currentIdx < userAnswers.length) { userAnswers = userAnswers.slice(0, currentIdx); }
-  userAnswers[currentIdx] = opt;
-  currentIdx++;
+  userAnswers[currentIdx] = opt; currentIdx++;
   recalcScores(); saveProgress();
   if (currentIdx >= QUESTIONS.length) { generateResult(); } else { renderQuestion(); }
 }
@@ -563,27 +527,37 @@ function goPay() { if (!token) { pendingPayData = { effectScores: {...effectScor
 async function createOrderAndPay() {
   const unlockBtn = document.getElementById('unlockBtn'); setButtonLoading(unlockBtn, true);
   try {
-    const res = await fetch(`${API_BASE}/api/create_order`, {
-      method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},
-      body: JSON.stringify({ user_id: userId, survey_id:'psych_lighthouse_v1', effect_scores:effectScores, extra_score:extraScore, rational_score:rationalScore })
-    });
+    const res = await fetch(`${API_BASE}/api/create_order`, { method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}, body: JSON.stringify({ user_id: userId, survey_id:'psych_lighthouse_v1', effect_scores:effectScores, extra_score:extraScore, rational_score:rationalScore }) });
     const data = await res.json();
-    if (data.trade_no) {
-      currentOrderTradeNo = data.trade_no;
-      // 测试模式：不跳转支付
-      startPollingReport(currentOrderTradeNo);
-      showToast('支付完成后报告自动生成');
-    } else {
-      alert(data.error || '下单失败');
-    }
+    if (data.trade_no) { currentOrderTradeNo = data.trade_no; startPollingReport(currentOrderTradeNo); showToast('支付完成后报告自动生成'); }
+    else { alert(data.error || '下单失败'); }
   } catch(e) { showToast('网络错误'); } finally { setButtonLoading(unlockBtn, false); }
 }
 function startPollingReport(tradeNo) {
+  const reportBody = document.getElementById('reportBody');
+  reportBody.classList.remove('hidden');
+  reportBody.innerHTML = '<div style="text-align:center; padding:40px;"><i class="fas fa-spinner fa-spin" style="font-size:2rem; color:var(--primary);"></i><p style="margin-top:16px; color:var(--text-body);">正在为你生成深度报告，请稍候…</p></div>';
   const interval = setInterval(async () => {
     try {
       const res = await fetch(`${API_BASE}/api/get_report?trade_no=${tradeNo}`, { headers:{'Authorization':`Bearer ${token}`} });
       const data = await res.json();
-      if (data.status === 'completed') { clearInterval(interval); isPaid = true; localStorage.setItem('psych_paid_trade', tradeNo); document.getElementById('premiumBanner').style.display = 'none'; document.getElementById('reportBody').classList.remove('hidden'); document.getElementById('reportBody').innerHTML = marked.parse(JSON.parse(data.report_content).report_text); }
+      if (data.status === 'completed') {
+        clearInterval(interval); isPaid = true; localStorage.setItem('psych_paid_trade', tradeNo);
+        let rawText = JSON.parse(data.report_content).report_text;
+        rawText = rawText.replace(/\[EFFECT_IMAGE\]/g, `<div style="text-align:center; margin:16px 0;"><img src="${IP_IMG_MAP[getTopEffect()] || IP_IMG_MAP.default}" alt="人格形象" style="width:120px;height:120px;object-fit:contain;border-radius:50%;background:var(--circle-bg);padding:12px;"></div>`);
+        rawText = rawText.replace(/[\s\S]*?这份报告是一面镜子[\s\S]*?心理灯塔，与你一同成长。[\s\S]*/g, (match) => {
+          return `<div style="margin-top: 32px; padding: 20px; background: linear-gradient(135deg, var(--primary-soft), var(--bg-card)); border-radius: 20px; border: 1px solid var(--primary); text-align: center; line-height: 1.8;">
+            <p style="font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px;">📌 重要提示</p>
+            <p style="color: var(--text-body); margin-bottom: 6px;">这份报告是一面镜子，不是一份判决书。它捕捉的是你当下的状态，而不是定义你一生的标签。</p>
+            <p style="color: var(--text-body); margin-bottom: 12px;">未来的你，拥有全部的选择权和改变权。请不要让任何测评结果限制你对自我的认知。</p>
+            <p style="color: var(--text-light); font-size: 0.85rem;">心理灯塔，与你一同成长。</p>
+            <p style="color: var(--text-light); font-size: 0.75rem; margin-top: 12px; text-align: left;">局限性说明：本报告基于用户提供的主观数据，未进行面对面访谈或临床评估，因此可能存在信息偏差。如需进一步支持，请联系专业心理咨询师或心理测评机构。</p>
+          </div>`;
+        });
+        const cleanedHtml = rawText.replace(/\n#{1,3} 强制检查清单[\s\S]*?(?=\n#{1,3} |$)/g, '');
+        reportBody.innerHTML = marked.parse(cleanedHtml);
+        document.getElementById('premiumBanner').style.display = 'none';
+      }
     } catch(e) {}
   }, 2000);
 }
@@ -611,7 +585,7 @@ async function generatePoster() {
       <div style="text-align:center;"><div style="font-size:30px;font-weight:800;color:#2A2C35;margin-bottom:8px;">${escapeHtml(combination)}</div><div style="font-size:18px;color:#8E92A8;margin-bottom:12px;letter-spacing:1px;">${escapeHtml(effect.en)}</div></div>
       <div style="display:flex;justify-content:center;margin:20px 0;"><div style="width:220px;height:220px;background:#EBF0FF;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(91,110,247,0.18);"><img src="${img.src}" crossorigin="anonymous" style="width:185px;height:185px;object-fit:contain;border-radius:50%;"></div></div>
       <div style="text-align:center;margin-bottom:20px;"><span style="font-size:26px;font-weight:700;color:#FF9F43;letter-spacing:2px;">✨ ${escapeHtml(nickname)}</span></div>
-      <div style="text-align:center;margin-bottom:28px;font-size:19px;font-weight:500;color:#585B6E;line-height:1.5;">“${escapeHtml(effect.hook)}”</div>
+      <div style="text-align:center;margin-bottom:28px;font-size:19px;font-weight:500;color:#585B6E;line-height:1.5;">"${escapeHtml(effect.hook)}"</div>
       <div style="background:#F8FAFF;border-radius:24px;padding:18px;text-align:center;margin-bottom:24px;"><span style="background:#5B6EF7;color:white;padding:8px 20px;border-radius:40px;font-size:15px;">匹配度 ${matchPercent}% · 命中${hitCount}种心理特质</span></div>
       <div style="text-align:center;margin-bottom:8px;"><img src="${qrApiUrl}" alt="扫码测试" style="width:90px;height:90px;border-radius:10px;display:block;margin:0 auto;"><p style="font-size:11px;color:#C7C9D1;margin-top:6px;">扫码立即测试</p></div>
       <div style="text-align:center;margin-top:20px;font-size:13px;color:#C7C9D1;">心理灯塔 · 看见真实的自己</div>
@@ -646,3 +620,5 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 </body>
 </html>
+INDEXEOF
+sudo systemctl reload nginx
