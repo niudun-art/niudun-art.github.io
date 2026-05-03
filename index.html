@@ -167,6 +167,7 @@
 <div class="container">
   <div class="header"><button id="themeToggle" class="theme-btn">🌙 夜间模式</button></div>
 
+  <!-- 首页 -->
   <div class="page active" id="home">
     <div class="card">
       <div class="hero-section">
@@ -249,6 +250,9 @@
         </div>
         <div class="price-tag">¥9.9 <small>¥19.9</small></div>
         <div><button class="btn-premium" id="unlockBtn">立即解锁完整报告</button></div>
+        <div style="margin-top:12px; display:flex; align-items:center; justify-content:center; gap:8px;">
+          <span id="countdownTimer" style="color:var(--accent-warm); font-weight:700;"></span>
+        </div>
       </div>
       <div id="friendMatchBanner" style="margin:20px 0; text-align:center;">
         <button class="share-btn" id="friendMatchBtn">👥 测测你和好友的匹配度</button>
@@ -559,10 +563,19 @@ function goPay() { if (!token) { pendingPayData = { effectScores: {...effectScor
 async function createOrderAndPay() {
   const unlockBtn = document.getElementById('unlockBtn'); setButtonLoading(unlockBtn, true);
   try {
-    const res = await fetch(`${API_BASE}/api/create_order`, { method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}, body: JSON.stringify({ user_id: userId, survey_id:'psych_lighthouse_v1', effect_scores:effectScores, extra_score:extraScore, rational_score:rationalScore }) });
+    const res = await fetch(`${API_BASE}/api/create_order`, {
+      method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},
+      body: JSON.stringify({ user_id: userId, survey_id:'psych_lighthouse_v1', effect_scores:effectScores, extra_score:extraScore, rational_score:rationalScore })
+    });
     const data = await res.json();
-    if (data.trade_no) { currentOrderTradeNo = data.trade_no; window.open(`${AFDIAN_ITEM_URL}?out_trade_no=${currentOrderTradeNo}`, '_blank'); startPollingReport(currentOrderTradeNo); showToast('支付完成后报告自动生成'); }
-    else { alert(data.error || '下单失败'); }
+    if (data.trade_no) {
+      currentOrderTradeNo = data.trade_no;
+      // 测试模式：不跳转支付
+      startPollingReport(currentOrderTradeNo);
+      showToast('支付完成后报告自动生成');
+    } else {
+      alert(data.error || '下单失败');
+    }
   } catch(e) { showToast('网络错误'); } finally { setButtonLoading(unlockBtn, false); }
 }
 function startPollingReport(tradeNo) {
